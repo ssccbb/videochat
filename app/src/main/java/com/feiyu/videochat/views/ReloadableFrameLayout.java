@@ -119,7 +119,7 @@ public class ReloadableFrameLayout extends FrameLayout {
 
         customViewContainer.setVisibility(View.VISIBLE);
         customImageView.setImageDrawable(reloadImage != null ? reloadImage :
-                ResourcesCompat.getDrawable(getResources(), R.drawable.reload, null));
+                ResourcesCompat.getDrawable(getResources(), R.mipmap.reload, null));
         customTextView.setText(reloadText != null ? reloadText : "网络出现问题，请点击重试");
         errorText.setText(error);
         hideLoadingView();

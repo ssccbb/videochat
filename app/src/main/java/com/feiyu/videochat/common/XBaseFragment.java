@@ -1,4 +1,4 @@
-package com.feiyu.videochat.ui.fragments;//package com.game.helper.fragments;
+package com.feiyu.videochat.common;//package com.game.helper.fragments;
 
 import cn.droidlover.xdroidmvp.mvp.IPresent;
 import cn.droidlover.xdroidmvp.mvp.XFragment;

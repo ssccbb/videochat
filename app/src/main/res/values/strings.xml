@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">videochat</string>
+
+    <string name="splash_next">跳过</string>
 </resources>

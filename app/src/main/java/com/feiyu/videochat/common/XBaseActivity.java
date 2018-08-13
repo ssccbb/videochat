@@ -1,9 +1,12 @@
-package com.feiyu.videochat.ui.activitys;
+package com.feiyu.videochat.common;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 
 import com.feiyu.videochat.R;
+import com.feiyu.videochat.common.UiHandler;
 import com.jaeger.library.StatusBarUtil;
 
 import cn.droidlover.xdroidmvp.mvp.IPresent;
@@ -63,7 +66,5 @@ public abstract class XBaseActivity<P extends IPresent> extends XActivity {
 //        MobclickAgent.onPause(this);//友盟统计
 
     }
-
-
 
 }

@@ -6,4 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.activitys.IndexActivity">
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@+id/tab_indicator"/>
+
+    <com.feiyu.videochat.views.TabIndicatorView
+        android:id="@+id/tab_indicator"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 </android.support.constraint.ConstraintLayout>
