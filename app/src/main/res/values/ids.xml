@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="collapse_layout_item_origin_state"/>
+    <item type="id" name="rx_views_pre_click_time"/>
+    <item type="id" name="reloadable_frame_layout_custom_empty_view"/>
+</resources>

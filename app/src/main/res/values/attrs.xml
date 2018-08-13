@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CollapseLayout_LayoutParams">
+        <attr name="clScaleX" format="float" />
+        <attr name="clScaleY" format="float" />
+        <attr name="clScale" format="float" />
+        <attr name="clWidth" format="dimension" />
+        <attr name="clHeight" format="dimension" />
+        <attr name="clMarginLeft" format="dimension" />
+        <attr name="clMarginRight" format="dimension" />
+        <attr name="clMarginTop" format="dimension" />
+        <attr name="clMarginBottom" format="dimension" />
+        <attr name="clAlpha" format="float" />
+        <attr name="clScrim" format="reference|color" />
+        <attr name="clBackgroundAlpha" format="float" />
+        <attr name="clTextColor" format="color" />
+        <attr name="clMode">
+            <flag name="center" value="0" />
+            <flag name="out" value="1" />
+            <flag name="none" value="2" />
+        </attr>
+        <attr name="clInterpolator" format="reference" />
+        <attr name="clScaleXInterpolator" format="reference" />
+        <attr name="clScaleYInterpolator" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="CollapseBarRelativeLayout">
+        <attr name="clBarHeight" format="dimension" />
+        <attr name="clStatusBarScrim" format="reference|color" />
+        <attr name="clAnimDuration" format="integer" />
+        <attr name="clCollapseThreshold" format="float" />
+        <attr name="clExpandThreshold" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="ReloadableFrameLayout">
+        <attr name="reloadImage" format="reference" />
+        <attr name="reloadText" format="string" />
+        <attr name="emptyImage" format="reference" />
+        <attr name="emptyText" format="string" />
+    </declare-styleable>
+
+    <!--tabbar-->
+    <declare-styleable name="TabItemView">
+        <attr name="tabview_text" format="string|reference"></attr>
+        <attr name="tabview_text_size" format="dimension"></attr>
+        <attr name="tabview_text_color_normal" format="color|reference"></attr>
+        <attr name="tabview_text_color_selected" format="color|reference"></attr>
+        <attr name="tabview_bg_color_selected" format="color|reference"></attr>
+        <attr name="tabview_icon_normal" format="reference"></attr>
+        <attr name="tabview_icon_selected" format="reference"></attr>
+        <attr name="tabview_divider_height" format="dimension"></attr>
+        <attr name="tabview_text_visible" format="integer" />
+    </declare-styleable>
+
+    <!-- debug_bannernner-->
+    <declare-styleable name="SlidingIndicator">
+        <attr name="indicator_drawable" format="reference" />
+        <attr name="indicator_margin" format="reference|dimension" />
+    </declare-styleable>
+
+    <!--MzBanner-->
+    <declare-styleable name="MZBannerView">
+        <attr name="open_mz_mode" format="boolean" />
+        <attr name="canLoop" format="boolean" />
+        <attr name="indicatorPaddingLeft" format="dimension" />
+        <attr name="indicatorPaddingRight" format="dimension" />
+        <attr name="indicatorAlign">
+            <enum name="left" value="0" />
+            <enum name="center" value="1" />
+            <enum name="right" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="SlidingTabStrip">
+        <attr name="select_indictor_color" format="color" />
+        <attr name="normal_indictor_color" format="color" />
+        <attr name="indictor_height" format="dimension" />
+        <attr name="border_height" format="dimension" />
+        <attr name="strip_radius" format="dimension" />
+        <attr name="strip_margin" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="CommonSearchView">
+        <attr name="is_back" format="boolean" />
+        <attr name="left_iv_res" format="reference" />
+        <attr name="center_et_res" format="reference|string" />
+        <attr name="right_tv_res_img" format="reference|color" />
+        <attr name="right_tv_res_txt" format="reference|string" />
+        <attr name="right_tv_res_color" format="reference|color" />
+        <attr name="center_et_bg" format="reference|color" />
+        <attr name="is_search_page" format="boolean" />
+        <attr name="layout_back_ground" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="EditInputView">
+        <attr name="eiv_type">
+            <enum name="type_account" value="0" />
+            <enum name="type_password" value="1" />
+            <enum name="type_code" value="2" />
+            <enum name="type_trde_password" value="3" />
+        </attr>
+        <attr name="eiv_hint" format="string" />
+        <attr name="eiv_maxlength" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="ToggleButton">
+        <attr name="borderWidth" format="dimension"></attr>
+        <attr name="offBorderColor" format="reference|color"></attr>
+        <attr name="offColor" format="reference|color"></attr>
+        <attr name="onColor" format="reference|color"></attr>
+        <attr name="spotColor" format="reference|color"></attr>
+        <attr name="animate" format="reference|boolean"></attr>
+        <attr name="isDefaultOn" format="reference|boolean"></attr>
+    </declare-styleable>
+
+    <!--仿支付宝密码输入框-->
+    <declare-styleable name="PasswordEditText">
+        <!-- 密码的个数 -->
+        <attr name="passwordNumber" format="integer" />
+        <!-- 密码圆点的半径 -->
+        <attr name="passwordRadius" format="dimension" />
+        <!-- 密码圆点的颜色 -->
+        <attr name="passwordColor" format="color" />
+        <!-- 分割线的颜色 -->
+        <attr name="divisionLineColor" format="color" />
+        <!-- 分割线的大小 -->
+        <attr name="divisionLineSize" format="color" />
+        <!-- 背景边框的颜色 -->
+        <attr name="bgColor" format="color" />
+        <!-- 背景边框的大小 -->
+        <attr name="bgSize" format="dimension" />
+        <!-- 背景边框的圆角大小 -->
+        <attr name="bgCorner" format="dimension" />
+        <!--明文字体颜色-->
+        <attr name="visibleColor" format="color" />
+        <!--明文字体尺寸-->
+        <attr name="visibleSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="wheelview">
+        <attr name="gravity">
+            <enum name="center" value="17" />
+            <enum name="left" value="3" />
+            <enum name="right" value="5" />
+        </attr>
+        <attr name="textSize" format="dimension" />
+        <attr name="textColorOut" format="color" />
+        <attr name="textColorCenter" format="color" />
+        <attr name="dividerColor" format="color" />
+    </declare-styleable>
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+</resources>
