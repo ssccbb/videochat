@@ -5,17 +5,17 @@ import android.os.Bundle;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.XBaseFragment;
 
-public class MsgPagerFragment extends XBaseFragment {
-    public static MsgPagerFragment instance;
+public class MinePagerFragment extends XBaseFragment {
+    public static MinePagerFragment instance;
 
-    public static MsgPagerFragment newInstance(){
+    public static MinePagerFragment newInstance(){
         if (instance != null){
             return instance;
         }
-        return instance = new MsgPagerFragment();
+        return instance = new MinePagerFragment();
     }
 
-    public MsgPagerFragment() {
+    public MinePagerFragment() {
     }
 
     @Override
@@ -25,7 +25,7 @@ public class MsgPagerFragment extends XBaseFragment {
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_msg;
+        return R.layout.fragment_mine;
     }
 
     @Override

@@ -5,8 +5,8 @@
     <color name="colorAccent">#FF4081</color>
 
     <!--indicator-->
-    <color name="view_indicator_default_color">#60000000</color>
-    <color name="view_indicator_select_color">#ff000000</color>
+    <color name="view_indicator_default_color">#C5C5C5</color>
+    <color name="view_indicator_select_color">#000000</color>
 
     <!--app-->
     <color name="app_color">@color/colorPrimary</color>

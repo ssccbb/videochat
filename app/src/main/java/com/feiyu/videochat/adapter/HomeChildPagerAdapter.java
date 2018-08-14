@@ -5,10 +5,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.feiyu.videochat.common.XBaseFragment;
-import com.feiyu.videochat.ui.fragments.MsgPagerFragment;
-import com.feiyu.videochat.ui.fragments.VideoPagerFragment;
 import com.feiyu.videochat.ui.fragments.HomePagerFragment;
 import com.feiyu.videochat.ui.fragments.MinePagerFragment;
+import com.feiyu.videochat.ui.fragments.MsgPagerFragment;
+import com.feiyu.videochat.ui.fragments.VideoPagerFragment;
+import com.feiyu.videochat.ui.fragments.home.FollowPagerFragment;
+import com.feiyu.videochat.ui.fragments.home.HotPagerFragment;
+import com.feiyu.videochat.ui.fragments.home.RecommendPagerFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +20,13 @@ import java.util.List;
  * Created by sung on 2018/4/24.
  */
 
-public class HomePagerAdapter extends FragmentPagerAdapter {
+public class HomeChildPagerAdapter extends FragmentPagerAdapter {
     private FragmentManager manager;
     private List<XBaseFragment> fragments = new ArrayList();
 
     private Context context;
 
-    public HomePagerAdapter(Context context, FragmentManager fm) {
+    public HomeChildPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         this.context = context;
         initFragments();
@@ -30,14 +34,12 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
 
     private void initFragments(){
         if (fragments == null) fragments = new ArrayList();
-        HomePagerFragment fragment1 = HomePagerFragment.newInstance();
-        VideoPagerFragment fragment2 = VideoPagerFragment.newInstance();
-        MsgPagerFragment fragment3 = MsgPagerFragment.newInstance();
-        MinePagerFragment fragment4 = MinePagerFragment.newInstance();
+        FollowPagerFragment fragment1 = FollowPagerFragment.newInstance();
+        HotPagerFragment fragment2 = HotPagerFragment.newInstance();
+        RecommendPagerFragment fragment3 = RecommendPagerFragment.newInstance();
         fragments.add(fragment1);
         fragments.add(fragment2);
         fragments.add(fragment3);
-        fragments.add(fragment4);
     }
 
     @Override

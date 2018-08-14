@@ -1,21 +1,21 @@
-package com.feiyu.videochat.ui.fragments;
+package com.feiyu.videochat.ui.fragments.home;
 
 import android.os.Bundle;
 
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.XBaseFragment;
 
-public class GroupPagerFragment extends XBaseFragment {
-    public static GroupPagerFragment instance;
+public class FollowPagerFragment extends XBaseFragment {
+    public static FollowPagerFragment instance;
 
-    public static GroupPagerFragment newInstance(){
+    public static FollowPagerFragment newInstance(){
         if (instance != null){
             return instance;
         }
-        return instance = new GroupPagerFragment();
+        return instance = new FollowPagerFragment();
     }
 
-    public GroupPagerFragment() {
+    public FollowPagerFragment() {
     }
 
     @Override
@@ -25,7 +25,7 @@ public class GroupPagerFragment extends XBaseFragment {
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_home_child_follow;
     }
 
     @Override

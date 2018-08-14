@@ -5,5 +5,5 @@ package com.feiyu.videochat.common;
  */
 
 public class Constants {
-    public static final String[] home_indicator_tag = {"首页","小组","发现","消息"};
+    public static final String[] home_indicator_tag = {"首页","视频","消息","我的"};
 }

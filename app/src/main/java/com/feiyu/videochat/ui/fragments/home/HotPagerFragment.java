@@ -1,21 +1,21 @@
-package com.feiyu.videochat.ui.fragments;
+package com.feiyu.videochat.ui.fragments.home;
 
 import android.os.Bundle;
 
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.XBaseFragment;
 
-public class MsgPagerFragment extends XBaseFragment {
-    public static MsgPagerFragment instance;
+public class HotPagerFragment extends XBaseFragment {
+    public static HotPagerFragment instance;
 
-    public static MsgPagerFragment newInstance(){
+    public static HotPagerFragment newInstance(){
         if (instance != null){
             return instance;
         }
-        return instance = new MsgPagerFragment();
+        return instance = new HotPagerFragment();
     }
 
-    public MsgPagerFragment() {
+    public HotPagerFragment() {
     }
 
     @Override
@@ -25,7 +25,7 @@ public class MsgPagerFragment extends XBaseFragment {
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_msg;
+        return R.layout.fragment_home_child_hot;
     }
 
     @Override

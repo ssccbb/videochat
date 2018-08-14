@@ -5,17 +5,17 @@ import android.os.Bundle;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.XBaseFragment;
 
-public class FindPagerFragment extends XBaseFragment {
-    public static FindPagerFragment instance;
+public class VideoPagerFragment extends XBaseFragment {
+    public static VideoPagerFragment instance;
 
-    public static FindPagerFragment newInstance(){
+    public static VideoPagerFragment newInstance(){
         if (instance != null){
             return instance;
         }
-        return instance = new FindPagerFragment();
+        return instance = new VideoPagerFragment();
     }
 
-    public FindPagerFragment() {
+    public VideoPagerFragment() {
     }
 
     @Override
@@ -25,7 +25,7 @@ public class FindPagerFragment extends XBaseFragment {
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_video;
     }
 
     @Override

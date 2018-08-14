@@ -47,10 +47,10 @@ public class TabIndicatorView extends LinearLayout implements Animation.Animatio
     }
 
     private void initData() {
-        TabIndicatorModel tab1 = new TabIndicatorModel(Constants.home_indicator_tag[0], R.mipmap.ic_menu_index);
-        TabIndicatorModel tab2 = new TabIndicatorModel(Constants.home_indicator_tag[1], R.mipmap.ic_menu_group);
-        TabIndicatorModel tab3 = new TabIndicatorModel(Constants.home_indicator_tag[2], R.mipmap.ic_menu_find);
-        TabIndicatorModel tab4 = new TabIndicatorModel(Constants.home_indicator_tag[3], R.mipmap.ic_menu_msg);
+        TabIndicatorModel tab1 = new TabIndicatorModel(Constants.home_indicator_tag[0], R.drawable.ic_menu_index);
+        TabIndicatorModel tab2 = new TabIndicatorModel(Constants.home_indicator_tag[1], R.drawable.ic_menu_video);
+        TabIndicatorModel tab3 = new TabIndicatorModel(Constants.home_indicator_tag[2], R.drawable.ic_menu_msg);
+        TabIndicatorModel tab4 = new TabIndicatorModel(Constants.home_indicator_tag[3], R.drawable.ic_menu_mine);
         models.add(tab1);
         models.add(tab2);
         models.add(tab3);

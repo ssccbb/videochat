@@ -1,9 +1,16 @@
 package com.feiyu.videochat.common;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.UiHandler;
@@ -16,29 +23,17 @@ public abstract class XBaseActivity<P extends IPresent> extends XActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.app_color));
-//        SwipeBackHelper.onCreate(this);
-//        SwipeBackHelper.getCurrentPage(this)
-//                .setSwipeBackEnable(true)
-//                .setSwipeSensitivity(0.5f)
-//                .setSwipeRelateEnable(true)
-//                .setSwipeRelateOffset(300);
-
         super.onCreate(savedInstanceState);
-//        MobclickAgent.setDebugMode(true);
-//        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-//        SwipeBackHelper.onPostCreate(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        SwipeBackHelper.onDestroy(this);
     }
 
     private P p;
@@ -57,14 +52,11 @@ public abstract class XBaseActivity<P extends IPresent> extends XActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        MobclickAgent.onResume(this);//友盟统计
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-//        MobclickAgent.onPause(this);//友盟统计
-
     }
 
 }
