@@ -8,6 +8,9 @@
     <color name="view_indicator_default_color">#C5C5C5</color>
     <color name="view_indicator_select_color">#000000</color>
 
+    <color name="tab_selected_color">#ffffff</color>
+    <color name="tab_unselected_color">#50ffffff</color>
+
     <!--app-->
     <color name="app_color">@color/colorPrimary</color>
     <color name="app_white">#ffffff</color>

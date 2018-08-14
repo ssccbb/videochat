@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by sung on 2018/4/24.
+ * 首页底部指示器（配合TabIndicator）
  */
 
 public class TabIndicatorView extends LinearLayout implements Animation.AnimationListener {
