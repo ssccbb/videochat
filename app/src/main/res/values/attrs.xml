@@ -156,4 +156,10 @@
     <declare-styleable name="PagerIndicatorView">
         <attr name="indicator_count" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="SelectItemView">
+        <attr name="icon" format="reference" />
+        <attr name="notice" format="string" />
+        <attr name="head_icon_visible" format="boolean" />
+    </declare-styleable>
 </resources>

@@ -2,11 +2,18 @@ package com.feiyu.videochat.ui.fragments.home;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.adapter.HomeHotBannerAdapter;
+import com.feiyu.videochat.adapter.HomeHotVideoAdapter;
 import com.feiyu.videochat.common.XBaseFragment;
+import com.feiyu.videochat.model.HotVideoResults;
+import com.feiyu.videochat.views.XReloadableRecyclerContentLayout;
 import com.feiyu.videochat.views.banner.AutoScrollViewPager;
 import com.feiyu.videochat.views.banner.PagerIndicatorView;
 import com.feiyu.videochat.views.banner.ScaleTransformer;
@@ -15,14 +22,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import cn.droidlover.xrecyclerview.XRecyclerView;
 
-public class HotPagerFragment extends XBaseFragment implements ViewPager.OnPageChangeListener{
-    @BindView(R.id.auto_scroll_pager_indicator)
-    PagerIndicatorView mPagerIndicator;
-    @BindView(R.id.auto_scroll_view_pager)
-    AutoScrollViewPager mBanner;
+public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnRefreshAndLoadMoreListener{
+    @BindView(R.id.list)
+    XReloadableRecyclerContentLayout mList;
 
     public static HotPagerFragment instance;
+    private HomeHotVideoAdapter mHotAdapter;
 
     public static HotPagerFragment newInstance(){
         if (instance != null){
@@ -36,21 +43,39 @@ public class HotPagerFragment extends XBaseFragment implements ViewPager.OnPageC
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        if (mBanner.getAdapter() != null) return;
+        List<HotVideoResults> data = new ArrayList();
+        for (int i = 0; i < 20; i++) {
+            data.add(new HotVideoResults());
+        }
         List bannerData = new ArrayList();
         bannerData.add(0);
         bannerData.add(1);
         bannerData.add(2);
         bannerData.add(3);
-        mPagerIndicator.setPagerCount(4);
-        mPagerIndicator.setVisibility(View.VISIBLE);
-        HomeHotBannerAdapter adapter = new HomeHotBannerAdapter(getActivity(),bannerData);
-        mBanner.setAdapter(adapter);
-        mBanner.setInterval(3000);
-        mBanner.setPageTransformer(false, new ScaleTransformer());
-        mBanner.setCurrentItem(0);
-        mBanner.startAutoScroll(3000);
-        mBanner.addOnPageChangeListener(this);
+        HomeHotBannerAdapter adapter = new HomeHotBannerAdapter(App.getContext(),bannerData);
+        mHotAdapter = new HomeHotVideoAdapter(getActivity(),null);
+        mHotAdapter.setBannerAdapter(adapter);
+        mList.getRecyclerView().setAdapter(mHotAdapter);
+        mList.getRecyclerView().setItemAnimator(new DefaultItemAnimator());
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
+        mList.getRecyclerView().setLayoutManager(manager);
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return position == 0 ? manager.getSpanCount() : 1;
+            }
+        });
+        mHotAdapter.addData(data,true);
+        mList.getRecyclerView().setOnRefreshAndLoadMoreListener(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        mList.refreshState(false);
+    }
+
+    @Override
+    public void onLoadMore(int page) {
     }
 
     @Override
@@ -61,18 +86,5 @@ public class HotPagerFragment extends XBaseFragment implements ViewPager.OnPageC
     @Override
     public Object newP() {
         return null;
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        mPagerIndicator.setSelectPosition(position);
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
     }
 }

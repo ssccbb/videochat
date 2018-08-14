@@ -1,6 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/user_head"
+            layout="@layout/view_user_info_head"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/user_head">
+            <com.feiyu.videochat.views.mine.SelectItemView
+                android:id="@+id/item_wallet"
+                android:layout_marginTop="@dimen/common_divider_normal_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
+                app:icon="@mipmap/ic_account_left"
+                app:notice="我的钱包"/>
+            <com.feiyu.videochat.views.mine.SelectItemView
+                android:id="@+id/item_profit"
+                android:layout_marginTop="@dimen/common_divider_normal_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
+                app:icon="@mipmap/ic_me_profit"
+                app:notice="我的收益"/>
+            <com.feiyu.videochat.views.mine.SelectItemView
+                android:id="@+id/item_vip"
+                android:layout_marginTop="@dimen/common_divider_normal_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
+                app:icon="@mipmap/ic_profile_vip"
+                app:notice="会员中心"/>
+            <com.feiyu.videochat.views.mine.SelectItemView
+                android:id="@+id/item_level"
+                android:layout_marginTop="@dimen/common_divider_normal_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
+                app:icon="@mipmap/ic_profile_level"
+                app:notice="我的等级"/>
+            <com.feiyu.videochat.views.mine.SelectItemView
+                android:id="@+id/item_behost"
+                android:layout_marginTop="@dimen/common_divider_normal_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
+                app:icon="@mipmap/ic_me_behost"
+                app:notice="我要当主播"/>
+            <com.feiyu.videochat.views.mine.SelectItemView
+                android:id="@+id/item_help"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
+                app:icon="@mipmap/ic_me_help"
+                app:notice="帮助中心"/>
+            <com.feiyu.videochat.views.mine.SelectItemView
+                android:id="@+id/item_setting"
+                android:layout_marginTop="@dimen/common_divider_normal_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
+                app:icon="@mipmap/ic_me_setting"
+                app:notice="设置"/>
+        </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

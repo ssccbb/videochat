@@ -14,4 +14,7 @@
     <!--app-->
     <color name="app_color">@color/colorPrimary</color>
     <color name="app_white">#ffffff</color>
+    <color name="app_gray">#50ffffff</color>
+    <color name="app_black">#000000</color>
+    <color name="app_divider">#20ffffff</color>
 </resources>
