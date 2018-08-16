@@ -23,4 +23,6 @@
     <color name="app_green">#66CD00</color>
     <color name="app_brown">#CD9B9B</color>
     <color name="app_divider">#20ffffff</color>
+    <color name="app_shadow">#999</color>
+    <color name="app_shadowdark">#666</color>
 </resources>
