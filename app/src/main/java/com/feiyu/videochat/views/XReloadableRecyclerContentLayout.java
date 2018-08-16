@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 
 import com.feiyu.videochat.R;
 
+import cn.droidlover.xrecyclerview.XRecyclerAdapter;
 import cn.droidlover.xrecyclerview.XRecyclerContentLayout;
 
 
@@ -70,15 +71,15 @@ public class XReloadableRecyclerContentLayout extends XRecyclerContentLayout {
         registerStateChangeListener(null);
     }
 
-//    @Override
-//    public void setDisplayState(int displayState) {
-//        super.setDisplayState(displayState);
-//        XRecyclerAdapter adapter = getRecyclerView().getAdapter();
-//        if (adapter != null && adapter.getItemCount() > 1) {
-//            super.setDisplayState(STATE_CONTENT);
-//            return;
-//        }
-//    }
+    @Override
+    public void setDisplayState(int displayState) {
+        super.setDisplayState(displayState);
+        XRecyclerAdapter adapter = getRecyclerView().getAdapter();
+        if (adapter != null && adapter.getItemCount() > 1) {
+            super.setDisplayState(STATE_CONTENT);
+            return;
+        }
+    }
 
     @Override
     public void showEmpty() {
@@ -131,7 +132,7 @@ public class XReloadableRecyclerContentLayout extends XRecyclerContentLayout {
 //        super.onRestoreInstanceState(savedState.getSuperState());
 //        this.displayState = savedState.state;
 //        setDisplayState(this.displayState);
-        showLoading();
+//        showLoading();
     }
 
     @Override

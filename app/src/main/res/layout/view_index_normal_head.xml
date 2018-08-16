@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@mipmap/bg_status_bar_head"
+    android:layout_height="@dimen/view_status_bar_head_height"
+    android:paddingTop="@dimen/view_status_bar_height">
+
+    <TextView
+        android:id="@+id/text"
+        tools:text="视频专区"
+        android:textColor="@color/app_white"
+        android:textSize="@dimen/common_tittle_text_size"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</android.support.constraint.ConstraintLayout>

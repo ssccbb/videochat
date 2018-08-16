@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/view_index_normal_head" />
+
+    <com.feiyu.videochat.views.mine.SelectItemView
+        android:id="@+id/item_system"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_divider_normal_height"
+        android:background="?android:selectableItemBackground"
+        app:icon="@mipmap/ic_message_system"
+        app:notice="系统消息" />
+
+    <com.feiyu.videochat.views.mine.SelectItemView
+        android:id="@+id/item_commend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="?android:selectableItemBackground"
+        app:icon="@mipmap/ic_message_recommed"
+        app:notice="评论" />
+
+    <com.feiyu.videochat.views.mine.SelectItemView
+        android:id="@+id/item_like"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_divider_normal_height"
+        android:background="?android:selectableItemBackground"
+        app:icon="@mipmap/ic_message_love"
+        app:notice="点赞" />
+
+    <com.feiyu.videochat.views.mine.SelectItemView
+        android:id="@+id/item_black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="?android:selectableItemBackground"
+        app:icon="@mipmap/ic_message_blacklist"
+        app:notice="黑名单" />
+
+</LinearLayout>

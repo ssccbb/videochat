@@ -24,6 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        app:tabTextAppearance="@style/TextAppearance.Design.CustomTab"
         app:tabTextColor="@color/tab_unselected_color"
         app:tabSelectedTextColor="@color/tab_selected_color"/>
 

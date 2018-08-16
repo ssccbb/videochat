@@ -9,9 +9,10 @@
 
     <ImageView
         android:id="@+id/iv_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="25dp"
         android:layout_centerVertical="true"
+        android:scaleType="fitStart"
         tools:src="@mipmap/ic_launcher" />
 
     <TextView

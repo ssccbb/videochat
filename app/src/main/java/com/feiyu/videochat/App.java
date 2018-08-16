@@ -3,11 +3,19 @@ package com.feiyu.videochat;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Debug;
+import android.support.multidex.MultiDex;
+import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
 import com.feiyu.videochat.net.api.Api;
 import com.feiyu.videochat.utils.SharedPreUtil;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +27,7 @@ import cn.droidlover.xdroidmvp.net.NetError;
 import cn.droidlover.xdroidmvp.net.NetProvider;
 import cn.droidlover.xdroidmvp.net.RequestHandler;
 import cn.droidlover.xdroidmvp.net.XApi;
+import io.reactivex.annotations.Beta;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
@@ -27,7 +36,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class App extends Application{
+public class App extends Application {
     private static Context context;
     private static App instance;
 
@@ -39,6 +48,17 @@ public class App extends Application{
 
         initWX();
         SharedPreUtil.init(this);
+        UMConfigure.setLogEnabled(BuildConfig.DEBUG ? true : false);
+        UMConfigure.init(context,
+                BuildConfig.UMENG_APP_KEY, //appkey
+                BuildConfig.CHANNEL,//channel
+                BuildConfig.DEVICE_TYPE,//device
+                BuildConfig.APPLICATION_ID);//push secret
+        MobclickAgent.setScenarioType(context, MobclickAgent.EScenarioType.E_UM_NORMAL);
+//        CrashReport.initCrashReport(context,BuildConfig.BUGLY_APP_ID,BuildConfig.DEBUG ? true : false);
+        com.tencent.bugly.beta.Beta.autoCheckUpgrade = true;
+        Bugly.init(context,BuildConfig.BUGLY_APP_ID,BuildConfig.DEBUG ? true : false);
+//        Log.e("app", "onCreate: "+CrashReport.getBuglyVersion(this) );
 
         XApi.registerProvider(new NetProvider() {
 
@@ -146,6 +166,9 @@ public class App extends Application{
     }
 
     public static App getInstance() {
+        if (instance == null) {
+            return new App();
+        }
         return instance;
     }
 
@@ -181,6 +204,7 @@ public class App extends Application{
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     @Override

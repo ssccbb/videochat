@@ -16,5 +16,11 @@
     <color name="app_white">#ffffff</color>
     <color name="app_gray">#50ffffff</color>
     <color name="app_black">#000000</color>
+    <color name="app_pink">#FF4081</color>
+    <color name="app_purpes">#CD69C9</color>
+    <color name="app_yellow">#FFC125</color>
+    <color name="app_red">#FF0000</color>
+    <color name="app_green">#66CD00</color>
+    <color name="app_brown">#CD9B9B</color>
     <color name="app_divider">#20ffffff</color>
 </resources>

@@ -15,11 +15,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
+                android:id="@+id/cover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/app_color" />
 
             <ImageView
+                android:id="@+id/status"
                 android:layout_margin="7dp"
                 android:src="@mipmap/ic_host_status_busy"
                 android:layout_width="wrap_content"
@@ -30,12 +32,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:maxLength="4"
                 android:ellipsize="end"
                 android:textColor="@color/app_white"
                 android:text="小慧姐"/>
             <ImageView
+                android:id="@+id/level"
                 android:layout_toRightOf="@+id/name"
                 android:layout_marginLeft="3dp"
                 android:layout_marginBottom="8dp"

@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.UiHandler;
 import com.jaeger.library.StatusBarUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import cn.droidlover.xdroidmvp.mvp.IPresent;
 import cn.droidlover.xdroidmvp.mvp.XActivity;
@@ -49,14 +50,17 @@ public abstract class XBaseActivity<P extends IPresent> extends XActivity {
         return p;
     }
 
+    /*  只在基类统计子类重写失效  */
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPause(this);
     }
 
 }

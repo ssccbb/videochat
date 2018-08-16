@@ -6,8 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.feiyu.videochat.App;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.feiyu.videochat.R;
+import com.feiyu.videochat.common.Constants;
 import com.feiyu.videochat.model.HotVideoResults;
 import com.feiyu.videochat.views.banner.AutoScrollViewPager;
 import com.feiyu.videochat.views.banner.PagerIndicatorView;
@@ -62,7 +65,7 @@ public class HomeHotVideoAdapter extends RecyclerView.Adapter implements View.On
             return new BannerHolder(view);
         }
 
-        View view = mInflater.inflate(R.layout.view_hot_item, parent, false);
+        View view = mInflater.inflate(R.layout.view_hot_video_item, parent, false);
         view.setOnClickListener(HomeHotVideoAdapter.this);
         return new HotVideoHolder(view);
     }
@@ -71,8 +74,11 @@ public class HomeHotVideoAdapter extends RecyclerView.Adapter implements View.On
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HotVideoHolder) {
             HotVideoResults hotVideo = getItem(position);
-            HotVideoHolder HotVideoResultsHolder = (HotVideoHolder) holder;
+            HotVideoHolder hotVideoHolder = (HotVideoHolder) holder;
 
+            hotVideoHolder.cover.setBackground(
+                    mContext.getResources().getDrawable(
+                            Constants.round_color[(int) (Math.random()*4)]));
             return;
         }
 
@@ -146,9 +152,19 @@ public class HomeHotVideoAdapter extends RecyclerView.Adapter implements View.On
     }
 
     class HotVideoHolder extends RecyclerView.ViewHolder {
+        public View root;
+        public ImageView cover;
+        public ImageView status;
+        public ImageView level;
+        public TextView name;
 
         public HotVideoHolder(View itemView) {
             super(itemView);
+            root = itemView;
+            cover = root.findViewById(R.id.cover);
+            status = root.findViewById(R.id.status);
+            level = root.findViewById(R.id.level);
+            name = root.findViewById(R.id.name);
         }
     }
 

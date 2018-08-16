@@ -43,6 +43,7 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        mList.showLoading();
         List<HotVideoResults> data = new ArrayList();
         for (int i = 0; i < 20; i++) {
             data.add(new HotVideoResults());
@@ -67,6 +68,7 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
         });
         mHotAdapter.addData(data,true);
         mList.getRecyclerView().setOnRefreshAndLoadMoreListener(this);
+        mList.getLoadingView().setVisibility(View.GONE);
     }
 
     @Override

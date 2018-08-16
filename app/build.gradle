@@ -9,6 +9,17 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
+        buildConfigField 'String','UMENG_APP_KEY','"5b72f5bcb27b0a36c80003a9"'
+        buildConfigField 'String','CHANNEL','"local"'
+        buildConfigField 'int','DEVICE_TYPE','1'//1-android
+        buildConfigField 'String','BUGLY_APP_ID','"2304e5a2b5"'
+
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters 'armeabi' , 'x86'//, 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
     }
     buildTypes {
         release {
@@ -20,6 +31,7 @@ android {
         repositories {
             jcenter()
             maven { url "https://jitpack.io" }
+            mavenCentral()
         }
     }
     compileOptions {
@@ -41,8 +53,15 @@ dependencies {
     implementation 'com.wang.avi:library:2.1.3'
     implementation 'com.jaeger.statusbaruitl:library:1.3.2'
     annotationProcessor "com.jakewharton:butterknife-compiler:8.4.0"
-    //noinspection GradleCompatible
+    //support
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
+    //umeng
+    implementation 'com.umeng.sdk:common:1.5.0'
+    implementation 'com.umeng.sdk:analytics:7.5.0'
+    //bugly
+//    implementation 'com.tencent.bugly:crashreport:latest.release'
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+    implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'
 
 }

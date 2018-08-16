@@ -3,11 +3,13 @@ package com.feiyu.videochat.ui.activitys;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.XBaseActivity;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 
@@ -42,15 +44,31 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if (v == skip){
+            uiHandler.removeCallbacksAndMessages(null);
             next();
         }
     }
 
     private void next(){
+        finish();
         startActivity(new Intent(this,IndexActivity.class));
     }
 
-//    private void getGameAccountInfo(final int page, boolean isrefresh) {
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            return false;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    //    private void getGameAccountInfo(final int page, boolean isrefresh) {
 //        Flowable<HttpResultModel<GameAccountResultModel>> fr = DataService.getGameAccountList(new GameAccountRequestBody(page));
 //        RxLoadingUtils.subscribeWithReload(mContent, fr, bindToLifecycle(), new Consumer<HttpResultModel<GameAccountResultModel>>() {
 //            @Override

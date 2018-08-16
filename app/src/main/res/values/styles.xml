@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TextAppearance.Design.CustomTab" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">@dimen/common_navigation_text_size</item>
+        <item name="android:textColor">@color/app_white</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
 </resources>
