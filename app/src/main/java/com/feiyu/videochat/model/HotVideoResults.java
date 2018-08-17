@@ -10,4 +10,8 @@ public class HotVideoResults extends XBaseModel {
     public int position;
     public String cover;
     public int status;
+
+    public HotVideoResults(int position) {
+        this.position = position;
+    }
 }

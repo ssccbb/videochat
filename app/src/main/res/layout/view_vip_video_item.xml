@@ -21,10 +21,12 @@
                 android:layout_height="match_parent">
                 <ImageView
                     android:id="@+id/cover"
+                    android:scaleType="centerCrop"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/app_color" />
                 <ImageView
+                    android:id="@+id/heart"
                     android:layout_alignParentBottom="true"
                     android:src="@mipmap/ic_white_heart"
                     android:layout_marginLeft="5dp"
@@ -32,6 +34,7 @@
                     android:layout_width="14dp"
                     android:layout_height="14dp" />
                 <TextView
+                    android:id="@+id/heart_num"
                     android:text="2022"
                     android:layout_marginLeft="21dp"
                     android:layout_marginBottom="6dp"

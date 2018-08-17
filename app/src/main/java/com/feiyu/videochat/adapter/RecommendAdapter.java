@@ -21,13 +21,13 @@ import java.util.List;
 /**
  * Created on 2016/6/11.
  */
-public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClickListener {
+public class RecommendAdapter extends RecyclerView.Adapter implements View.OnClickListener {
     private Context mContext;
     private LayoutInflater mInflater;
     private List<HotVideoResults> mList = new ArrayList();
     private OnItemClickListener mOnItemClickListener;
 
-    public VipVideoAdapter(Context context, List list) {
+    public RecommendAdapter(Context context, List list) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mList.clear();
@@ -59,14 +59,6 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
             HotVideoHolder hotVideoHolder = (HotVideoHolder) holder;
             hotVideoHolder.root.setTag(hotVideo);
             hotVideoHolder.root.setOnClickListener(this::onClick);
-            if (position == 0){
-                hotVideoHolder.cover.setImageResource(R.mipmap.ic_video_vip);
-                hotVideoHolder.name.setText("VIP私密视频专区");
-                hotVideoHolder.name.setTextColor(mContext.getResources().getColor(R.color.app_red));
-                hotVideoHolder.heartNum.setVisibility(View.GONE);
-                hotVideoHolder.heart.setVisibility(View.GONE);
-                return;
-            }
             hotVideoHolder.cover.setBackground(
                     mContext.getResources().getDrawable(
                             Constants.round_color[(int) (Math.random()*4)]));
@@ -94,10 +86,6 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
         Object object = v.getTag();
         if (object instanceof HotVideoResults && mOnItemClickListener != null) {
             HotVideoResults hotVideo = (HotVideoResults) object;
-            if (hotVideo.position == 0){
-                mOnItemClickListener.onVipItemClick();
-                return;
-            }
             mOnItemClickListener.onItemClick(v, hotVideo.position, hotVideo);
         }
     }
@@ -121,7 +109,6 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position, HotVideoResults hotVideo);
-        void onVipItemClick();
     }
 
     public void addOnItemClickListener(OnItemClickListener listener) {

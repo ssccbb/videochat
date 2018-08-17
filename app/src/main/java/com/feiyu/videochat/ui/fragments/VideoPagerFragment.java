@@ -1,8 +1,10 @@
 package com.feiyu.videochat.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,6 +12,7 @@ import com.feiyu.videochat.R;
 import com.feiyu.videochat.adapter.VipVideoAdapter;
 import com.feiyu.videochat.common.XBaseFragment;
 import com.feiyu.videochat.model.HotVideoResults;
+import com.feiyu.videochat.ui.activitys.VipVideoActivity;
 import com.feiyu.videochat.views.XReloadableRecyclerContentLayout;
 
 import java.util.ArrayList;
@@ -19,7 +22,9 @@ import butterknife.BindView;
 import cn.droidlover.xrecyclerview.XRecyclerView;
 import cn.droidlover.xstatecontroller.XStateController;
 
-public class VideoPagerFragment extends XBaseFragment implements XRecyclerView.OnRefreshAndLoadMoreListener{
+public class VideoPagerFragment extends XBaseFragment implements XRecyclerView.OnRefreshAndLoadMoreListener,
+        VipVideoAdapter.OnItemClickListener{
+    public static final String TAG = VideoPagerFragment.class.getSimpleName();
     public static VideoPagerFragment instance;
     private VipVideoAdapter mVideoAdapter;
 
@@ -48,17 +53,27 @@ public class VideoPagerFragment extends XBaseFragment implements XRecyclerView.O
         if (mVideoAdapter != null) return;
         mList.showLoading();
         mVideoAdapter = new VipVideoAdapter(getActivity(),null);
+        mVideoAdapter.addOnItemClickListener(this);
         mList.getRecyclerView().setAdapter(mVideoAdapter);
         mList.getRecyclerView().setItemAnimator(new DefaultItemAnimator());
         mList.getRecyclerView().setLayoutManager(new GridLayoutManager(getActivity(),2));
         List<HotVideoResults> data = new ArrayList<>();
         for (int i = 0; i < 21; i++) {
-            data.add(new HotVideoResults());
+            data.add(new HotVideoResults(i));
         }
         mVideoAdapter.addData(data,true);
         mList.getRecyclerView().setOnRefreshAndLoadMoreListener(this);
         mList.getLoadingView().setVisibility(View.GONE);
         mList.setDisplayState(XStateController.STATE_CONTENT);
+    }
+
+    @Override
+    public void onItemClick(View view, int position, HotVideoResults hotVideo) {
+    }
+
+    @Override
+    public void onVipItemClick() {
+        startActivity(new Intent(getActivity(), VipVideoActivity.class));
     }
 
     @Override

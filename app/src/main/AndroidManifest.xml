@@ -44,6 +44,9 @@
         <activity android:name=".ui.activitys.ChatActivity"
             android:screenOrientation="portrait"
             android:launchMode="standard"/>
+        <activity android:name=".ui.activitys.VipVideoActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="standard"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="$com.feiyu.videochat.fileProvider"

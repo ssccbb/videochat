@@ -48,7 +48,7 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
         mList.showLoading();
         List<HotVideoResults> data = new ArrayList();
         for (int i = 0; i < 20; i++) {
-            data.add(new HotVideoResults());
+            data.add(new HotVideoResults(i));
         }
         List bannerData = new ArrayList();
         bannerData.add(0);
