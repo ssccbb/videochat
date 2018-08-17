@@ -2,4 +2,9 @@
     <string name="app_name">videochat</string>
 
     <string name="splash_next">跳过</string>
+
+    <string name="call_hint">正在等待对方接受邀请...</string>
+    <string name="call_stop">已取消</string>
+    <string name="call_connect">已接通</string>
+    <string name="call_refuse">已挂断</string>
 </resources>

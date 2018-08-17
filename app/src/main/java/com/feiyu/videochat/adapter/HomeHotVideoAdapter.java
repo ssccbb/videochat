@@ -66,7 +66,6 @@ public class HomeHotVideoAdapter extends RecyclerView.Adapter implements View.On
         }
 
         View view = mInflater.inflate(R.layout.view_hot_video_item, parent, false);
-        view.setOnClickListener(HomeHotVideoAdapter.this);
         return new HotVideoHolder(view);
     }
 
@@ -76,6 +75,8 @@ public class HomeHotVideoAdapter extends RecyclerView.Adapter implements View.On
             HotVideoResults hotVideo = getItem(position);
             HotVideoHolder hotVideoHolder = (HotVideoHolder) holder;
 
+            hotVideoHolder.root.setTag(hotVideo);
+            hotVideoHolder.root.setOnClickListener(this);
             hotVideoHolder.cover.setBackground(
                     mContext.getResources().getDrawable(
                             Constants.round_color[(int) (Math.random()*4)]));

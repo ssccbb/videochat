@@ -1,5 +1,6 @@
 package com.feiyu.videochat.ui.fragments.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,6 +14,7 @@ import com.feiyu.videochat.adapter.HomeHotBannerAdapter;
 import com.feiyu.videochat.adapter.HomeHotVideoAdapter;
 import com.feiyu.videochat.common.XBaseFragment;
 import com.feiyu.videochat.model.HotVideoResults;
+import com.feiyu.videochat.ui.activitys.HostInfoActivity;
 import com.feiyu.videochat.views.XReloadableRecyclerContentLayout;
 import com.feiyu.videochat.views.banner.AutoScrollViewPager;
 import com.feiyu.videochat.views.banner.PagerIndicatorView;
@@ -24,7 +26,7 @@ import java.util.List;
 import butterknife.BindView;
 import cn.droidlover.xrecyclerview.XRecyclerView;
 
-public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnRefreshAndLoadMoreListener{
+public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnRefreshAndLoadMoreListener,HomeHotVideoAdapter.OnItemClickListener{
     @BindView(R.id.list)
     XReloadableRecyclerContentLayout mList;
 
@@ -69,6 +71,12 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
         mHotAdapter.addData(data,true);
         mList.getRecyclerView().setOnRefreshAndLoadMoreListener(this);
         mList.getLoadingView().setVisibility(View.GONE);
+        mHotAdapter.addOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(View view, int position, HotVideoResults hotVideo) {
+        startActivity(new Intent(getActivity(), HostInfoActivity.class));
     }
 
     @Override

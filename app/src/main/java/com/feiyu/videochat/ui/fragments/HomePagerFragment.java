@@ -1,5 +1,6 @@
 package com.feiyu.videochat.ui.fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,6 +11,7 @@ import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.adapter.HomeChildPagerAdapter;
 import com.feiyu.videochat.common.XBaseFragment;
+import com.feiyu.videochat.ui.activitys.SearchActivity;
 
 import butterknife.BindView;
 
@@ -69,7 +71,7 @@ public class HomePagerFragment extends XBaseFragment implements ViewPager.OnPage
     @Override
     public void onClick(View v) {
         if (v == mSearch){
-
+            startActivity(new Intent(getActivity(), SearchActivity.class));
         }
     }
 
