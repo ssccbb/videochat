@@ -37,7 +37,6 @@ public class HostInfoActivity extends XBaseActivity implements View.OnClickListe
             this.finish();
         }
         if (v == mConnect){
-            this.finish();
             startActivity(new Intent(this,ChatActivity.class));
         }
     }

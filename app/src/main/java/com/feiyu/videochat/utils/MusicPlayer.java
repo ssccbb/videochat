@@ -67,6 +67,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, MediaPlaye
     }
 
     public void playCancelSound(){
+        stopBgSound();
         playSound(this.source_cancel);
     }
 
