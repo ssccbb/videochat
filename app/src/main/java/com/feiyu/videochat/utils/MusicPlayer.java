@@ -57,6 +57,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, MediaPlaye
     }
 
     private void playSound(int source) {  //如果系统设置中开启了音效，则播放相关的音频文件
+        actionMusicPlayer.autoPause();
         actionMusicPlayer.play(source, 1, 1, 0, 0, 1);
     }
 

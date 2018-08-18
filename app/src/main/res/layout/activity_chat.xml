@@ -13,6 +13,7 @@
         layout="@layout/view_chat_connectting" />
     <!--已连通-->
     <include
+        android:visibility="gone"
         android:id="@+id/chat_container"
         layout="@layout/view_chatting" />
 </android.support.constraint.ConstraintLayout>

@@ -7,4 +7,5 @@
     <string name="call_stop">已取消</string>
     <string name="call_connect">已接通</string>
     <string name="call_refuse">已挂断</string>
+    <string name="call_busy">对方正忙</string>
 </resources>
