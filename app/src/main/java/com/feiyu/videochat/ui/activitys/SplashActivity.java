@@ -67,15 +67,4 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
         }
         return super.onKeyUp(keyCode, event);
     }
-
-    //    private void getGameAccountInfo(final int page, boolean isrefresh) {
-//        Flowable<HttpResultModel<GameAccountResultModel>> fr = DataService.getGameAccountList(new GameAccountRequestBody(page));
-//        RxLoadingUtils.subscribeWithReload(mContent, fr, bindToLifecycle(), new Consumer<HttpResultModel<GameAccountResultModel>>() {
-//            @Override
-//            public void accept(HttpResultModel<GameAccountResultModel> gameAccountResultModelHttpResultModel) throws Exception {
-//                notifyData(gameAccountResultModelHttpResultModel.data, page);
-//                mContent.getRecyclerView().setPage(gameAccountResultModelHttpResultModel.current_page, gameAccountResultModelHttpResultModel.total_page);
-//            }
-//        }, null, null, isrefresh);
-//    }
 }

@@ -5,12 +5,12 @@ import cn.droidlover.xdroidmvp.net.XApi;
 public class Api {
 
     //release
-    public static final String API_BASE_URL = "https://apip.g9yx.com";  // "http://gank.io/api/";（基础接口地址）load用户头像拼接
-    public static final String API_PAY_OR_IMAGE_URL = "https://bm.g9yx.com";  // 支付或者图片地址
+    public static final String API_BASE_URL = "http://a.kinnekpro.com";  // "http://gank.io/api/";（基础接口地址）load用户头像拼接
+    public static final String API_PAY_OR_IMAGE_URL = "http://a.kinnekpro.com/";  // 支付或者图片地址
 
     //debug
-    public static final String API_BASE_URL_TEST = "http://60.205.204.218:8000";  // "http://gank.io/api/";（基础接口地址）load用户头像拼接
-    public static final String API_PAY_OR_IMAGE_URL_TEST = "http://60.205.204.218:8080";  // 支付或者图片地址
+    public static final String API_BASE_URL_TEST = "http://ta.kinnekpro.com/";  // "http://gank.io/api/";（基础接口地址）load用户头像拼接
+    public static final String API_PAY_OR_IMAGE_URL_TEST = "http://ta.kinnekpro.com/";  // 支付或者图片地址
 
     private static ApiService gankService;
     private static ApiService PayService;
@@ -48,14 +48,4 @@ public class Api {
         return PayService;
     }
 
-    public static ApiService CreateHanXinApiService() {
-        if (PayService == null) {
-            synchronized (Api.class) {
-                if (PayService == null) {
-                    PayService = XApi.getInstance().getRetrofit("http://kefu.easemob.com/v1/Tenants/", true).create(ApiService.class);
-                }
-            }
-        }
-        return PayService;
-    }
 }

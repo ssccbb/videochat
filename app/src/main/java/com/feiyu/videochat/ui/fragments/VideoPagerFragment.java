@@ -52,7 +52,7 @@ public class VideoPagerFragment extends XBaseFragment implements XRecyclerView.O
     private void recyclerSet(){
         if (mVideoAdapter != null) return;
         mList.showLoading();
-        mVideoAdapter = new VipVideoAdapter(getActivity(),null);
+        mVideoAdapter = new VipVideoAdapter(getActivity(),false,null);
         mVideoAdapter.addOnItemClickListener(this);
         mList.getRecyclerView().setAdapter(mVideoAdapter);
         mList.getRecyclerView().setItemAnimator(new DefaultItemAnimator());

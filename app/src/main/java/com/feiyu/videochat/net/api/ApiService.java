@@ -1,8 +1,10 @@
 package com.feiyu.videochat.net.api;
 
 import com.feiyu.videochat.model.GameAccountResultModel;
+import com.feiyu.videochat.model.PhoneVertifyResultModel;
 import com.feiyu.videochat.model.basemodel.HttpResultModel;
 import com.feiyu.videochat.net.body.GameAccountRequestBody;
+import com.feiyu.videochat.net.body.PhoneVertifyRequestBody;
 
 import io.reactivex.Flowable;
 import retrofit2.http.Body;
@@ -14,4 +16,6 @@ public interface ApiService {
     @POST("/member/get_game_account_list/")
     Flowable<HttpResultModel<GameAccountResultModel>> getGameAccountList(@Body GameAccountRequestBody gameAccountRequestBody/*@Path("page") int page, @Path("plat_id") int plat_id, @Path("option_game_id") int option_game_id, @Path("option_channel_id") int option_channel_id*/);
 
+    @POST("/user/send_verification_code/")
+    Flowable<HttpResultModel<PhoneVertifyResultModel>> getPhoneVertify(@Body PhoneVertifyRequestBody phoneVertifyRequestBody);
 }

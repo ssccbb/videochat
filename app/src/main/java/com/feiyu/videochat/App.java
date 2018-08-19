@@ -70,10 +70,10 @@ public class App extends Application {
                     public Response intercept(Interceptor.Chain chain) throws IOException {
                         Request request = chain.request()
                                 .newBuilder()
-                                .addHeader("Cookie", SharedPreUtil.getSessionId())
+//                                .addHeader("Cookie", SharedPreUtil.getSessionId())
 //                                .addHeader("imei", SystemUtil.getIMEI(context))
 //                                .addHeader("os", SystemUtil.getAppVersionName(context))
-                                .addHeader("plam", System.getProperty("os.name"))
+//                                .addHeader("plam", System.getProperty("os.name"))
                                 .build();
                         return chain.proceed(request);
                     }

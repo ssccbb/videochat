@@ -1,6 +1,12 @@
 package com.feiyu.videochat.ui.activitys;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -9,10 +15,17 @@ import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.adapter.HomePagerAdapter;
 import com.feiyu.videochat.common.XBaseActivity;
+import com.feiyu.videochat.model.PhoneVertifyResultModel;
+import com.feiyu.videochat.model.basemodel.HttpResultModel;
+import com.feiyu.videochat.net.DataService;
+import com.feiyu.videochat.net.body.PhoneVertifyRequestBody;
+import com.feiyu.videochat.utils.RxLoadingUtils;
 import com.feiyu.videochat.views.TabIndicatorView;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import butterknife.BindView;
+import io.reactivex.Flowable;
+import io.reactivex.functions.Consumer;
 
 public class IndexActivity extends XBaseActivity implements TabIndicatorView.OnTabIndicatorSelectListener,ViewPager.OnPageChangeListener{
     @BindView(R.id.tab_indicator)
@@ -32,7 +45,22 @@ public class IndexActivity extends XBaseActivity implements TabIndicatorView.OnT
         mViewPager.addOnPageChangeListener(this);
         mIndicator.addOnTabIndicatorSelectListener(this);
 
+        checkPermission();
 //        CrashReport.testJavaCrash();
+    }
+
+    private void checkPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int readCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+            if (readCheck == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

@@ -29,8 +29,11 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
     private List<HotVideoResults> mList = new ArrayList();
     private OnItemClickListener mOnItemClickListener;
 
-    public VipVideoAdapter(Context context, List list) {
+    private boolean VIP_MODE = false;//false：普通模式 true：VIP模式
+
+    public VipVideoAdapter(Context context, boolean vip_mode, List list) {
         mContext = context;
+        VIP_MODE = vip_mode;
         mInflater = LayoutInflater.from(context);
         mList.clear();
         if (list != null) {
@@ -59,7 +62,6 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
         if (holder instanceof HotVideoHolder) {
             HotVideoHolder hotVideoHolder = (HotVideoHolder) holder;
             hotVideoHolder.onBind(position);
-            return;
         }
     }
 
@@ -77,14 +79,13 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
         return mList.get(position);
     }
 
-
     @Override
     public void onClick(View v) {
         Object object = v.getTag();
         if (object instanceof HotVideoResults && mOnItemClickListener != null) {
             HotVideoResults hotVideo = (HotVideoResults) object;
             Log.e(TAG, "onClick: "+ hotVideo.position);
-            if (hotVideo.position == 0){
+            if (hotVideo.position == 0 && !VIP_MODE){
                 mOnItemClickListener.onVipItemClick();
                 return;
             }
@@ -121,7 +122,7 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
             heartNum.setVisibility(View.VISIBLE);
             heart.setVisibility(View.VISIBLE);
 
-            if (hotVideo.position == 0) {
+            if (hotVideo.position == 0 && !VIP_MODE) {
                 cover.setImageResource(R.mipmap.ic_video_vip);
                 name.setText("VIP私密视频专区");
                 name.setTextColor(mContext.getResources().getColor(R.color.app_red));

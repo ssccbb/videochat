@@ -24,6 +24,7 @@ public abstract class XBaseActivity<P extends IPresent> extends XActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        StatusBarUtil.setTranslucentDiff(this);
         super.onCreate(savedInstanceState);
     }
 

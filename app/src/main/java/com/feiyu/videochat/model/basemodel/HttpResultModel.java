@@ -1,5 +1,7 @@
 package com.feiyu.videochat.model.basemodel;
 
+import android.util.Log;
+
 import com.feiyu.videochat.net.StateCode;
 import cn.droidlover.xdroidmvp.kit.Kits;
 import cn.droidlover.xdroidmvp.net.IModel;
@@ -8,6 +10,7 @@ import cn.droidlover.xdroidmvp.net.IModel;
  * Created by zr on 2017-10-13.
  */
 public class HttpResultModel<T> extends XBaseModel {
+    private static final String TAG = HttpResultModel.class.getSimpleName();
     public T data;
 
     @Override
@@ -36,6 +39,7 @@ public class HttpResultModel<T> extends XBaseModel {
 
     @Override
     public String getResponseMsg() {
+        Log.e(TAG, "getResponseMsg: "+code );
         return StateCode.getMessage(code);
     }
 }
