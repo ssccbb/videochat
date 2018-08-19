@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import java.util.List;
  * Created on 2016/6/11.
  */
 public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClickListener {
+    public static final String TAG = VipVideoAdapter.class.getSimpleName();
     private Context mContext;
     private LayoutInflater mInflater;
     private List<HotVideoResults> mList = new ArrayList();
@@ -55,21 +57,8 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HotVideoHolder) {
-            HotVideoResults hotVideo = getItem(position);
             HotVideoHolder hotVideoHolder = (HotVideoHolder) holder;
-            hotVideoHolder.root.setTag(hotVideo);
-            hotVideoHolder.root.setOnClickListener(this::onClick);
-            if (position == 0){
-                hotVideoHolder.cover.setImageResource(R.mipmap.ic_video_vip);
-                hotVideoHolder.name.setText("VIP私密视频专区");
-                hotVideoHolder.name.setTextColor(mContext.getResources().getColor(R.color.app_red));
-                hotVideoHolder.heartNum.setVisibility(View.GONE);
-                hotVideoHolder.heart.setVisibility(View.GONE);
-                return;
-            }
-            hotVideoHolder.cover.setBackground(
-                    mContext.getResources().getDrawable(
-                            Constants.round_color[(int) (Math.random()*4)]));
+            hotVideoHolder.onBind(position);
             return;
         }
     }
@@ -94,6 +83,7 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
         Object object = v.getTag();
         if (object instanceof HotVideoResults && mOnItemClickListener != null) {
             HotVideoResults hotVideo = (HotVideoResults) object;
+            Log.e(TAG, "onClick: "+ hotVideo.position);
             if (hotVideo.position == 0){
                 mOnItemClickListener.onVipItemClick();
                 return;
@@ -116,6 +106,28 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
             name = root.findViewById(R.id.name);
             heart = root.findViewById(R.id.heart);
             heartNum = root.findViewById(R.id.heart_num);
+        }
+
+        void onBind(int position){
+            HotVideoResults hotVideo = getItem(position);
+            root.setTag(hotVideo);
+            root.setOnClickListener(VipVideoAdapter.this::onClick);
+            name.setText("小蓝姐");
+            name.setTextColor(mContext.getResources().getColor(R.color.app_black));
+            cover.setImageResource(0);
+            cover.setBackground(
+                    mContext.getResources().getDrawable(
+                            Constants.round_color[(int) (Math.random()*4)]));
+            heartNum.setVisibility(View.VISIBLE);
+            heart.setVisibility(View.VISIBLE);
+
+            if (hotVideo.position == 0) {
+                cover.setImageResource(R.mipmap.ic_video_vip);
+                name.setText("VIP私密视频专区");
+                name.setTextColor(mContext.getResources().getColor(R.color.app_red));
+                heartNum.setVisibility(View.GONE);
+                heart.setVisibility(View.GONE);
+            }
         }
     }
 

@@ -16,13 +16,17 @@
             <com.feiyu.videochat.views.SquareLayoutView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/app_pink"
-                android:paddingTop="@dimen/view_status_bar_height">
-
+                android:background="@color/app_pink">
+                <ImageView
+                    android:src="@drawable/timg1"
+                    android:scaleType="centerCrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
                 <ImageView
                     android:id="@+id/back"
                     android:scaleType="center"
                     android:src="@mipmap/ic_white_back"
+                    android:layout_marginTop="@dimen/view_status_bar_height"
                     android:layout_width="55dp"
                     android:layout_height="55dp" />
 
