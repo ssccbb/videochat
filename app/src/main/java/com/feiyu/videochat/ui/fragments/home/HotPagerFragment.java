@@ -2,38 +2,28 @@ package com.feiyu.videochat.ui.fragments.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
-
 import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.adapter.HomeHotBannerAdapter;
 import com.feiyu.videochat.adapter.HomeHotVideoAdapter;
 import com.feiyu.videochat.common.XBaseFragment;
 import com.feiyu.videochat.model.HotVideoResults;
-import com.feiyu.videochat.model.PhoneVertifyResultModel;
-import com.feiyu.videochat.model.basemodel.HttpResultModel;
-import com.feiyu.videochat.net.DataService;
-import com.feiyu.videochat.net.body.PhoneVertifyRequestBody;
+import com.feiyu.videochat.model.PhoneVertifyResult;
+import com.feiyu.videochat.net.api.Api;
+import com.feiyu.videochat.net.httprequest.ApiCallback;
+import com.feiyu.videochat.net.httprequest.okhttp.CommonOkHttpCallBack;
+import com.feiyu.videochat.net.httprequest.okhttp.JKOkHttpParamKey;
+import com.feiyu.videochat.net.httprequest.okhttp.OkHttpRequestUtils;
 import com.feiyu.videochat.ui.activitys.HostInfoActivity;
-import com.feiyu.videochat.utils.RxLoadingUtils;
 import com.feiyu.videochat.views.XReloadableRecyclerContentLayout;
-import com.feiyu.videochat.views.banner.AutoScrollViewPager;
-import com.feiyu.videochat.views.banner.PagerIndicatorView;
-import com.feiyu.videochat.views.banner.ScaleTransformer;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
-import cn.droidlover.xdroidmvp.net.NetError;
 import cn.droidlover.xrecyclerview.XRecyclerView;
-import io.reactivex.Flowable;
-import io.reactivex.functions.Consumer;
 
 public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnRefreshAndLoadMoreListener,HomeHotVideoAdapter.OnItemClickListener{
     @BindView(R.id.list)
@@ -82,25 +72,76 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
         mList.getRecyclerView().setOnRefreshAndLoadMoreListener(this);
         mList.getLoadingView().setVisibility(View.GONE);
         mHotAdapter.addOnItemClickListener(this);
-
-        //getPhoneVertify();
     }
 
-    private void getPhoneVertify() {
-        Flowable<HttpResultModel<PhoneVertifyResultModel>> fr = DataService.getPhoneVertify(new PhoneVertifyRequestBody("18610488283"));
-        RxLoadingUtils.subscribeWithReload(mList, fr, bindToLifecycle(), new Consumer<HttpResultModel<PhoneVertifyResultModel>>() {
+    /**
+     * retrofit获取验证码（当前body未过加密封装，会报参数不足）
+     * */
+    private void retrofitVertifyCode() {
+        Api api = new Api();
+        api.getVerifyCode("18600574847", getActivity(), new ApiCallback<PhoneVertifyResult>() {
             @Override
-            public void accept(HttpResultModel<PhoneVertifyResultModel> gameAccountResultModelHttpResultModel) throws Exception {
-//                notifyData(gameAccountResultModelHttpResultModel.data, page);
-//                mContent.getRecyclerView().setPage(gameAccountResultModelHttpResultModel.current_page, gameAccountResultModelHttpResultModel.total_page);
-                Log.e(TAG, "accept: ok!" );
+            public void onSuccess(PhoneVertifyResult response) {
+                Log.e(TAG, "onSuccess: "+response.dataInfo );
             }
-        }, new Consumer<NetError>() {
+
             @Override
-            public void accept(NetError netError) throws Exception {
-                Log.e(TAG, "accept: "+netError.getMessage() );
+            public void onError(String err_msg) {
+                Log.e(TAG, "onError: "+err_msg );
             }
-        }, null, true);
+
+            @Override
+            public void onFailure() {
+                Log.e(TAG, "onFailure !");
+            }
+        });
+    }
+
+    /**
+     * get获取验证码
+     * */
+    private void getVertifyCode(){
+        OkHttpRequestUtils.getInstance().requestByGet(Api.API_BASE_URL +"/user/send_verification_code",
+                OkHttpRequestUtils.getInstance().JkRequestParameters(JKOkHttpParamKey.PHONE_VERTIFY_CODE, "18600574847"),
+                PhoneVertifyResult.class, getActivity(), new ApiCallback() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        Log.e(TAG, "onSuccess: "+(String) response );
+                    }
+
+                    @Override
+                    public void onError(String err_msg) {
+                        Log.e(TAG, "onError: "+err_msg );
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Log.e(TAG, "onFailure !");
+                    }
+                });
+    }
+
+    /**
+     * get获取banner
+     * */
+    private void getBanner(){
+        OkHttpRequestUtils.getInstance().requestByGet(Api.API_BASE_URL +"/Index/start_advertisement", null,
+                PhoneVertifyResult.class, getActivity(), new ApiCallback() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        Log.e(TAG, "onSuccess: "+(String) response );
+                    }
+
+                    @Override
+                    public void onError(String err_msg) {
+                        Log.e(TAG, "onError: "+err_msg );
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Log.e(TAG, "onFailure !");
+                    }
+                });
     }
 
     @Override

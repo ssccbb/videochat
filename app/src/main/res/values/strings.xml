@@ -8,4 +8,9 @@
     <string name="call_connect">已接通</string>
     <string name="call_cancel">已取消</string>
     <string name="call_busy">对方正忙</string>
+
+    <string name="login_hint_get_code">获取验证码</string>
+    <string name="login_hint_reget_code">已发送验证码</string>
+    <string name="login_hint_phone">手机号码</string>
+    <string name="login_hint_code">验证码</string>
 </resources>

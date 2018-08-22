@@ -15,17 +15,9 @@ import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.adapter.HomePagerAdapter;
 import com.feiyu.videochat.common.XBaseActivity;
-import com.feiyu.videochat.model.PhoneVertifyResultModel;
-import com.feiyu.videochat.model.basemodel.HttpResultModel;
-import com.feiyu.videochat.net.DataService;
-import com.feiyu.videochat.net.body.PhoneVertifyRequestBody;
-import com.feiyu.videochat.utils.RxLoadingUtils;
+import com.feiyu.videochat.ui.fragments.LoginDialogFragment;
 import com.feiyu.videochat.views.TabIndicatorView;
-import com.tencent.bugly.crashreport.CrashReport;
-
 import butterknife.BindView;
-import io.reactivex.Flowable;
-import io.reactivex.functions.Consumer;
 
 public class IndexActivity extends XBaseActivity implements TabIndicatorView.OnTabIndicatorSelectListener,ViewPager.OnPageChangeListener{
     @BindView(R.id.tab_indicator)
@@ -46,7 +38,12 @@ public class IndexActivity extends XBaseActivity implements TabIndicatorView.OnT
         mIndicator.addOnTabIndicatorSelectListener(this);
 
         checkPermission();
-//        CrashReport.testJavaCrash();
+        login();
+    }
+
+    private void login(){
+        LoginDialogFragment login = new LoginDialogFragment();
+        login.show(getSupportFragmentManager(),LoginDialogFragment.TAG);
     }
 
     private void checkPermission(){

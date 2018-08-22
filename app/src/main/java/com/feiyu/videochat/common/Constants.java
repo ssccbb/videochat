@@ -32,4 +32,13 @@ public class Constants {
     public static final int CONNECTTING_REFUSE = 0;
     public static final int CONNECTTING_ACCEPT = 1;
 
+    public static final String EXTIME = "extime";
+    public static final String API_KEY = "kinneks";
+
+    //UGC短视频播放类型
+    public static final String UGC_PLAY_TYPE = "ucg_play_type";
+    public static final int UGC_PLAY_TYPE_SINGLE = 1;//一个视频
+    public static final int UGC_PLAY_TYPE_MULTIPLE = 2;
+    public static final int UGC_PLAY_TYPE_NET = 3;
+
 }

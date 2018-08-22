@@ -12,6 +12,7 @@ import com.feiyu.videochat.R;
 import com.feiyu.videochat.adapter.VipVideoAdapter;
 import com.feiyu.videochat.common.XBaseFragment;
 import com.feiyu.videochat.model.HotVideoResults;
+import com.feiyu.videochat.ui.activitys.VideoBrowseActivity;
 import com.feiyu.videochat.ui.activitys.VipVideoActivity;
 import com.feiyu.videochat.views.XReloadableRecyclerContentLayout;
 
@@ -69,6 +70,7 @@ public class VideoPagerFragment extends XBaseFragment implements XRecyclerView.O
 
     @Override
     public void onItemClick(View view, int position, HotVideoResults hotVideo) {
+        startActivity(new Intent(getActivity(), VideoBrowseActivity.class));
     }
 
     @Override

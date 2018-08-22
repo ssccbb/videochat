@@ -1,5 +1,6 @@
 package com.feiyu.videochat.ui.activitys;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -80,7 +81,7 @@ public class VipVideoActivity extends XBaseActivity implements XRecyclerView.OnR
 
     @Override
     public void onItemClick(View view, int position, HotVideoResults hotVideo) {
-
+        startActivity(new Intent(this, VideoBrowseActivity.class));
     }
 
     @Override

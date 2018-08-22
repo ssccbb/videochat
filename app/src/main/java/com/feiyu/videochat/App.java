@@ -5,13 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Debug;
+import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
+import com.feiyu.videochat.common.Constants;
+import com.feiyu.videochat.net.TripleDES;
 import com.feiyu.videochat.net.api.Api;
 import com.feiyu.videochat.utils.SharedPreUtil;
+import com.feiyu.videochat.utils.Utils;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
@@ -23,6 +27,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 
 import cn.droidlover.xdroidmvp.imageloader.ILFactory;
+import cn.droidlover.xdroidmvp.log.XLog;
 import cn.droidlover.xdroidmvp.net.NetError;
 import cn.droidlover.xdroidmvp.net.NetProvider;
 import cn.droidlover.xdroidmvp.net.RequestHandler;
@@ -32,14 +37,17 @@ import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class App extends Application {
+    public static final String TAG = App.class.getSimpleName();
     private static Context context;
     private static App instance;
-
+    private String url;
 
     @Override
     public void onCreate() {
@@ -68,15 +76,24 @@ public class App extends Application {
                 Interceptor in = new Interceptor() {
                     @Override
                     public Response intercept(Interceptor.Chain chain) throws IOException {
+                        long l = System.currentTimeMillis() / 1000;
+                        l = 5 * 60 + l + Utils.getLongValue(App.getContext(), Constants.EXTIME);
+                        String token = getToken(chain.request().method(),
+                                chain.request().url().url().toString(),l);
                         Request request = chain.request()
                                 .newBuilder()
 //                                .addHeader("Cookie", SharedPreUtil.getSessionId())
 //                                .addHeader("imei", SystemUtil.getIMEI(context))
 //                                .addHeader("os", SystemUtil.getAppVersionName(context))
 //                                .addHeader("plam", System.getProperty("os.name"))
+                                .addHeader("Extime",Long.toString(l))
+                                .addHeader("apiVersion","1")
+                                .addHeader("Apitoken",token)
                                 .build();
+                        Log.e(TAG, "intercept: header == "+request.headers().toString() );
                         return chain.proceed(request);
                     }
+
                 };
                 ins[0] = in;
                 return ins;
@@ -84,7 +101,6 @@ public class App extends Application {
 
             @Override
             public void configHttps(OkHttpClient.Builder builder) {
-
             }
 
             @Override
@@ -195,6 +211,23 @@ public class App extends Application {
             cookieHeader.append(cookie.name()).append('=').append(cookie.value());
         }
         return cookieHeader.toString();
+    }
+
+    @NonNull
+    private String getToken(String method, String url, long l) {
+//        url = url.substring(0,url.length()-1);
+        String replace = url.replace(Api.API_BASE_URL + "/", "");
+        if (method.equals("GET")) {
+            int i = replace.indexOf("?");
+            if (i > 0) {
+                replace = replace.substring(0, i);
+            }
+        }
+        replace = replace.toLowerCase();
+
+        String token = Utils.getSha1(Constants.API_KEY + replace + Long.toHexString(l));
+        token = token.toLowerCase();
+        return token;
     }
 
     public static Context getContext() {

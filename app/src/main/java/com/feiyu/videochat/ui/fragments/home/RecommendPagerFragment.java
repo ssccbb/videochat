@@ -1,5 +1,6 @@
 package com.feiyu.videochat.ui.fragments.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,6 +12,7 @@ import com.feiyu.videochat.adapter.RecommendAdapter;
 import com.feiyu.videochat.adapter.VipVideoAdapter;
 import com.feiyu.videochat.common.XBaseFragment;
 import com.feiyu.videochat.model.HotVideoResults;
+import com.feiyu.videochat.ui.activitys.VideoBrowseActivity;
 import com.feiyu.videochat.views.XReloadableRecyclerContentLayout;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import butterknife.BindView;
 import cn.droidlover.xrecyclerview.XRecyclerView;
 import cn.droidlover.xstatecontroller.XStateController;
 
-public class RecommendPagerFragment extends XBaseFragment implements XRecyclerView.OnRefreshAndLoadMoreListener{
+public class RecommendPagerFragment extends XBaseFragment implements XRecyclerView.OnRefreshAndLoadMoreListener,RecommendAdapter.OnItemClickListener{
     public static RecommendPagerFragment instance;
     private RecommendAdapter mVideoAdapter;
 
@@ -76,5 +78,10 @@ public class RecommendPagerFragment extends XBaseFragment implements XRecyclerVi
     @Override
     public Object newP() {
         return null;
+    }
+
+    @Override
+    public void onItemClick(View view, int position, HotVideoResults hotVideo) {
+        startActivity(new Intent(getActivity(), VideoBrowseActivity.class));
     }
 }

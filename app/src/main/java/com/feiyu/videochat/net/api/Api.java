@@ -1,51 +1,26 @@
 package com.feiyu.videochat.net.api;
 
-import cn.droidlover.xdroidmvp.net.XApi;
+import android.app.Activity;
+
+import com.feiyu.videochat.model.PhoneVertifyResult;
+import com.feiyu.videochat.net.httprequest.ApiCallback;
+import com.feiyu.videochat.net.httprequest.CommonApiRequest;
+import com.feiyu.videochat.net.httprequest.CommonRetrofitCallback;
+import com.feiyu.videochat.net.httprequest.retrofit.JkRetrofitCallBack;
+
+import retrofit2.Call;
 
 public class Api {
+    public static final String API_BASE_URL = "http://ta.kinnekpro.com";
 
-    //release
-    public static final String API_BASE_URL = "http://a.kinnekpro.com";  // "http://gank.io/api/";（基础接口地址）load用户头像拼接
-    public static final String API_PAY_OR_IMAGE_URL = "http://a.kinnekpro.com/";  // 支付或者图片地址
+    private ApiService apiService;
 
-    //debug
-    public static final String API_BASE_URL_TEST = "http://ta.kinnekpro.com/";  // "http://gank.io/api/";（基础接口地址）load用户头像拼接
-    public static final String API_PAY_OR_IMAGE_URL_TEST = "http://ta.kinnekpro.com/";  // 支付或者图片地址
-
-    private static ApiService gankService;
-    private static ApiService PayService;
-
-    public static ApiService CreateApiService() {
-        if (gankService == null) {
-            synchronized (Api.class) {
-                if (gankService == null) {
-                    gankService = XApi.getInstance().getRetrofit(API_BASE_URL, true).create(ApiService.class);
-                }
-            }
-        }
-        return gankService;
+    public Api() {
+        apiService = CommonApiRequest.getInstance().create(ApiService.class,API_BASE_URL);
     }
 
-    public static ApiService CreateApiServiceTest() {
-        if (gankService == null) {
-            synchronized (Api.class) {
-                if (gankService == null) {
-                    gankService = XApi.getInstance().getRetrofit(API_BASE_URL_TEST, true).create(ApiService.class);
-                }
-            }
-        }
-        return gankService;
+    public void getVerifyCode(String phone, Activity activity, ApiCallback<PhoneVertifyResult> callback){
+        Call<PhoneVertifyResult> mCall = apiService.getVerifyCode(phone);
+        mCall.enqueue(new JkRetrofitCallBack(callback,activity,PhoneVertifyResult.class, CommonRetrofitCallback.REQUEST_ID_THREE));
     }
-
-    public static ApiService CreatePayOrImageApiService() {
-        if (PayService == null) {
-            synchronized (Api.class) {
-                if (PayService == null) {
-                    PayService = XApi.getInstance().getRetrofit(API_PAY_OR_IMAGE_URL, true).create(ApiService.class);
-                }
-            }
-        }
-        return PayService;
-    }
-
 }

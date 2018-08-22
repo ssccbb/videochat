@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:background="@color/app_black">
+
+    <SurfaceView
+        android:id="@+id/sv_video"
+        android:background="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <View
+        android:id="@+id/pause"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="130dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="?actionBarSize"
+            android:layout_height="?actionBarSize"
+            android:alpha="0.5"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_white_back"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/iv_more"
+            android:layout_width="?actionBarSize"
+            android:layout_height="?actionBarSize"
+            android:layout_alignParentEnd="true"
+            android:alpha="0.5"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/ic_more_horiz_white_24dp"
+            tools:ignore="VectorDrawableCompat" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="155dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <com.feiyu.videochat.views.CircleImageView
+            android:id="@+id/sdv_avatar"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/timg1"
+            android:padding="1dp" />
+
+        <ImageView
+            android:id="@+id/iv_follow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/sdv_avatar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-12dp"
+            android:src="@drawable/ic_video_follow" />
+
+        <TextView
+            android:id="@+id/tv_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sdv_avatar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="36dp"
+            android:clickable="false"
+            android:drawableTop="@mipmap/ic_video_like_normal"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/app_white" />
+
+        <TextView
+            android:id="@+id/tv_comment"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_like"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="19dp"
+            android:drawableTop="@mipmap/ic_video_comment"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/app_white" />
+
+        <TextView
+            android:id="@+id/tv_share"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_comment"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="19dp"
+            android:drawableTop="@mipmap/ic_video_share"
+            android:textColor="@color/app_white" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="13dp"
+            android:textColor="@color/app_white"
+            android:textSize="13sp" />
+
+        <ProgressBar
+            android:id="@+id/pb_progressbar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginBottom="11dp"
+            android:layout_marginTop="11dp"
+            android:indeterminate="true"
+            android:progressDrawable="@drawable/bg_short_video_progressbar" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center_vertical"
+            android:paddingEnd="8dp"
+            android:paddingStart="18dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_video_edit_comment" />
+
+            <TextView
+                android:id="@+id/tv_edit_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="32dp"
+                android:gravity="center_vertical"
+                android:text="期待你的精彩评论"
+                android:textColor="#BBBBBB" />
+
+            <TextView
+                android:id="@+id/tv_quote"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text=" @ "
+                android:textColor="#BBBBBB"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@mipmap/ic_short_player_start"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>
