@@ -1,6 +1,8 @@
 package com.feiyu.videochat.ui.activitys;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.Constants;
 import com.feiyu.videochat.common.XBaseActivity;
@@ -97,6 +100,10 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener,
     @Override
     public Object newP() {
         return null;
+    }
+
+    public static void open(Context context){
+        context.startActivity(new Intent(context,ChatActivity.class));
     }
 
     @Override

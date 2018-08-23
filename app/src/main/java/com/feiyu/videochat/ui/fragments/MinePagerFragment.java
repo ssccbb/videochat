@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.XBaseFragment;
+import com.feiyu.videochat.ui.activitys.VipActivity;
 
 import butterknife.BindView;
 
@@ -84,7 +85,7 @@ public class MinePagerFragment extends XBaseFragment implements View.OnClickList
 
         }
         if (v == mVip){
-
+            VipActivity.open(getActivity());
         }
         if (v == mLevel){
 

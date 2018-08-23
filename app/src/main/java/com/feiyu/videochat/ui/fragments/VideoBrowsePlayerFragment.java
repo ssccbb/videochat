@@ -62,6 +62,7 @@ public class VideoBrowsePlayerFragment extends XBaseFragment implements View.OnC
 
         mVideoView.getHolder().addCallback(callback);
         mVideoView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        mVideoView.getHolder().setKeepScreenOn(true);
         mPause.setOnClickListener(this);
         mStart.setOnClickListener(this);
     }
@@ -150,8 +151,6 @@ public class VideoBrowsePlayerFragment extends XBaseFragment implements View.OnC
         try {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            // 设置显示视频的SurfaceHolder
-            mediaPlayer.setDisplay(mVideoView.getHolder());
             // 设置播放的视频源
             mediaPlayer.setDataSource(App.getContext(),uri);
             Log.e(TAG+mVideoResult.position, "开始装载");
@@ -160,6 +159,8 @@ public class VideoBrowsePlayerFragment extends XBaseFragment implements View.OnC
 
                 @Override
                 public void onPrepared(MediaPlayer mp) {
+                    // 设置显示视频的SurfaceHolder
+                    mediaPlayer.setDisplay(mVideoView.getHolder());
                     Log.e(TAG+mVideoResult.position, "装载完成");
                     mediaPlayer.start();
                     // 按照初始位置播放

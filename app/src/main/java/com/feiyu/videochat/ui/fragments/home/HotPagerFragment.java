@@ -146,7 +146,7 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
 
     @Override
     public void onItemClick(View view, int position, HotVideoResults hotVideo) {
-        startActivity(new Intent(getActivity(), HostInfoActivity.class));
+        HostInfoActivity.open(getActivity());
     }
 
     @Override

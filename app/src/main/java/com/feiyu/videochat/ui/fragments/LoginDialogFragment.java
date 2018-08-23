@@ -21,7 +21,6 @@ import com.feiyu.videochat.R;
 import com.feiyu.videochat.model.PhoneVertifyResult;
 import com.feiyu.videochat.net.api.Api;
 import com.feiyu.videochat.net.httprequest.ApiCallback;
-import com.feiyu.videochat.net.httprequest.okhttp.CommonOkHttpCallBack;
 import com.feiyu.videochat.net.httprequest.okhttp.JKOkHttpParamKey;
 import com.feiyu.videochat.net.httprequest.okhttp.OkHttpRequestUtils;
 import com.feiyu.videochat.utils.StringUtil;
@@ -55,7 +54,7 @@ public class LoginDialogFragment extends DialogFragment implements View.OnClickL
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(android.support.v4.app.DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        setStyle(DialogFragment.STYLE_NO_TITLE, 0);
     }
 
     @Nullable

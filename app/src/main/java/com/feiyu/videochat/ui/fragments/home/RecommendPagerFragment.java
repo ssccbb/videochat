@@ -82,6 +82,6 @@ public class RecommendPagerFragment extends XBaseFragment implements XRecyclerVi
 
     @Override
     public void onItemClick(View view, int position, HotVideoResults hotVideo) {
-        startActivity(new Intent(getActivity(), VideoBrowseActivity.class));
+        VideoBrowseActivity.open(getActivity());
     }
 }

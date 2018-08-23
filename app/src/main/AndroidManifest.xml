@@ -50,6 +50,10 @@
             android:launchMode="standard"/>
         <activity android:name=".ui.activitys.VideoBrowseActivity"
             android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"/>
+        <activity android:name=".ui.activitys.VipActivity"
+            android:screenOrientation="portrait"
             android:launchMode="standard"/>
         <provider
             android:name="android.support.v4.content.FileProvider"

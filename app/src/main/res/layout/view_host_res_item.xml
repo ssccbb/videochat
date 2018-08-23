@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="59dp"
+    android:layout_height="50dp"
+    android:paddingRight="9dp">
+
+    <ImageView
+        android:id="@+id/img"
+        android:src="@drawable/timg1"
+        android:scaleType="centerCrop"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+</RelativeLayout>

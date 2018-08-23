@@ -1,6 +1,9 @@
 package com.feiyu.videochat.ui.activitys;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -68,6 +71,10 @@ public class IndexActivity extends XBaseActivity implements TabIndicatorView.OnT
     @Override
     public Object newP() {
         return null;
+    }
+
+    public static void open(Context context){
+        context.startActivity(new Intent(context,IndexActivity.class));
     }
 
     @Override

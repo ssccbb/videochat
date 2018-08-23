@@ -71,7 +71,7 @@ public class HomePagerFragment extends XBaseFragment implements ViewPager.OnPage
     @Override
     public void onClick(View v) {
         if (v == mSearch){
-            startActivity(new Intent(getActivity(), SearchActivity.class));
+            SearchActivity.open(getActivity());
         }
     }
 

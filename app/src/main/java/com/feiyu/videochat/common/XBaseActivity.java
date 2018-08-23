@@ -36,6 +36,7 @@ public abstract class XBaseActivity<P extends IPresent> extends XActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        AppManager.getInstance().removeActivity(this);
     }
 
     private P p;
@@ -56,6 +57,7 @@ public abstract class XBaseActivity<P extends IPresent> extends XActivity {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+//        AppManager.getInstance().addActivity(this);
     }
 
     @Override

@@ -1,10 +1,14 @@
 package com.feiyu.videochat.ui.activitys;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.WindowManager;
 
+import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.Constants;
 import com.feiyu.videochat.common.XBaseActivity;
@@ -48,5 +52,9 @@ public class VideoBrowseActivity extends XBaseActivity {
     @Override
     public Object newP() {
         return null;
+    }
+
+    public static void open(Context context){
+        context.startActivity(new Intent(context,VideoBrowseActivity.class));
     }
 }

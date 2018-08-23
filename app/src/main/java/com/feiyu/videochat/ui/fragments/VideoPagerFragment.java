@@ -70,12 +70,12 @@ public class VideoPagerFragment extends XBaseFragment implements XRecyclerView.O
 
     @Override
     public void onItemClick(View view, int position, HotVideoResults hotVideo) {
-        startActivity(new Intent(getActivity(), VideoBrowseActivity.class));
+        VideoBrowseActivity.open(getActivity());
     }
 
     @Override
     public void onVipItemClick() {
-        startActivity(new Intent(getActivity(), VipVideoActivity.class));
+        VipVideoActivity.open(getActivity());
     }
 
     @Override

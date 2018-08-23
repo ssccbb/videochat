@@ -1,11 +1,15 @@
 package com.feiyu.videochat.ui.activitys;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.widget.TextView;
+
+import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.adapter.VipVideoAdapter;
 import com.feiyu.videochat.common.XBaseActivity;
@@ -72,6 +76,10 @@ public class VipVideoActivity extends XBaseActivity implements XRecyclerView.OnR
         return null;
     }
 
+    public static void open(Context context){
+        context.startActivity(new Intent(context,VipVideoActivity.class));
+    }
+
     @Override
     public void onClick(View v) {
         if (v == mBack){
@@ -81,7 +89,7 @@ public class VipVideoActivity extends XBaseActivity implements XRecyclerView.OnR
 
     @Override
     public void onItemClick(View view, int position, HotVideoResults hotVideo) {
-        startActivity(new Intent(this, VideoBrowseActivity.class));
+        VideoBrowseActivity.open(this);
     }
 
     @Override

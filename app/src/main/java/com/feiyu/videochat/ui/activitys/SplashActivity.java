@@ -51,7 +51,7 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
 
     private void next(){
         finish();
-        startActivity(new Intent(this,IndexActivity.class));
+        IndexActivity.open(this);
     }
 
 

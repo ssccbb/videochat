@@ -13,24 +13,23 @@ import com.feiyu.videochat.common.XBaseActivity;
 
 import butterknife.BindView;
 
-public class MsgActivity extends XBaseActivity implements View.OnClickListener{
-    public static final String TAG = MsgActivity.class.getSimpleName();
+public class VipActivity extends XBaseActivity implements View.OnClickListener{
+    public static final String TAG = VipActivity.class.getSimpleName();
 
-    @BindView(R.id.tittle)
-    TextView mHead;
     @BindView(R.id.back)
     View mBack;
+    @BindView(R.id.tittle)
+    TextView mTittle;
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        String from = this.getIntent().getStringExtra(TAG);
-        mHead.setText(from == null ? "消息" : from);
+        mTittle.setText("VIP中心");
         mBack.setOnClickListener(this);
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_msg;
+        return R.layout.activity_vip;
     }
 
     @Override
@@ -38,10 +37,8 @@ public class MsgActivity extends XBaseActivity implements View.OnClickListener{
         return null;
     }
 
-    public static void open(Context context, String tittle){
-        Intent intent = new Intent(context, MsgActivity.class);
-        intent.putExtra(TAG,tittle);
-        context.startActivity(intent);
+    public static void open(Context context){
+        App.getContext().startActivity(new Intent(context,VipActivity.class));
     }
 
     @Override

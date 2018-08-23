@@ -56,19 +56,17 @@ public class MsgPagerFragment extends XBaseFragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent goTo = new Intent(getActivity(), MsgActivity.class);
         if (v == mSystem){
-            goTo.putExtra(MsgActivity.TAG,"系统消息");
+            MsgActivity.open(getActivity(),"系统消息");
         }
         if (v == mCommend){
-            goTo.putExtra(MsgActivity.TAG,"评论");
+            MsgActivity.open(getActivity(),"评论");
         }
         if (v == mLike){
-            goTo.putExtra(MsgActivity.TAG,"点赞");
+            MsgActivity.open(getActivity(),"点赞");
         }
         if (v == mBlack){
-            goTo.putExtra(MsgActivity.TAG,"黑名单");
+            MsgActivity.open(getActivity(),"黑名单");
         }
-        startActivity(goTo);
     }
 }
