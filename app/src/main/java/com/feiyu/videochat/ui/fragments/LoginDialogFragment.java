@@ -1,6 +1,7 @@
 package com.feiyu.videochat.ui.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,11 +19,14 @@ import android.widget.Toast;
 
 import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
+import com.feiyu.videochat.model.LoginInfoResults;
 import com.feiyu.videochat.model.PhoneVertifyResult;
+import com.feiyu.videochat.net.StateCode;
 import com.feiyu.videochat.net.api.Api;
 import com.feiyu.videochat.net.httprequest.ApiCallback;
 import com.feiyu.videochat.net.httprequest.okhttp.JKOkHttpParamKey;
 import com.feiyu.videochat.net.httprequest.okhttp.OkHttpRequestUtils;
+import com.feiyu.videochat.utils.SharedPreUtil;
 import com.feiyu.videochat.utils.StringUtils;
 import com.feiyu.videochat.utils.Utils;
 import com.feiyu.videochat.views.VCDialog;
@@ -41,8 +45,8 @@ public class LoginDialogFragment extends DialogFragment implements View.OnClickL
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            mGetCode.setText(getResources().getString(R.string.login_hint_get_code));
-            mGetCode.setTextColor(getResources().getColor(R.color.app_black));
+            mGetCode.setText("获取验证码");
+            mGetCode.setTextColor(Color.parseColor("#000000"));
             mGetCode.setEnabled(false);
         }
     };
@@ -87,8 +91,8 @@ public class LoginDialogFragment extends DialogFragment implements View.OnClickL
      * post获取验证码
      * */
     private void postVertifyCode(String phone){
-        mGetCode.setText(getResources().getString(R.string.login_hint_reget_code));
-        mGetCode.setTextColor(getResources().getColor(R.color.app_shadow));
+        mGetCode.setText("已发送验证码");
+        mGetCode.setTextColor(Color.parseColor("#999"));
         mGetCode.setEnabled(true);
         mUIHandler.sendEmptyMessageDelayed(0,60*1000);
         OkHttpRequestUtils.getInstance().requestByPost(Api.API_BASE_URL +"/user/send_verification_code",
@@ -121,9 +125,16 @@ public class LoginDialogFragment extends DialogFragment implements View.OnClickL
                 PhoneVertifyResult.class, getActivity(), new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
-                        Toast.makeText(mContext, response.toString(), Toast.LENGTH_SHORT).show();
                         Log.e(TAG, "onSuccess: "+(String) response );
-                        LoginDialogFragment.this.dismissAllowingStateLoss();
+                        LoginInfoResults userInfo = new LoginInfoResults(response.toString());
+                        if (userInfo.code.equals(StateCode.STATE_0000)){
+                            SharedPreUtil.saveLoginInfo(userInfo);
+                            Toast.makeText(mContext, "登录成功!", Toast.LENGTH_SHORT).show();
+                            LoginDialogFragment.this.dismissAllowingStateLoss();
+                        }else {
+                            Log.e(TAG, "onError: "+userInfo.message.toString() );
+                            Toast.makeText(mContext, userInfo.message.toString(), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override

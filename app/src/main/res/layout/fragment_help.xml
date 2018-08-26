@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    
+    <LinearLayout
+        android:background="@mipmap/bg_help_head"
+        android:layout_width="match_parent"
+        android:layout_height="209dp"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/view_status_bar_height">
+
+        <ImageView
+            android:id="@+id/back"
+            android:scaleType="center"
+            android:src="@mipmap/ic_white_back"
+            android:layout_width="55dp"
+            android:layout_height="55dp" />
+        <TextView
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/app_white"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginBottom="20dp"
+            android:text="@string/setting_help_hint"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:background="@color/app_white"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:paddingLeft="17dp"
+        android:paddingRight="14dp"
+        android:orientation="horizontal">
+        <TextView
+            android:text="在线客服"
+            android:textColor="@color/app_black"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="QQ：63713479"
+            android:textColor="@color/app_shadow"
+            android:textSize="13sp"
+            android:paddingLeft="@dimen/dp_30"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="1dp"
+        android:background="@color/app_white"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:paddingLeft="17dp"
+        android:paddingRight="14dp"
+        android:orientation="horizontal">
+        <TextView
+            android:text="官方微信"
+            android:textColor="@color/app_black"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="微信号：kinnekpro"
+            android:textColor="@color/app_shadow"
+            android:textSize="13sp"
+            android:paddingLeft="@dimen/dp_30"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="1dp"
+        android:background="@color/app_white"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:paddingLeft="17dp"
+        android:paddingRight="14dp"
+        android:orientation="horizontal">
+        <TextView
+            android:text="意见邮箱"
+            android:textColor="@color/app_black"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="kinnekpro@sina.com"
+            android:textColor="@color/app_shadow"
+            android:textSize="13sp"
+            android:paddingLeft="@dimen/dp_30"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:background="@color/app_white"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="17dp"
+        android:paddingRight="14dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:orientation="vertical">
+        <TextView
+            android:text="客服咨询时间"
+            android:textColor="@color/app_black"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="@string/setting_time_service_hint"
+            android:textColor="@color/app_shadow"
+            android:textSize="13sp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

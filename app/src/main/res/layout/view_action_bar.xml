@@ -10,6 +10,7 @@
     <ImageView
         android:id="@+id/back"
         android:scaleType="center"
+        android:background="?selectableItemBackground"
         android:src="@mipmap/ic_white_back"
         android:layout_width="55dp"
         android:layout_height="55dp" />
@@ -33,6 +34,7 @@
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:visibility="gone"
+        android:background="?selectableItemBackground"
         app:layout_constraintRight_toRightOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

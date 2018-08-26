@@ -5,7 +5,10 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 
+import com.feiyu.videochat.common.Constants;
+import com.feiyu.videochat.model.LoginInfoResults;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayInputStream;
@@ -116,6 +119,37 @@ public class SharedPreUtil {
         SharedPreferences.Editor editor = sp.edit();
         editor.remove(key);
         editor.apply();
+    }
+
+    public static void saveLoginInfo(LoginInfoResults loginInfoResults){
+        SharedPreferences.Editor editor = sp.edit();
+        if (isLogin()){
+            editor.remove(Constants.SP_LOGIN_INFO);
+        }
+        Gson gson = new Gson();
+        String json = gson.toJson(loginInfoResults);
+        Log.e(Constants.SP_LOGIN_INFO, "saveLoginInfo: "+json );
+        editor.putString(Constants.SP_LOGIN_INFO,json).commit();
+    }
+    
+    public static LoginInfoResults getLoginInfo(){
+        String json = sp.getString(Constants.SP_LOGIN_INFO, "");
+        if (StringUtils.isEmpty(json)){
+            return null;
+        }
+        Gson gson = new Gson();
+        LoginInfoResults user = gson.fromJson(json,LoginInfoResults.class);
+        return user;
+    }
+
+    public static void clearLoginInfo(){
+        SharedPreferences.Editor editor = sp.edit();
+        editor.remove(Constants.SP_LOGIN_INFO);
+        editor.commit();
+    }
+
+    public static boolean isLogin(){
+        return sp.contains(Constants.SP_LOGIN_INFO);
     }
 
     /*****************************          public method end                 ******************************/

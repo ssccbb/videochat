@@ -14,6 +14,8 @@ public class Constants {
             R.color.app_brown};
     public static final String[] home_indicator_tag = {"首页","视频","消息","我的"};
 
+    public static final String SP_LOGIN_INFO = "sp_login_info";
+
     /**
      * 用户状态
      * HOST_STATUS_BUSY 勿扰

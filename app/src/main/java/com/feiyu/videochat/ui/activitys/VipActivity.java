@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.XBaseActivity;
+import com.feiyu.videochat.views.ChargeDialog;
 
 import butterknife.BindView;
 
@@ -23,11 +25,14 @@ public class VipActivity extends XBaseActivity implements View.OnClickListener{
     View mBack;
     @BindView(R.id.tittle)
     TextView mTittle;
+    @BindView(R.id.open_vip)
+    View open;
 
     @Override
     public void initData(Bundle savedInstanceState) {
         mTittle.setText("VIP中心");
         mBack.setOnClickListener(this);
+        open.setOnClickListener(this);
     }
 
     @Override
@@ -49,5 +54,23 @@ public class VipActivity extends XBaseActivity implements View.OnClickListener{
         if (v == mBack){
             this.finish();
         }
+        if (v == open){
+            showChargeDialog(58);
+        }
+    }
+
+    private void showChargeDialog(int price){
+        ChargeDialog chargeDialog = new ChargeDialog();
+        Bundle bundle = new Bundle();
+        bundle.putInt(ChargeDialog.TAG, price);
+        chargeDialog.addOnChargeClickListener(new ChargeDialog.onChargeClickListener() {
+            @Override
+            public void onChargeClick(int charge_value) {
+                chargeDialog.dismissAllowingStateLoss();
+                Toast.makeText(VipActivity.this, ""+charge_value, Toast.LENGTH_SHORT).show();
+            }
+        });
+        chargeDialog.setArguments(bundle);
+        chargeDialog.show(this.getSupportFragmentManager(), ChargeDialog.TAG);
     }
 }

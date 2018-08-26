@@ -142,6 +142,7 @@
                 android:layout_height="7dp" />
         </RelativeLayout>
         <ImageView
+            android:id="@+id/open_vip"
             android:scaleType="fitEnd"
             android:layout_margin="15dp"
             android:src="@mipmap/ic_vip_open"

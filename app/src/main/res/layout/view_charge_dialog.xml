@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_charge_dialog"
+    android:padding="@dimen/dp_15">
+    
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="支付订单"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/cancel"
+            android:text="取消支付"
+            android:textColor="@color/app_shadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/price"
+        android:text="50.00"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="-3dp"
+        android:layout_marginTop="35dp"
+        android:textColor="@color/app_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="支付总金额"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    
+    <View
+        android:alpha="0.3"
+        android:layout_marginTop="10dp"
+        android:background="@color/app_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <LinearLayout
+        android:id="@+id/alipay"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="?selectableItemBackground"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+        <ImageView
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+        <TextView
+            android:text="支付宝支付"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:src="@mipmap/ic_arrow_right"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp" />
+    </LinearLayout>
+
+</LinearLayout>

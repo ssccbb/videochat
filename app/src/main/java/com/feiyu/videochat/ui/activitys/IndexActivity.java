@@ -19,6 +19,7 @@ import com.feiyu.videochat.R;
 import com.feiyu.videochat.adapter.HomePagerAdapter;
 import com.feiyu.videochat.common.XBaseActivity;
 import com.feiyu.videochat.ui.fragments.LoginDialogFragment;
+import com.feiyu.videochat.utils.SharedPreUtil;
 import com.feiyu.videochat.views.TabIndicatorView;
 import butterknife.BindView;
 
@@ -45,6 +46,9 @@ public class IndexActivity extends XBaseActivity implements TabIndicatorView.OnT
     }
 
     private void login(){
+        if (SharedPreUtil.isLogin()){
+            return;
+        }
         LoginDialogFragment login = new LoginDialogFragment();
         login.show(getSupportFragmentManager(),LoginDialogFragment.TAG);
     }

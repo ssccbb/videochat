@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:background="@mipmap/bg_charge_head"
+            android:layout_width="match_parent"
+            android:layout_height="167dp"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/view_status_bar_height">
+
+            <ImageView
+                android:id="@+id/back"
+                android:scaleType="center"
+                android:background="?selectableItemBackground"
+                android:src="@mipmap/ic_white_back"
+                android:layout_width="55dp"
+                android:layout_height="55dp" />
+            <TextView
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:textColor="@color/app_white"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginBottom="20dp"
+                android:text="账户余额：0"
+                android:drawablePadding="5dp"
+                android:drawableRight="@mipmap/ic_account_left"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/item_500"
+            android:foreground="?android:selectableItemBackground"
+            android:background="@color/app_white"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:src="@mipmap/ic_account_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="500"
+                android:textColor="@color/app_black"
+                android:layout_marginLeft="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="¥ 50.00"
+                android:gravity="center"
+                android:textColor="@color/app_red"
+                android:background="@mipmap/bg_charge_item_price"
+                android:layout_width="100dp"
+                android:layout_height="35dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/item_1580"
+            android:foreground="?android:selectableItemBackground"
+            android:background="@color/app_white"
+            android:layout_marginTop="1dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:src="@mipmap/ic_account_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="1580"
+                android:textColor="@color/app_black"
+                android:layout_marginLeft="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="¥ 158.00"
+                android:gravity="center"
+                android:textColor="@color/app_red"
+                android:background="@mipmap/bg_charge_item_price"
+                android:layout_width="100dp"
+                android:layout_height="35dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/item_2980"
+            android:foreground="?android:selectableItemBackground"
+            android:background="@color/app_white"
+            android:layout_marginTop="1dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:src="@mipmap/ic_account_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="2980"
+                android:textColor="@color/app_black"
+                android:layout_marginLeft="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="¥ 298.00"
+                android:gravity="center"
+                android:textColor="@color/app_red"
+                android:background="@mipmap/bg_charge_item_price"
+                android:layout_width="100dp"
+                android:layout_height="35dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/item_5200"
+            android:foreground="?android:selectableItemBackground"
+            android:background="@color/app_white"
+            android:layout_marginTop="1dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:src="@mipmap/ic_account_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="5200"
+                android:textColor="@color/app_black"
+                android:layout_marginLeft="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="¥ 520.00"
+                android:gravity="center"
+                android:textColor="@color/app_red"
+                android:background="@mipmap/bg_charge_item_price"
+                android:layout_width="100dp"
+                android:layout_height="35dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/item_13140"
+            android:foreground="?android:selectableItemBackground"
+            android:background="@color/app_white"
+            android:layout_marginTop="1dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:src="@mipmap/ic_account_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="13140"
+                android:textColor="@color/app_black"
+                android:layout_marginLeft="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="¥ 1314.00"
+                android:gravity="center"
+                android:textColor="@color/app_red"
+                android:background="@mipmap/bg_charge_item_price"
+                android:layout_width="100dp"
+                android:layout_height="35dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/item_28880"
+            android:foreground="?android:selectableItemBackground"
+            android:background="@color/app_white"
+            android:layout_marginTop="1dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:src="@mipmap/ic_account_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="28880"
+                android:textColor="@color/app_black"
+                android:layout_marginLeft="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="¥ 2888.00"
+                android:gravity="center"
+                android:textColor="@color/app_red"
+                android:background="@mipmap/bg_charge_item_price"
+                android:layout_width="100dp"
+                android:layout_height="35dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/item_38880"
+            android:foreground="?android:selectableItemBackground"
+            android:background="@color/app_white"
+            android:layout_marginTop="1dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:src="@mipmap/ic_account_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="38880"
+                android:textColor="@color/app_black"
+                android:layout_marginLeft="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="¥ 3888.00"
+                android:gravity="center"
+                android:textColor="@color/app_red"
+                android:background="@mipmap/bg_charge_item_price"
+                android:layout_width="100dp"
+                android:layout_height="35dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/question"
+            android:text="充值遇到问题？点此解决"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/app_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</ScrollView>

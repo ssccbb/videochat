@@ -19,7 +19,7 @@
                 android:layout_marginTop="@dimen/common_divider_normal_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:selectableItemBackground"
+                android:background="?selectableItemBackground"
                 app:icon="@mipmap/ic_account_left"
                 app:notice="我的钱包"/>
             <com.feiyu.videochat.views.mine.SelectItemView
@@ -27,7 +27,7 @@
                 android:layout_marginTop="@dimen/common_divider_normal_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:selectableItemBackground"
+                android:background="?selectableItemBackground"
                 app:icon="@mipmap/ic_me_profit"
                 app:notice="我的收益"/>
             <com.feiyu.videochat.views.mine.SelectItemView
@@ -35,7 +35,7 @@
                 android:layout_marginTop="@dimen/common_divider_normal_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:selectableItemBackground"
+                android:background="?selectableItemBackground"
                 app:icon="@mipmap/ic_profile_vip"
                 app:notice="会员中心"/>
             <com.feiyu.videochat.views.mine.SelectItemView
@@ -43,7 +43,7 @@
                 android:layout_marginTop="@dimen/common_divider_normal_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:selectableItemBackground"
+                android:background="?selectableItemBackground"
                 app:icon="@mipmap/ic_profile_level"
                 app:notice="我的等级"/>
             <com.feiyu.videochat.views.mine.SelectItemView
@@ -51,7 +51,7 @@
                 android:layout_marginTop="@dimen/common_divider_normal_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:selectableItemBackground"
+                android:background="?selectableItemBackground"
                 app:icon="@mipmap/ic_me_behost"
                 app:notice="我要当主播"/>
             <com.feiyu.videochat.views.mine.SelectItemView
@@ -59,7 +59,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:selectableItemBackground"
+                android:background="?selectableItemBackground"
                 app:icon="@mipmap/ic_me_help"
                 app:notice="帮助中心"/>
             <com.feiyu.videochat.views.mine.SelectItemView
@@ -67,7 +67,7 @@
                 android:layout_marginTop="@dimen/common_divider_normal_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:selectableItemBackground"
+                android:background="?selectableItemBackground"
                 app:icon="@mipmap/ic_me_setting"
                 app:notice="设置"/>
         </LinearLayout>
