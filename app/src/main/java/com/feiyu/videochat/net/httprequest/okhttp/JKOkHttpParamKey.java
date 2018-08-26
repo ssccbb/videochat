@@ -7,6 +7,7 @@ package com.feiyu.videochat.net.httprequest.okhttp;
  * @createTime: 2017/4/11
  */
 public class JKOkHttpParamKey {
+    public final static String[] SINGLE_PAGE = {"page"};
     public final static String[] PHONE_VERTIFY_CODE = {"phone"};
     public final static String[] VERTIFY_CODE_LOGIN = {"phone","verification_code","os"};
 }

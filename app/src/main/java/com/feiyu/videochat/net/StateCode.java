@@ -6,7 +6,7 @@ package com.feiyu.videochat.net;
  * 接口错误列表
  */
 public class StateCode {
-    public static final String STATE_0000 = "0000";
+    public static final String STATE_0000 = "0";
     /* 用户接口 */
     public static final String STATE_0001 = "0001";
     public static final String STATE_0002 = "0002";

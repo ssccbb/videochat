@@ -7,7 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.feiyu.videochat.utils.StringUtil;
+import com.feiyu.videochat.utils.StringUtils;
 
 import okhttp3.Response;
 import okhttp3.WebSocket;
@@ -271,7 +271,7 @@ public class JkWsManagerImpl implements IJkWsManager{
      * @return
      */
     private void initWebSocket() {
-        if (StringUtil.isNotEmpty(wsUrl)
+        if (StringUtils.isNotEmpty(wsUrl)
                 && mWebSocketListener != null) {
             JkOkHttpWebSocketUtils.getInstance().initWsClient(wsUrl, mWebSocketListener);
         }

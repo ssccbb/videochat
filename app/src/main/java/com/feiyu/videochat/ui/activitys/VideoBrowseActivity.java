@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.WindowManager;
@@ -18,6 +19,9 @@ import com.feiyu.videochat.ui.fragments.VideoBrowseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 视频浏览页面
+ * */
 public class VideoBrowseActivity extends XBaseActivity {
     public static final String TAG = VideoBrowseActivity.class.getSimpleName();
     public static final String SHORT_VIDEO_LIST = "short_video_list";
@@ -35,12 +39,11 @@ public class VideoBrowseActivity extends XBaseActivity {
     @Override
     public void initData(Bundle savedInstanceState) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ArrayList<UGCVideoResult> data = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            UGCVideoResult video = new UGCVideoResult(i);
-            data.add(video);
-        }
-        VideoBrowseFragment fragment = VideoBrowseFragment.newInstance(Constants.UGC_PLAY_TYPE_MULTIPLE,1,data.get(0),data);
+        Bundle extras = this.getIntent().getExtras();
+        int page = extras.getInt(DATA_PAGE);
+        UGCVideoResult video = extras.getParcelable(SHORT_VIDEO);
+        ArrayList<UGCVideoResult> videos = extras.getParcelableArrayList(SHORT_VIDEO_LIST);
+        VideoBrowseFragment fragment = VideoBrowseFragment.newInstance(Constants.UGC_PLAY_TYPE_MULTIPLE,page,video,videos);
         ft.add(R.id.container,fragment,VideoBrowseFragment.TAG).show(fragment).commitAllowingStateLoss();
     }
 
@@ -54,7 +57,13 @@ public class VideoBrowseActivity extends XBaseActivity {
         return null;
     }
 
-    public static void open(Context context){
-        context.startActivity(new Intent(context,VideoBrowseActivity.class));
+    public static void open(Context context,int dataPage,UGCVideoResult currentData,ArrayList<UGCVideoResult> datas){
+        Intent goTo = new Intent(context, VideoBrowseActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(SHORT_VIDEO,currentData);
+        bundle.putParcelableArrayList(SHORT_VIDEO_LIST,datas);
+        bundle.putInt(DATA_PAGE,dataPage);
+        goTo.putExtras(bundle);
+        context.startActivity(goTo);
     }
 }

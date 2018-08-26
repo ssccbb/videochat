@@ -1,8 +1,6 @@
 package com.feiyu.videochat.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +10,7 @@ import android.widget.TextView;
 
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.Constants;
-import com.feiyu.videochat.model.HotVideoResults;
-import com.zhouwei.blurlibrary.EasyBlur;
+import com.feiyu.videochat.model.HotVideoResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +21,7 @@ import java.util.List;
 public class RecommendAdapter extends RecyclerView.Adapter implements View.OnClickListener {
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<HotVideoResults> mList = new ArrayList();
+    private List<HotVideoResult> mList = new ArrayList();
     private OnItemClickListener mOnItemClickListener;
 
     public RecommendAdapter(Context context, List list) {
@@ -55,7 +52,7 @@ public class RecommendAdapter extends RecyclerView.Adapter implements View.OnCli
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HotVideoHolder) {
-            HotVideoResults hotVideo = getItem(position);
+            HotVideoResult hotVideo = getItem(position);
             HotVideoHolder hotVideoHolder = (HotVideoHolder) holder;
             hotVideoHolder.root.setTag(hotVideo);
             hotVideoHolder.root.setOnClickListener(this::onClick);
@@ -76,7 +73,7 @@ public class RecommendAdapter extends RecyclerView.Adapter implements View.OnCli
         return mList.size();
     }
 
-    public HotVideoResults getItem(int position) {
+    public HotVideoResult getItem(int position) {
         return mList.get(position);
     }
 
@@ -84,8 +81,8 @@ public class RecommendAdapter extends RecyclerView.Adapter implements View.OnCli
     @Override
     public void onClick(View v) {
         Object object = v.getTag();
-        if (object instanceof HotVideoResults && mOnItemClickListener != null) {
-            HotVideoResults hotVideo = (HotVideoResults) object;
+        if (object instanceof HotVideoResult && mOnItemClickListener != null) {
+            HotVideoResult hotVideo = (HotVideoResult) object;
             mOnItemClickListener.onItemClick(v, hotVideo.position, hotVideo);
         }
     }
@@ -108,7 +105,7 @@ public class RecommendAdapter extends RecyclerView.Adapter implements View.OnCli
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, int position, HotVideoResults hotVideo);
+        void onItemClick(View view, int position, HotVideoResult hotVideo);
     }
 
     public void addOnItemClickListener(OnItemClickListener listener) {

@@ -7,11 +7,16 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+
+import com.bumptech.glide.Glide;
 import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.XBaseFragment;
 import com.feiyu.videochat.model.UGCVideoResult;
+import com.feiyu.videochat.utils.StringUtils;
+
 import butterknife.BindView;
 import android.view.SurfaceHolder.Callback;
 import android.media.AudioManager;
@@ -39,6 +44,8 @@ public class VideoBrowsePlayerFragment extends XBaseFragment implements View.OnC
     View mPause;
     @BindView(R.id.pb_progressbar)
     ProgressBar mProgressBar;
+    @BindView(R.id.cover)
+    ImageView mCover;
 
     public VideoBrowsePlayerFragment() {
     }
@@ -60,6 +67,7 @@ public class VideoBrowsePlayerFragment extends XBaseFragment implements View.OnC
         super.onViewCreated(view, savedInstanceState);
         mVideoResult = getArguments().getParcelable(TAG);
 
+        Glide.with(App.getContext()).load(mVideoResult.cover_url).crossFade().centerCrop().thumbnail(0.1f).into(mCover);
         mVideoView.getHolder().addCallback(callback);
         mVideoView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         mVideoView.getHolder().setKeepScreenOn(true);
@@ -87,7 +95,7 @@ public class VideoBrowsePlayerFragment extends XBaseFragment implements View.OnC
         // SurfaceHolder被修改的时候回调
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
-            Log.e(TAG+mVideoResult.position, "SurfaceHolder 被销毁");
+            Log.e(TAG, "SurfaceHolder 被销毁");
             // 销毁SurfaceHolder的时候记录当前的播放位置并停止播放
 //            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
 //                currentPosition = mediaPlayer.getCurrentPosition();
@@ -98,7 +106,7 @@ public class VideoBrowsePlayerFragment extends XBaseFragment implements View.OnC
 
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
-            Log.e(TAG+mVideoResult.position, "SurfaceHolder 被创建");
+            Log.e(TAG, "SurfaceHolder 被创建");
             if (currentPosition == 0){
                 play(0);
                 return;
@@ -112,7 +120,7 @@ public class VideoBrowsePlayerFragment extends XBaseFragment implements View.OnC
 
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-                Log.e(TAG+mVideoResult.position, "SurfaceHolder 大小被改变");
+                Log.e(TAG, "SurfaceHolder 大小被改变");
         }
 
     };
@@ -147,46 +155,54 @@ public class VideoBrowsePlayerFragment extends XBaseFragment implements View.OnC
     protected void play(final int msec) {
         if (!getUserVisibleHint()) return;
         // 获取视频文件地址
-        Uri uri = Uri.parse("android.resource://com.feiyu.videochat/"+R.raw.test);
+        //Uri uri = Uri.parse("android.resource://com.feiyu.videochat/"+R.raw.test);
+        Log.e(TAG, "play: "+mVideoResult.video_url );
+        Uri uri = Uri.parse(StringUtils.convertUrlStr(mVideoResult.video_url));
         try {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             // 设置播放的视频源
             mediaPlayer.setDataSource(App.getContext(),uri);
-            Log.e(TAG+mVideoResult.position, "开始装载");
+            Log.e(TAG, "开始装载");
             mediaPlayer.prepareAsync();
             mediaPlayer.setOnPreparedListener(new OnPreparedListener() {
 
                 @Override
                 public void onPrepared(MediaPlayer mp) {
-                    // 设置显示视频的SurfaceHolder
-                    mediaPlayer.setDisplay(mVideoView.getHolder());
-                    Log.e(TAG+mVideoResult.position, "装载完成");
-                    mediaPlayer.start();
-                    // 按照初始位置播放
-                    mediaPlayer.seekTo(msec);
-                    /*// 设置进度条的最大进度为视频流的最大播放时长
-                    seekBar.setMax(mediaPlayer.getDuration());
-                    // 开始线程，更新进度条的刻度
-                    new Thread() {
+                    try {
+                        // 设置显示视频的SurfaceHolder
+                        mediaPlayer.setDisplay(mVideoView.getHolder());
+                        Log.e(TAG, "装载完成");
+                        mCover.setVisibility(View.GONE);
+                        mediaPlayer.start();
+                        // 按照初始位置播放
+                        mediaPlayer.seekTo(msec);
+                        /*// 设置进度条的最大进度为视频流的最大播放时长
+                        seekBar.setMax(mediaPlayer.getDuration());
+                        // 开始线程，更新进度条的刻度
+                        new Thread() {
 
-                        @Override
-                        public void run() {
-                            try {
-                                isPlaying = true;
-                                while (isPlaying) {
-                                    int current = mediaPlayer.getCurrentPosition();
-                                    //seekBar.setProgress(current);
+                            @Override
+                            public void run() {
+                                try {
+                                    isPlaying = true;
+                                    while (isPlaying) {
+                                        int current = mediaPlayer.getCurrentPosition();
+                                        //seekBar.setProgress(current);
 
-                                    sleep(500);
+                                        sleep(500);
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
-                            } catch (Exception e) {
-                                e.printStackTrace();
                             }
-                        }
-                    }.start();*/
-                    isPlaying = true;
-                    mProgressBar.setVisibility(View.GONE);
+                        }.start();*/
+                        isPlaying = true;
+                        mProgressBar.setVisibility(View.GONE);
+                    }catch (IllegalArgumentException e){
+                        //提前结束了activity，surface被提前释放异常
+                        Log.e(TAG, "onPrepared: "+e.toString() );
+                    }
                 }
             });
             mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
@@ -204,6 +220,7 @@ public class VideoBrowsePlayerFragment extends XBaseFragment implements View.OnC
                 public boolean onError(MediaPlayer mp, int what, int extra) {
                     // 发生错误重新播放
 //                    play(0);
+                    Toast.makeText(getActivity(), "播放失败", Toast.LENGTH_SHORT).show();
                     stop();
                     isPlaying = false;
                     return false;
@@ -211,7 +228,7 @@ public class VideoBrowsePlayerFragment extends XBaseFragment implements View.OnC
             });
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(TAG+mVideoResult.position, "play error: "+e.toString() );
+            Log.e(TAG, "play error: "+e.toString() );
         }
 
     }

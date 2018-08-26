@@ -23,7 +23,7 @@ import com.feiyu.videochat.net.api.Api;
 import com.feiyu.videochat.net.httprequest.ApiCallback;
 import com.feiyu.videochat.net.httprequest.okhttp.JKOkHttpParamKey;
 import com.feiyu.videochat.net.httprequest.okhttp.OkHttpRequestUtils;
-import com.feiyu.videochat.utils.StringUtil;
+import com.feiyu.videochat.utils.StringUtils;
 import com.feiyu.videochat.utils.Utils;
 import com.feiyu.videochat.views.VCDialog;
 
@@ -154,7 +154,7 @@ public class LoginDialogFragment extends DialogFragment implements View.OnClickL
         if (v == mLogin){
             String phone = mPhone.getText().toString().trim();
             String code = mCode.getText().toString().trim();
-            if (!Utils.isMobile(phone) || StringUtil.isEmpty(code)){
+            if (!Utils.isMobile(phone) || StringUtils.isEmpty(code)){
                 Toast.makeText(mContext, "输入有误,请重新输入", Toast.LENGTH_SHORT).show();
                 return;
             }

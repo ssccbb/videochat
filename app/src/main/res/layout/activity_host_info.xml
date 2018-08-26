@@ -18,6 +18,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/app_pink">
                 <ImageView
+                    android:id="@+id/cover"
                     android:src="@drawable/timg1"
                     android:scaleType="centerCrop"
                     android:layout_width="match_parent"
@@ -31,6 +32,7 @@
                     android:layout_height="55dp" />
 
                 <ImageView
+                    android:id="@+id/status"
                     android:layout_marginBottom="5dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
@@ -50,6 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/nickname"
                     android:text="皮皮虾一起走"
                     android:textColor="@color/app_black"
                     android:textSize="@dimen/common_navigation_text_size"
@@ -57,6 +60,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/price"
                     tools:text="30"
                     android:textSize="13sp"
                     android:textColor="@color/app_yellowdark"
@@ -113,6 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
+                    android:id="@+id/follow"
                     android:layout_alignParentRight="true"
                     android:src="@mipmap/ic_follow_selected"
                     android:layout_width="70dp"
@@ -202,6 +207,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/online_time"
                     android:text="16:00-24:00"
                     android:textSize="14sp"
                     android:textColor="@color/app_shadow"
@@ -222,6 +228,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/line_agree"
                     android:text="100%"
                     android:textSize="14sp"
                     android:textColor="@color/app_shadow"
@@ -242,6 +249,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/line_time"
                     android:text="69小时58分钟21秒"
                     android:textSize="14sp"
                     android:textColor="@color/app_shadow"
@@ -262,6 +270,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/sign"
                     android:layout_marginTop="@dimen/dp_5"
                     android:text="这个人很懒，什么都没有留下"
                     android:textSize="14sp"

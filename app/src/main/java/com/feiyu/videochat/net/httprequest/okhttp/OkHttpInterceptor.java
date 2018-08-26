@@ -42,7 +42,7 @@ public class OkHttpInterceptor implements Interceptor {
         Protocol protocol = connection != null ? connection.protocol() : Protocol.HTTP_1_1;
         // 比如: --> POST http://121.40.227.8:8088/api http/1.1
         String requestStartMessage = "--> " + request.method() + ' ' + request.url() + ' ' + protocol;
-        Log.e(TAG, "#requestStartMessage=" + requestStartMessage);
+        //Log.e(TAG, "#requestStartMessage=" + requestStartMessage);
         // 打印 Response
         Response response;
         try {
@@ -53,7 +53,7 @@ public class OkHttpInterceptor implements Interceptor {
         ResponseBody responseBody = response.body();
         long contentLength = responseBody.contentLength();
         if (bodyEncoded(response.headers())) {
-            Log.e(TAG,"#bodyEncoded");
+            //Log.e(TAG,"#bodyEncoded");
         } else {
             BufferedSource source = responseBody.source();
             // Buffer the entire body.
@@ -72,7 +72,7 @@ public class OkHttpInterceptor implements Interceptor {
                             String resp = new String(chain.request().method().equals("POST")
                                     ? TripleDES.decryptMode(buffer.readString(charset)).getBytes() : responseBody.bytes(), "UTF-8");
                             responseBody = ResponseBody.create(mediaType, resp);
-                            Log.e(TAG, "#body= "+resp );
+                            //Log.e(TAG, "#body= "+resp );
                             return response.newBuilder().body(responseBody).build();
                         } else {
                             XLog.d(TAG, "data : " + " maybe [file part] , too large too print , ignored!");

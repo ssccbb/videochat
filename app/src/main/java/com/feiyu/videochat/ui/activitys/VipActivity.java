@@ -13,6 +13,9 @@ import com.feiyu.videochat.common.XBaseActivity;
 
 import butterknife.BindView;
 
+/**
+ * VIP开通页面
+ * */
 public class VipActivity extends XBaseActivity implements View.OnClickListener{
     public static final String TAG = VipActivity.class.getSimpleName();
 

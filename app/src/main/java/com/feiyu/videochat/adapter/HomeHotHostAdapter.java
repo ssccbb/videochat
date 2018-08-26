@@ -9,9 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.Constants;
-import com.feiyu.videochat.model.HotVideoResults;
+import com.feiyu.videochat.model.HotHostResults;
+import com.feiyu.videochat.utils.StringUtils;
 import com.feiyu.videochat.views.banner.AutoScrollViewPager;
 import com.feiyu.videochat.views.banner.PagerIndicatorView;
 import com.feiyu.videochat.views.banner.ScaleTransformer;
@@ -21,20 +24,21 @@ import java.util.List;
 
 /**
  * Created on 2016/6/11.
+ * 用于首页热门host
  */
-public class HomeHotVideoAdapter extends RecyclerView.Adapter implements View.OnClickListener {
-
+public class HomeHotHostAdapter extends RecyclerView.Adapter implements View.OnClickListener {
+    public static final String TAG = HomeHotHostAdapter.class.getSimpleName();
     public static final int AUTO_SCROLL_DELAYED_MS = 3000;
     private static final int ITEM_TYPE_VIDEO = 0;
     public static final int ITEM_TYPE_BANNER = 1;
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<HotVideoResults> mList = new ArrayList();
+    private List<HotHostResults.HotHostResult> mList = new ArrayList();
     private HomeHotBannerAdapter mBannerAdapter;
     private OnItemClickListener mOnItemClickListener;
 
-    public HomeHotVideoAdapter(Context context, List list) {
+    public HomeHotHostAdapter(Context context, List list) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mList.clear();
@@ -66,20 +70,22 @@ public class HomeHotVideoAdapter extends RecyclerView.Adapter implements View.On
         }
 
         View view = mInflater.inflate(R.layout.view_hot_video_item, parent, false);
-        return new HotVideoHolder(view);
+        return new HotHostHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof HotVideoHolder) {
-            HotVideoResults hotVideo = getItem(position);
-            HotVideoHolder hotVideoHolder = (HotVideoHolder) holder;
+        if (holder instanceof HotHostHolder) {
+            HotHostResults.HotHostResult hotHost = getItem(position);
+            HotHostHolder hotHostHolder = (HotHostHolder) holder;
 
-            hotVideoHolder.root.setTag(hotVideo);
-            hotVideoHolder.root.setOnClickListener(this);
-            hotVideoHolder.cover.setBackground(
+            hotHostHolder.root.setTag(hotHost);
+            hotHostHolder.root.setOnClickListener(this);
+            hotHostHolder.cover.setBackground(
                     mContext.getResources().getDrawable(
                             Constants.round_color[(int) (Math.random()*4)]));
+            hotHostHolder.name.setText(hotHost.nickname);
+            Glide.with(App.getContext()).load(StringUtils.convertUrlStr(hotHost.avatar)).crossFade().thumbnail(0.1f).centerCrop().into(hotHostHolder.cover);
             return;
         }
 
@@ -135,7 +141,7 @@ public class HomeHotVideoAdapter extends RecyclerView.Adapter implements View.On
         return mList.size();
     }
 
-    public HotVideoResults getItem(int position) {
+    public HotHostResults.HotHostResult getItem(int position) {
         if (position > 0 && mBannerAdapter != null && mBannerAdapter.getCount() != 0) {
             return mList.get(position - 1);
         }
@@ -146,20 +152,20 @@ public class HomeHotVideoAdapter extends RecyclerView.Adapter implements View.On
     @Override
     public void onClick(View v) {
         Object object = v.getTag();
-        if (object instanceof HotVideoResults && mOnItemClickListener != null) {
-            HotVideoResults hotVideo = (HotVideoResults) object;
-            mOnItemClickListener.onItemClick(v, hotVideo.position, hotVideo);
+        if (object instanceof HotHostResults.HotHostResult && mOnItemClickListener != null) {
+            HotHostResults.HotHostResult hotHost = (HotHostResults.HotHostResult) object;
+            mOnItemClickListener.onItemClick(v, hotHost.position, hotHost);
         }
     }
 
-    class HotVideoHolder extends RecyclerView.ViewHolder {
+    class HotHostHolder extends RecyclerView.ViewHolder {
         public View root;
         public ImageView cover;
         public ImageView status;
         public ImageView level;
         public TextView name;
 
-        public HotVideoHolder(View itemView) {
+        public HotHostHolder(View itemView) {
             super(itemView);
             root = itemView;
             cover = root.findViewById(R.id.cover);
@@ -182,7 +188,7 @@ public class HomeHotVideoAdapter extends RecyclerView.Adapter implements View.On
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, int position, HotVideoResults hotVideo);
+        void onItemClick(View view, int position, HotHostResults.HotHostResult hotHost);
     }
 
     public void addOnItemClickListener(OnItemClickListener listener) {

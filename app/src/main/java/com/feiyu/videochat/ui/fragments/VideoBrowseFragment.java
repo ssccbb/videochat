@@ -1,31 +1,20 @@
 package com.feiyu.videochat.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.view.View;
-import android.widget.TextView;
 
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.adapter.ShortCoverAdapter;
-import com.feiyu.videochat.adapter.VipVideoAdapter;
 import com.feiyu.videochat.common.Constants;
 import com.feiyu.videochat.common.XBaseFragment;
-import com.feiyu.videochat.model.HotVideoResults;
 import com.feiyu.videochat.model.UGCVideoResult;
 import com.feiyu.videochat.ui.activitys.VideoBrowseActivity;
-import com.feiyu.videochat.ui.activitys.VipVideoActivity;
 import com.feiyu.videochat.views.VerticalScrollViewPager;
-import com.feiyu.videochat.views.XReloadableRecyclerContentLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import cn.droidlover.xrecyclerview.XRecyclerView;
-import cn.droidlover.xstatecontroller.XStateController;
 
 /**
  * 视频播放上层容器fragment
@@ -99,6 +88,7 @@ public class VideoBrowseFragment extends XBaseFragment{
     public void initData(Bundle savedInstanceState) {
         ShortCoverAdapter adapter = new ShortCoverAdapter(getActivity().getSupportFragmentManager(),videoResultList);
         mVerticalPager.setAdapter(adapter);
+        mVerticalPager.setCurrentItem(mDataPage);
     }
 
     @Override

@@ -162,7 +162,7 @@ public class OkHttpRequestUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e(TAG, "requestByPostJson json= "+json.toString() );
+        //Log.e(TAG, "requestByPostJson json= "+json.toString() );
         HashMap<String,String> maps = new HashMap<>();
         if (json != null){
             maps.put("body",Utils.emptyConverter(TripleDES.encryptMode(json.toString())));
@@ -174,7 +174,7 @@ public class OkHttpRequestUtils {
                 builder.add(entry.getKey(), entry.getValue().toString());
             }
         }
-        Log.e(TAG, "#requestByPost url=" + url);
+        //Log.e(TAG, "#requestByPost url=" + url);
         // create request instance
         RequestBody mRequestBody = builder.build();
         Request mRequest = new Request.Builder().url(url).post(mRequestBody).build();
@@ -205,7 +205,7 @@ public class OkHttpRequestUtils {
                                   String requestId,
                                   Activity activity,
                                   ApiCallback callBack){
-        Log.e(TAG, "#requestByPostJson url=" + url);
+        //Log.e(TAG, "#requestByPostJson url=" + url);
         // get request
         JSONObject json = new JSONObject();
         try {
@@ -217,7 +217,7 @@ public class OkHttpRequestUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e(TAG, "requestByPostJson json= "+json.toString() );
+        //Log.e(TAG, "requestByPostJson json= "+json.toString() );
         HashMap<String,String> maps = new HashMap<>();
         if (json != null){
             maps.put("body",Utils.emptyConverter(TripleDES.encryptMode(json.toString())));
@@ -249,7 +249,7 @@ public class OkHttpRequestUtils {
         // 拼接参数
         if (map != null)
             url = getRequestUrl(url, map);
-        Log.e(TAG, "#requestByGet url=" + url);
+        //Log.e(TAG, "#requestByGet url=" + url);
         // request builder
         Request.Builder requestBuilder = new Request.Builder().url(url);
         // 可以省略，默认是GET请求
@@ -284,7 +284,7 @@ public class OkHttpRequestUtils {
         // 拼接参数
         if (map != null)
             url = getRequestUrl(url, map);
-        Log.e(TAG, "#requestByGet url=" + url);
+        //Log.e(TAG, "#requestByGet url=" + url);
         // request builder
         Request.Builder requestBuilder = new Request.Builder().url(url);
         // 可以省略，默认是GET请求

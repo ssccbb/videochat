@@ -6,7 +6,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.feiyu.videochat.common.AppManager;
-import com.feiyu.videochat.utils.StringUtil;
+import com.feiyu.videochat.utils.StringUtils;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -110,12 +110,12 @@ public abstract class CommonRetrofitCallback<T> implements Callback <T>{
         }
         String body = (String) response.body();
         // 无数据回调处理
-        if (StringUtil.isEmpty(body)){
+        if (StringUtils.isEmpty(body)){
             mCallback.onError(NULL_DATA);
             Log.e(TAG, "#" + NULL_DATA);
             return;
         }
-        if (StringUtil.isNotEmpty(requestId)){
+        if (StringUtils.isNotEmpty(requestId)){
             switch (requestId){
                 case REQUEST_ID_ONE:
                     // 数据格式一处理
@@ -169,7 +169,7 @@ public abstract class CommonRetrofitCallback<T> implements Callback <T>{
             BaseResponse baseResponse;
             // 请求成功
             if (STATUS_IDENTIFY_ZORE.equals(errorCode)
-                    && StringUtil.isNotEmpty(info)){
+                    && StringUtils.isNotEmpty(info)){
                 // Gson解析数据，回调数据
                 baseResponse = (BaseResponse) new Gson().fromJson(info, typeCls);
                 baseResponse.setSuccess(true);
@@ -196,7 +196,7 @@ public abstract class CommonRetrofitCallback<T> implements Callback <T>{
      * @return
      */
     private void requestIdTwoDeal(String body) {
-        if (StringUtil.isNotEmpty(body)){
+        if (StringUtils.isNotEmpty(body)){
             successCallBack(body);
         }else {
             errorCallBack(NULL_DATA);
@@ -227,7 +227,7 @@ public abstract class CommonRetrofitCallback<T> implements Callback <T>{
             String data = remakeJsonObject.optString(JK_JSON_NAME);
             // 请求成功
             if (STATUS_IDENTIFY_ZORE.equals(errorCode)
-                    && StringUtil.isNotEmpty(result)){
+                    && StringUtils.isNotEmpty(result)){
                 // Gson解析数据，回调数据
                 BaseResponse baseResponse;
                 baseResponse = (BaseResponse) new Gson().fromJson(data, typeCls);

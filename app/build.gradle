@@ -72,4 +72,5 @@ dependencies {
     implementation files('libs/sunjce_provider.jar')
     //竖直滑动viewpager
     implementation 'com.github.castorflex.verticalviewpager:library:19.0.1'
+    implementation 'com.facebook.fresco:fresco:0.12.0'
 }

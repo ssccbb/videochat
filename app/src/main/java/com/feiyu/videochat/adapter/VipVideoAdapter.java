@@ -1,8 +1,6 @@
 package com.feiyu.videochat.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,22 +9,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.Constants;
-import com.feiyu.videochat.model.HotVideoResults;
-import com.zhouwei.blurlibrary.EasyBlur;
+import com.feiyu.videochat.model.HotVideoResult;
+import com.feiyu.videochat.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created on 2016/6/11.
+ * 用于首页视频列表和VIP视频专区列表
  */
 public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClickListener {
     public static final String TAG = VipVideoAdapter.class.getSimpleName();
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<HotVideoResults> mList = new ArrayList();
+    private List<HotVideoResult> mList = new ArrayList();
     private OnItemClickListener mOnItemClickListener;
 
     private boolean VIP_MODE = false;//false：普通模式 true：VIP模式
@@ -48,6 +49,11 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
         if (list != null) {
             mList.addAll(list);
         }
+        if (!mList.isEmpty()){
+            if(mList.get(0).type != 0 && !VIP_MODE){
+                mList.add(0,new HotVideoResult(0));
+            }
+        }
         notifyDataSetChanged();
     }
 
@@ -65,6 +71,10 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
         }
     }
 
+    public List<HotVideoResult> getData() {
+        return mList;
+    }
+
     @Override
     public long getItemId(int position) {
         return super.getItemId(position);
@@ -75,21 +85,21 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
         return mList.size();
     }
 
-    public HotVideoResults getItem(int position) {
+    public HotVideoResult getItem(int position) {
         return mList.get(position);
     }
 
     @Override
     public void onClick(View v) {
         Object object = v.getTag();
-        if (object instanceof HotVideoResults && mOnItemClickListener != null) {
-            HotVideoResults hotVideo = (HotVideoResults) object;
+        if (object instanceof HotVideoResult && mOnItemClickListener != null) {
+            HotVideoResult hotVideo = (HotVideoResult) object;
             Log.e(TAG, "onClick: "+ hotVideo.position);
-            if (hotVideo.position == 0 && !VIP_MODE){
+            if (hotVideo.type == 0 && !VIP_MODE){
                 mOnItemClickListener.onVipItemClick();
                 return;
             }
-            mOnItemClickListener.onItemClick(v, hotVideo.position, hotVideo);
+            mOnItemClickListener.onItemClick(v, hotVideo.type, hotVideo);
         }
     }
 
@@ -110,30 +120,32 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
         }
 
         void onBind(int position){
-            HotVideoResults hotVideo = getItem(position);
+            HotVideoResult hotVideo = getItem(position);
             root.setTag(hotVideo);
             root.setOnClickListener(VipVideoAdapter.this::onClick);
-            name.setText("小蓝姐");
-            name.setTextColor(mContext.getResources().getColor(R.color.app_black));
-            cover.setImageResource(0);
-            cover.setBackground(
-                    mContext.getResources().getDrawable(
-                            Constants.round_color[(int) (Math.random()*4)]));
-            heartNum.setVisibility(View.VISIBLE);
-            heart.setVisibility(View.VISIBLE);
 
-            if (hotVideo.position == 0 && !VIP_MODE) {
+            if (hotVideo.type == 0 && !VIP_MODE) {
                 cover.setImageResource(R.mipmap.ic_video_vip);
                 name.setText("VIP私密视频专区");
                 name.setTextColor(mContext.getResources().getColor(R.color.app_red));
                 heartNum.setVisibility(View.GONE);
                 heart.setVisibility(View.GONE);
+                return;
             }
+
+            name.setText(hotVideo.title);
+            name.setTextColor(mContext.getResources().getColor(R.color.app_black));
+            Glide.with(App.getContext()).load(StringUtils.convertUrlStr(hotVideo.cover_url)).crossFade().thumbnail(0.1f).centerCrop().into(cover);
+            cover.setBackground(
+                    mContext.getResources().getDrawable(
+                            Constants.round_color[(int) (Math.random()*4)]));
+            heartNum.setVisibility(View.VISIBLE);
+            heart.setVisibility(View.VISIBLE);
         }
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, int position, HotVideoResults hotVideo);
+        void onItemClick(View view, int type, HotVideoResult hotVideo);
         void onVipItemClick();
     }
 

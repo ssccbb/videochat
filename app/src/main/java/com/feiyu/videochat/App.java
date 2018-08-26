@@ -11,6 +11,7 @@ import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.feiyu.videochat.common.Constants;
 import com.feiyu.videochat.net.TripleDES;
 import com.feiyu.videochat.net.api.Api;
@@ -55,6 +56,7 @@ public class App extends Application {
         context = this;
 
         initWX();
+        Fresco.initialize(this);
         SharedPreUtil.init(this);
         UMConfigure.setLogEnabled(BuildConfig.DEBUG ? true : false);
         UMConfigure.init(context,
@@ -67,118 +69,6 @@ public class App extends Application {
         com.tencent.bugly.beta.Beta.autoCheckUpgrade = true;
         Bugly.init(context,BuildConfig.BUGLY_APP_ID,BuildConfig.DEBUG ? true : false);
 //        Log.e("app", "onCreate: "+CrashReport.getBuglyVersion(this) );
-
-        XApi.registerProvider(new NetProvider() {
-
-            @Override
-            public Interceptor[] configInterceptors() {
-                Interceptor[] ins = new Interceptor[1];
-                Interceptor in = new Interceptor() {
-                    @Override
-                    public Response intercept(Interceptor.Chain chain) throws IOException {
-                        long l = System.currentTimeMillis() / 1000;
-                        l = 5 * 60 + l + Utils.getLongValue(App.getContext(), Constants.EXTIME);
-                        String token = getToken(chain.request().method(),
-                                chain.request().url().url().toString(),l);
-                        Request request = chain.request()
-                                .newBuilder()
-//                                .addHeader("Cookie", SharedPreUtil.getSessionId())
-//                                .addHeader("imei", SystemUtil.getIMEI(context))
-//                                .addHeader("os", SystemUtil.getAppVersionName(context))
-//                                .addHeader("plam", System.getProperty("os.name"))
-                                .addHeader("Extime",Long.toString(l))
-                                .addHeader("apiVersion","1")
-                                .addHeader("Apitoken",token)
-                                .build();
-                        Log.e(TAG, "intercept: header == "+request.headers().toString() );
-                        return chain.proceed(request);
-                    }
-
-                };
-                ins[0] = in;
-                return ins;
-            }
-
-            @Override
-            public void configHttps(OkHttpClient.Builder builder) {
-            }
-
-            @Override
-            public CookieJar configCookie() {
-                return new CookieJar() {
-//                    private final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
-
-                    @Override
-                    public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-                        final StringBuilder sb = new StringBuilder();
-                        for (Cookie cookie : cookies) {
-                            sb.append(cookie.toString());
-                            sb.append(";");
-                            if (cookie.name().equals("sessionid")) {
-                                SharedPreUtil.saveSessionId(sb.toString());
-                            }
-                        }
-//                        cookieStore.put(url.host(), cookies);
-//                        SharedPreUtil.saveObject(url.host(), cookies);
-
-                        String cookes = cookieHeader(cookies);
-                        CookieSyncManager.createInstance(getApplicationContext());
-                        CookieManager cm = CookieManager.getInstance();
-                        cm.setAcceptCookie(true);
-//                        cm.removeSessionCookie();//移除    
-                        cm.setCookie(Api.API_BASE_URL, cookes);
-                        CookieSyncManager.getInstance().sync();
-
-                    }
-
-                    @Override
-                    public List<Cookie> loadForRequest(HttpUrl url) {
-                        List<Cookie> cookies = SharedPreUtil.getObject(url.host());
-//                        List<Cookie> cookies = cookieStore.get(url.host());
-                        return cookies != null ? cookies : new ArrayList<Cookie>();
-                    }
-                };
-            }
-
-            @Override
-            public RequestHandler configHandler() {
-                return null;
-            }
-
-            @Override
-            public long configConnectTimeoutMills() {
-                return 20000;
-            }
-
-            @Override
-            public long configReadTimeoutMills() {
-                return 20000;
-            }
-
-            @Override
-            public boolean configLogEnable() {
-                return true;
-            }
-
-            @Override
-            public boolean handleError(NetError error) {
-                if (error.getType() == NetError.AuthError) {
-                    //清除登陆重新跳转
-                    /*SharedPreUtil.clearSessionId();
-                    SharedPreUtil.cleanLoginUserInfo();
-                    ILFactory.getLoader().clearMemoryCache(context);
-                    Executors.newSingleThreadExecutor().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            ILFactory.getLoader().clearDiskCache(context);
-                        }
-                    });
-                    DetailFragmentsActivity.launch(GameMarketApplication.this, null, Intent.FLAG_ACTIVITY_NEW_TASK, LoginFragment.newInstance());*/
-                    return true;
-                }
-                return false;
-            }
-        });
     }
 
     public static App getInstance() {

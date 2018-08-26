@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.feiyu.videochat.common.AppManager;
 import com.feiyu.videochat.net.httpresponse.BaseResponse;
-import com.feiyu.videochat.utils.StringUtil;
+import com.feiyu.videochat.utils.StringUtils;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -123,7 +123,7 @@ public abstract class CommonOkHttpCallBack<T> implements Callback {
     public void onFailure(Call call, IOException e) {
         if (activityWeakRef == null
                 || activityWeakRef.get() == null) {
-            Log.e(TAG, "#onFailure#" + ACTIVITY_WEAK_REF_IS_NULL);
+            //Log.e(TAG, "#onFailure#" + ACTIVITY_WEAK_REF_IS_NULL);
             return;
         }
         // 失败回调
@@ -134,56 +134,56 @@ public abstract class CommonOkHttpCallBack<T> implements Callback {
     public void onResponse(Call call, Response response) throws IOException {
         if (activityWeakRef == null
                 || activityWeakRef.get() == null) {
-            Log.e(TAG, "#" + ACTIVITY_WEAK_REF_IS_NULL);
+            //Log.e(TAG, "#" + ACTIVITY_WEAK_REF_IS_NULL);
             return;
         }
         // 处理是否当前页，如果非当前页则无需回调更新UI
         if (!AppManager.getInstance().isCurrent(activityWeakRef.get())){
-            Log.e(TAG, "#" + UPDATE_UI_PAGE_IS_NOT_CURRENT_PAGE);
+            //Log.e(TAG, "#" + UPDATE_UI_PAGE_IS_NOT_CURRENT_PAGE);
             //return;
         }
         // 若数据为空则回调返回
         if (response == null || response.body() == null) {
             mCallback.onError(NULL_DATA);
-            Log.e(TAG, "#" + NULL_DATA);
+            //Log.e(TAG, "#" + NULL_DATA);
             return;
         }
         String body = response.body().string();
         // 无数据回调处理
         if (body == null){
             mCallback.onError(NULL_DATA);
-            Log.e(TAG, "#" + NULL_DATA);
+            //Log.e(TAG, "#" + NULL_DATA);
             return;
         }
-        Log.e(TAG, "#body=" + body);
+        //Log.e(TAG, "#body=" + body);
         // 根据请求标识解析数据
-        if (StringUtil.isNotEmpty(requestId)){
+        if (StringUtils.isNotEmpty(requestId)){
             switch (requestId){
                 case REQUEST_ID_ONE:
                     // 数据格式一处理
-                    Log.e(TAG, "#requestId=" + REQUEST_ID_ONE);
+                    //Log.e(TAG, "#requestId=" + REQUEST_ID_ONE);
                     requestIdOneDeal(body);
                     return;
                 case REQUEST_ID_TWO:
                     // 数据格式二处理
-                    Log.e(TAG, "#requestId=" + REQUEST_ID_TWO);
+                    //Log.e(TAG, "#requestId=" + REQUEST_ID_TWO);
                     requestIdTwoDeal(body);
                     return;
                 case REQUEST_ID_THREE:
                     // 数据格式三处理
-                    Log.e(TAG, "#requestId=" + REQUEST_ID_THREE);
+                    //Log.e(TAG, "#requestId=" + REQUEST_ID_THREE);
                     requestIdThreeDeal(body);
                     return;
                 default:
                     break;
             }
-            Log.e(TAG, "#are you compatible data ?");
+            //Log.e(TAG, "#are you compatible data ?");
             // 兼容数据
             compatibleData();
         }else {
-            Log.e(TAG, "#" + REQUESTID_IS_NULL);
+            //Log.e(TAG, "#" + REQUESTID_IS_NULL);
             // 数据格式二处理
-            Log.e(TAG, "#requestId=" + REQUEST_ID_TWO);
+            //Log.e(TAG, "#requestId=" + REQUEST_ID_TWO);
             requestIdTwoDeal(body);
         }
     }
@@ -211,7 +211,7 @@ public abstract class CommonOkHttpCallBack<T> implements Callback {
             BaseResponse baseResponse;
             // 请求成功
             if (STATUS_IDENTIFY_ZORE.equals(errorCode)
-                    && StringUtil.isNotEmpty(info)){
+                    && StringUtils.isNotEmpty(info)){
                 // Gson解析数据，回调数据
                 baseResponse = (BaseResponse) new Gson().fromJson(info, typeCls);
                 baseResponse.setSuccess(true);
@@ -238,7 +238,7 @@ public abstract class CommonOkHttpCallBack<T> implements Callback {
      * @return
      */
     private void requestIdTwoDeal(String body) {
-        if (StringUtil.isNotEmpty(body)){
+        if (StringUtils.isNotEmpty(body)){
             successCallBack(body);
         }else {
             errorCallBack(NULL_DATA);
@@ -269,7 +269,7 @@ public abstract class CommonOkHttpCallBack<T> implements Callback {
             String data = remakeJsonObject.optString(JK_JSON_NAME);
             // 请求成功
             if (STATUS_IDENTIFY_ZORE.equals(errorCode)
-                    && StringUtil.isNotEmpty(result)){
+                    && StringUtils.isNotEmpty(result)){
                 // Gson解析数据，回调数据
                 BaseResponse baseResponse;
                 baseResponse = (BaseResponse) new Gson().fromJson(data, typeCls);

@@ -1,17 +1,14 @@
 package com.feiyu.videochat.ui.fragments.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
-import android.widget.TextView;
 
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.adapter.RecommendAdapter;
-import com.feiyu.videochat.adapter.VipVideoAdapter;
 import com.feiyu.videochat.common.XBaseFragment;
-import com.feiyu.videochat.model.HotVideoResults;
+import com.feiyu.videochat.model.HotVideoResult;
 import com.feiyu.videochat.ui.activitys.VideoBrowseActivity;
 import com.feiyu.videochat.views.XReloadableRecyclerContentLayout;
 
@@ -51,9 +48,9 @@ public class RecommendPagerFragment extends XBaseFragment implements XRecyclerVi
         mList.getRecyclerView().setAdapter(mVideoAdapter);
         mList.getRecyclerView().setItemAnimator(new DefaultItemAnimator());
         mList.getRecyclerView().setLayoutManager(new GridLayoutManager(getActivity(),2));
-        List<HotVideoResults> data = new ArrayList<>();
+        List<HotVideoResult> data = new ArrayList<>();
         for (int i = 0; i < 21; i++) {
-            data.add(new HotVideoResults(i));
+            data.add(new HotVideoResult(i));
         }
         mVideoAdapter.addData(data,true);
         mList.getRecyclerView().setOnRefreshAndLoadMoreListener(this);
@@ -81,7 +78,6 @@ public class RecommendPagerFragment extends XBaseFragment implements XRecyclerVi
     }
 
     @Override
-    public void onItemClick(View view, int position, HotVideoResults hotVideo) {
-        VideoBrowseActivity.open(getActivity());
+    public void onItemClick(View view, int position, HotVideoResult hotVideo) {
     }
 }
