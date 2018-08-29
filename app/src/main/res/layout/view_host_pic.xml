@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.feiyu.videochat.views.SquareLayoutView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_dark">
+
+    <ImageView
+        android:id="@+id/cover"
+        android:padding="1dp"
+        android:src="@color/app_shadow"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
+    <RelativeLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/lock"
+            android:layout_alignParentBottom="true"
+            android:src="@mipmap/ic_lock"
+            android:layout_marginRight="5dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp" />
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_alignParentBottom="true"
+            android:text="私房照片"
+            android:textSize="10sp"
+            android:textColor="@color/app_white"
+            android:gravity="center"
+            android:layout_toRightOf="@+id/lock"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp" />
+
+    </RelativeLayout>
+
+</com.feiyu.videochat.views.SquareLayoutView>

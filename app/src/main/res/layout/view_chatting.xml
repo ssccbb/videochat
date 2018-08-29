@@ -2,10 +2,11 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/view_status_bar_height"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <VideoView
+    <SurfaceView
+        android:id="@+id/sv_video"
         android:visibility="gone"
+        android:background="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <android.support.v7.widget.CardView
@@ -13,7 +14,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_margin="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_40"
+        android:layout_marginRight="@dimen/dp_15"
         app:cardCornerRadius="5dp"
         app:cardElevation="3dp"
         app:cardUseCompatPadding="true"
@@ -26,7 +28,8 @@
     <LinearLayout
         android:id="@+id/host"
         android:gravity="center"
-        android:layout_margin="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_40"
+        android:layout_marginLeft="@dimen/dp_15"
         android:paddingLeft="3dp"
         android:paddingRight="3dp"
         android:orientation="horizontal"

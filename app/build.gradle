@@ -67,7 +67,7 @@ dependencies {
     implementation 'com.tencent.bugly:nativecrashreport:latest.release'
     implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'
     //高斯模糊
-    implementation 'com.github.pinguo-zhouwei:EasyBlur:v1.0.0'
+    implementation 'jp.wasabeef:glide-transformations:2.0.1'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation files('libs/sunjce_provider.jar')
     //竖直滑动viewpager

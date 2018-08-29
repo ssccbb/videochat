@@ -15,6 +15,7 @@ import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.Constants;
 import com.feiyu.videochat.model.HotHostResults;
 import com.feiyu.videochat.utils.StringUtils;
+import com.feiyu.videochat.utils.Utils;
 import com.feiyu.videochat.views.banner.AutoScrollViewPager;
 import com.feiyu.videochat.views.banner.PagerIndicatorView;
 import com.feiyu.videochat.views.banner.ScaleTransformer;
@@ -85,7 +86,8 @@ public class HomeHotHostAdapter extends RecyclerView.Adapter implements View.OnC
                     mContext.getResources().getDrawable(
                             Constants.round_color[(int) (Math.random()*4)]));
             hotHostHolder.name.setText(hotHost.nickname);
-            Glide.with(App.getContext()).load(StringUtils.convertUrlStr(hotHost.avatar)).crossFade().thumbnail(0.1f).centerCrop().into(hotHostHolder.cover);
+            hotHostHolder.status.setImageResource(Utils.getHostStatus(Integer.parseInt(hotHost.anchor_state)));
+            Glide.with(App.getContext()).load(StringUtils.convertUrlStr(hotHost.avatar)).crossFade()/*.thumbnail(0.1f)*/.centerCrop().into(hotHostHolder.cover);
             return;
         }
 

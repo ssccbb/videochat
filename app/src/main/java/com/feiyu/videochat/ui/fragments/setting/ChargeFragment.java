@@ -1,11 +1,20 @@
 package com.feiyu.videochat.ui.fragments.setting;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.XBaseFragment;
+import com.feiyu.videochat.model.PhoneVertifyResult;
+import com.feiyu.videochat.model.UserInfoResult;
+import com.feiyu.videochat.net.StateCode;
+import com.feiyu.videochat.net.api.Api;
+import com.feiyu.videochat.net.httprequest.ApiCallback;
+import com.feiyu.videochat.net.httprequest.okhttp.JKOkHttpParamKey;
+import com.feiyu.videochat.net.httprequest.okhttp.OkHttpRequestUtils;
 import com.feiyu.videochat.utils.SharedPreUtil;
 import com.feiyu.videochat.views.ChargeDialog;
 
@@ -14,6 +23,8 @@ import butterknife.BindView;
 public class ChargeFragment extends XBaseFragment implements View.OnClickListener{
     public static final String TAG = ChargeFragment.class.getSimpleName();
     public static ChargeFragment instance;
+    private UserInfoResult user;
+
     @BindView(R.id.back)
     View mBack;
     @BindView(R.id.item_500)
@@ -32,6 +43,8 @@ public class ChargeFragment extends XBaseFragment implements View.OnClickListene
     View mItem38880;
     @BindView(R.id.question)
     View mQuestion;
+    @BindView(R.id.diamond)
+    TextView diamond;
 
     public static ChargeFragment newInstance(){
         if (instance != null){
@@ -54,6 +67,41 @@ public class ChargeFragment extends XBaseFragment implements View.OnClickListene
         mItem28880.setOnClickListener(this::onClick);
         mItem38880.setOnClickListener(this::onClick);
         mQuestion.setOnClickListener(this::onClick);
+
+        if (!SharedPreUtil.isLogin()) return;
+        postUserInfo(SharedPreUtil.getLoginInfo().uid);
+    }
+
+    /**
+     * post获取用户
+     * */
+    private void postUserInfo(String uid){
+        OkHttpRequestUtils.getInstance().requestByPost(Api.API_BASE_URL +"/user/get_info",
+                OkHttpRequestUtils.getInstance().JkRequestParameters(JKOkHttpParamKey.GET_USER_INFO, uid),
+                PhoneVertifyResult.class, getActivity(), new ApiCallback() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        Log.e(TAG, "onSuccess: "+(String) response );
+                        user = new UserInfoResult((String) response);
+                        if (!user.code.equals(StateCode.STATE_0000)){
+                            Toast.makeText(getActivity(), user.message, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        diamond.setText("账户余额："+user.diamond);
+                    }
+
+                    @Override
+                    public void onError(String err_msg) {
+                        //Toast.makeText(getActivity(), "用户拉取失败！", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onError: "+err_msg );
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        //Toast.makeText(getActivity(), "用户拉取失败！", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onFailure !");
+                    }
+                });
     }
 
     @Override

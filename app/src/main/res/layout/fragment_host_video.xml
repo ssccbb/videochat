@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/app_dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/view_status_bar_height"
+        android:background="@mipmap/bg_head_video">
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="?selectableItemBackground"
+            android:scaleType="center"
+            android:src="@mipmap/ic_white_back" />
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/dp_15">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginLeft="17dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="主播视频"
+                    android:textColor="@color/app_white"
+                    android:textSize="24sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="私房视频尺度更大"
+                    android:textColor="@color/app_white"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/unlock"
+                android:gravity="center"
+                android:padding="@dimen/dp_10"
+                android:background="@drawable/bg_gradient_radius_hoop_theme"
+                android:textSize="14sp"
+                android:textColor="@color/app_white"
+                android:text="解锁全部/30钻石"
+                android:layout_marginRight="17dp"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:background="@color/app_dark"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:id="@+id/open_container"
+        android:background="@color/app_dark"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_marginLeft="@dimen/dp_10"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv1"
+                android:text="开通VIP会员"
+                android:textSize="14sp"
+                android:textColor="@color/app_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="免费观看全部主播私房视频与照片"
+                android:textSize="11sp"
+                android:textColor="@color/app_shadow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/open_vip"
+            android:scaleType="fitEnd"
+            android:layout_margin="15dp"
+            android:src="@mipmap/ic_vip_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

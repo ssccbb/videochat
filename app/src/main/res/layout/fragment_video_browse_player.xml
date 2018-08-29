@@ -59,7 +59,7 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <com.feiyu.videochat.views.CircleImageView
-            android:id="@+id/sdv_avatar"
+            android:id="@+id/ci_avatar"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:src="@drawable/timg1"
@@ -69,7 +69,7 @@
             android:id="@+id/iv_follow"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_below="@+id/sdv_avatar"
+            android:layout_below="@+id/ci_avatar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="-12dp"
             android:src="@drawable/ic_video_follow" />
@@ -78,13 +78,13 @@
             android:id="@+id/tv_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/sdv_avatar"
+            android:layout_below="@id/ci_avatar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="36dp"
             android:clickable="false"
             android:drawableTop="@mipmap/ic_video_like_normal"
             android:gravity="center"
-            android:text=""
+            android:text="0"
             android:textColor="@color/app_white" />
 
         <TextView
@@ -96,7 +96,7 @@
             android:layout_marginTop="19dp"
             android:drawableTop="@mipmap/ic_video_comment"
             android:gravity="center"
-            android:text=""
+            android:text="0"
             android:textColor="@color/app_white" />
 
         <TextView
@@ -141,38 +141,44 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:paddingEnd="8dp"
             android:paddingStart="18dp">
 
-            <ImageView
+            <LinearLayout
+                android:id="@+id/name_container"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_launcher" />
+                <TextView
+                    android:id="@+id/name"
+                    android:text="UP主"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/app_white"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tittle"
+                android:layout_below="@+id/name_container"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/dp_5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/ic_video_edit_comment" />
-
-            <TextView
-                android:id="@+id/tv_edit_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="32dp"
                 android:gravity="center_vertical"
-                android:text="期待你的精彩评论"
-                android:textColor="#BBBBBB" />
-
-            <TextView
-                android:id="@+id/tv_quote"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:gravity="center"
-                android:text=" @ "
-                android:textColor="#BBBBBB"
-                android:textSize="18sp"
-                android:visibility="gone" />
+                android:text="标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题"
+                android:textColor="@color/app_white" />
 
         </RelativeLayout>
 

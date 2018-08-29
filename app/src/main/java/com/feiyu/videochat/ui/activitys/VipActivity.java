@@ -46,7 +46,8 @@ public class VipActivity extends XBaseActivity implements View.OnClickListener{
     }
 
     public static void open(Context context){
-        App.getContext().startActivity(new Intent(context,VipActivity.class));
+        Intent goTo = new Intent(context, VipActivity.class);
+        App.getContext().startActivity(goTo);
     }
 
     @Override

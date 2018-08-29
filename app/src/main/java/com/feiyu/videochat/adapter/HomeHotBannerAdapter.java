@@ -6,8 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.feiyu.videochat.R;
+import com.feiyu.videochat.model.BannerResults;
+import com.feiyu.videochat.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +22,24 @@ import java.util.List;
 
 public class HomeHotBannerAdapter extends PagerAdapter {
     private static String TAG = HomeHotBannerAdapter.class.getSimpleName();
-    private List mData = new ArrayList();
+    private List<BannerResults.Banner> mData = new ArrayList();
     private List<View> mViews = new ArrayList<>();
     private Context mContext;
 
-    public HomeHotBannerAdapter(Context mContext, List mData) {
-        this.mData = mData;
+    public HomeHotBannerAdapter(Context mContext, List<BannerResults.Banner> data) {
+        this.mData.clear();
         this.mContext = mContext;
-        if (mData != null && !mData.isEmpty()){
-            initView();
-        }
+        if (data != null) this.mData.addAll(data);
+        if (this.mData.isEmpty()) this.mData.add(new BannerResults.Banner());
+        initView();
+    }
+
+    public void setData(List<BannerResults.Banner> data){
+        this.mData.clear();
+        if (data != null) mData.addAll(data);
+        if (mData.isEmpty()) mData.add(new BannerResults.Banner());
+        initView();
+        notifyDataSetChanged();
     }
 
     private void initView(){
@@ -39,6 +51,18 @@ public class HomeHotBannerAdapter extends PagerAdapter {
             View item = inflater.inflate(R.layout.view_banner_item,null,false);
             ImageView img = item.findViewById(R.id.banner_img);
             img.setImageResource(R.mipmap.ic_loading_fail);
+            img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            BannerResults.Banner banner = (BannerResults.Banner) mData.get(i);
+            if (!StringUtils.isEmpty(banner.cover_url)) {
+                Glide.with(mContext).load(StringUtils.convertUrlStr(banner.cover_url))
+                        .crossFade()/*.thumbnail(0.1f)*/.into(img);
+            }
+            img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext, banner.link_url+"", Toast.LENGTH_SHORT).show();
+                }
+            });
             mViews.add(item);
         }
     }

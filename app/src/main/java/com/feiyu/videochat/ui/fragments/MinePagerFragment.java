@@ -1,10 +1,20 @@
 package com.feiyu.videochat.ui.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.XBaseFragment;
+import com.feiyu.videochat.model.PhoneVertifyResult;
+import com.feiyu.videochat.model.UserInfoResult;
+import com.feiyu.videochat.net.StateCode;
+import com.feiyu.videochat.net.api.Api;
+import com.feiyu.videochat.net.httprequest.ApiCallback;
+import com.feiyu.videochat.net.httprequest.okhttp.JKOkHttpParamKey;
+import com.feiyu.videochat.net.httprequest.okhttp.OkHttpRequestUtils;
 import com.feiyu.videochat.ui.activitys.SettingActivity;
 import com.feiyu.videochat.ui.activitys.UserActivity;
 import com.feiyu.videochat.ui.activitys.VipActivity;
@@ -13,11 +23,14 @@ import com.feiyu.videochat.ui.fragments.setting.HelpFragment;
 import com.feiyu.videochat.ui.fragments.setting.SysSettingFragment;
 import com.feiyu.videochat.ui.fragments.setting.UserInfoEditFragment;
 import com.feiyu.videochat.utils.SharedPreUtil;
+import com.feiyu.videochat.views.mine.SelectItemView;
 
 import butterknife.BindView;
 
 public class MinePagerFragment extends XBaseFragment implements View.OnClickListener{
+    public static final String TAG = MinePagerFragment.class.getSimpleName();
     public static MinePagerFragment instance;
+    private UserInfoResult user;
 
     @BindView(R.id.follow)
     View mFollow;
@@ -26,11 +39,11 @@ public class MinePagerFragment extends XBaseFragment implements View.OnClickList
     @BindView(R.id.video)
     View mVideo;
     @BindView(R.id.item_wallet)
-    View mWallet;
+    SelectItemView mWallet;
     @BindView(R.id.item_profit)
     View mProfit;
     @BindView(R.id.item_vip)
-    View mVip;
+    SelectItemView mVip;
     @BindView(R.id.item_level)
     View mLevel;
     @BindView(R.id.item_behost)
@@ -41,6 +54,10 @@ public class MinePagerFragment extends XBaseFragment implements View.OnClickList
     View mSetting;
     @BindView(R.id.user_head)
     View mUser;
+    @BindView(R.id.name)
+    TextView name;
+    @BindView(R.id.idnumber)
+    TextView id;
 
     public static MinePagerFragment newInstance(){
         if (instance != null){
@@ -71,6 +88,45 @@ public class MinePagerFragment extends XBaseFragment implements View.OnClickList
         mBehost.setVisibility(View.GONE);
     }
 
+    /**
+     * post获取用户
+     * */
+    private void postUserInfo(String uid){
+        OkHttpRequestUtils.getInstance().requestByPost(Api.API_BASE_URL +"/user/get_info",
+                OkHttpRequestUtils.getInstance().JkRequestParameters(JKOkHttpParamKey.GET_USER_INFO, uid),
+                PhoneVertifyResult.class, getActivity(), new ApiCallback() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        Log.e(TAG, "onSuccess: "+(String) response );
+                        user = new UserInfoResult((String) response);
+                        if (!user.code.equals(StateCode.STATE_0000)){
+                            Toast.makeText(getActivity(), user.message, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        bindUiData();
+                    }
+
+                    @Override
+                    public void onError(String err_msg) {
+                        Toast.makeText(getActivity(), "用户拉取失败！", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onError: "+err_msg );
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Toast.makeText(getActivity(), "用户拉取失败！", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onFailure !");
+                    }
+                });
+    }
+
+    private void bindUiData(){
+        name.setText(user.nickname);
+        id.setText("ID："+user.user_id);
+        mWallet.setDataNumber(""+user.diamond);
+        mVip.setDataNumber(user.vip.equals("0") ? "未开通会员" : "已开通会员");
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_mine;
@@ -79,6 +135,13 @@ public class MinePagerFragment extends XBaseFragment implements View.OnClickList
     @Override
     public Object newP() {
         return null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!SharedPreUtil.isLogin()) return;
+        postUserInfo(SharedPreUtil.getLoginInfo().uid);
     }
 
     @Override

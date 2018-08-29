@@ -4,9 +4,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
+import com.feiyu.videochat.common.Constants;
+import com.feiyu.videochat.model.AnchorInfoResult;
+import com.feiyu.videochat.utils.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class HostResAdapter extends RecyclerView.Adapter {
     private List data = new ArrayList();
@@ -15,6 +25,15 @@ public class HostResAdapter extends RecyclerView.Adapter {
         if (data != null){
             this.data = data;
         }
+    }
+
+    public void addData(List list, boolean clear) {
+        if (list == null) return;
+        if (clear) {
+            data.clear();
+        }
+        data.addAll(list);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -33,12 +52,19 @@ public class HostResAdapter extends RecyclerView.Adapter {
     }
 
     class ListHolder extends RecyclerView.ViewHolder {
+        public ImageView img;
 
         public ListHolder(View itemView) {
             super(itemView);
+            img = itemView.findViewById(R.id.img);
         }
 
         void onBind(int position){
+            AnchorInfoResult.VideoListBean bean = (AnchorInfoResult.VideoListBean) data.get(position);
+            Glide.with(App.getContext()).load(StringUtils.convertUrlStr(bean.cover_url))
+                    .bitmapTransform(new BlurTransformation(App.getContext(),
+                            Constants.BLUR_RADIUS,Constants.BLUR_SAMPLING))
+                    .crossFade()/*.thumbnail(0.1f)*/.into(img);
         }
     }
 }

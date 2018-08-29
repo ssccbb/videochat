@@ -36,7 +36,6 @@ public class LoginDialogFragment extends DialogFragment implements View.OnClickL
     private VCDialog.onDialogActionListner onDialogActionListner;
     private Context mContext;
 
-    private RelativeLayout mLoginContainer;
     private EditText mPhone,mCode;
     private TextView mGetCode;
     private View mClose,mAgreement,mLogin;
@@ -46,7 +45,7 @@ public class LoginDialogFragment extends DialogFragment implements View.OnClickL
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             mGetCode.setText("获取验证码");
-            mGetCode.setTextColor(Color.parseColor("#000000"));
+            mGetCode.setTextColor(Color.parseColor("#ec6053"));
             mGetCode.setEnabled(false);
         }
     };
@@ -70,7 +69,6 @@ public class LoginDialogFragment extends DialogFragment implements View.OnClickL
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mLoginContainer = view.findViewById(R.id.login_container);
         mPhone = view.findViewById(R.id.phone);
         mCode = view.findViewById(R.id.code);
         mGetCode = view.findViewById(R.id.get_code);
@@ -92,7 +90,7 @@ public class LoginDialogFragment extends DialogFragment implements View.OnClickL
      * */
     private void postVertifyCode(String phone){
         mGetCode.setText("已发送验证码");
-        mGetCode.setTextColor(Color.parseColor("#999"));
+        mGetCode.setTextColor(Color.parseColor("#999999"));
         mGetCode.setEnabled(true);
         mUIHandler.sendEmptyMessageDelayed(0,60*1000);
         OkHttpRequestUtils.getInstance().requestByPost(Api.API_BASE_URL +"/user/send_verification_code",

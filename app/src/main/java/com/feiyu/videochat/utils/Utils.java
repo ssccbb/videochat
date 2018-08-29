@@ -7,7 +7,12 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.facebook.binaryresource.BinaryResource;
+import com.facebook.binaryresource.FileBinaryResource;
+import com.facebook.cache.common.CacheKey;
+import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.feiyu.videochat.App;
+import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.Constants;
 import com.feiyu.videochat.net.api.Api;
 
@@ -407,5 +412,35 @@ public class Utils {
 
     public static String getCacheSize(File file) throws Exception {
         return getFormatSize(getFolderSize(file));
+    }
+
+    /**
+     * 获取在线状态
+     * 1空闲 2在聊 3勿扰
+     * */
+    public static int getHostStatus(int status){
+        switch (status){
+            case 1:
+                return R.mipmap.ic_host_status_free;
+            case 2:
+                return R.mipmap.ic_host_status_chat;
+            case 3:
+                return R.mipmap.ic_host_status_busy;
+        }
+        return R.mipmap.ic_host_status_busy;
+    }
+
+    public static File getCachedImageOnDisk(CacheKey cacheKey) {
+        File localFile = null;
+        if (cacheKey != null) {
+            if (ImagePipelineFactory.getInstance().getMainFileCache().hasKey(cacheKey)) {
+                BinaryResource resource = ImagePipelineFactory.getInstance().getMainFileCache().getResource(cacheKey);
+                localFile = ((FileBinaryResource) resource).getFile();
+            } else if (ImagePipelineFactory.getInstance().getSmallImageFileCache().hasKey(cacheKey)) {
+                BinaryResource resource = ImagePipelineFactory.getInstance().getSmallImageFileCache().getResource(cacheKey);
+                localFile = ((FileBinaryResource) resource).getFile();
+            }
+        }
+        return localFile;
     }
 }

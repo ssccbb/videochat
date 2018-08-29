@@ -16,6 +16,9 @@ public class Constants {
 
     public static final String SP_LOGIN_INFO = "sp_login_info";
 
+    public static final int BLUR_RADIUS = 4;
+    public static final int BLUR_SAMPLING = 2;
+
     /**
      * 用户状态
      * HOST_STATUS_BUSY 勿扰

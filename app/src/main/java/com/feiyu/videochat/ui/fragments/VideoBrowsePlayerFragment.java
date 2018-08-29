@@ -24,6 +24,7 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -47,6 +48,21 @@ public class VideoBrowsePlayerFragment extends XBaseFragment implements View.OnC
     @BindView(R.id.cover)
     ImageView mCover;
 
+    @BindView(R.id.name)
+    TextView mUserName;
+    @BindView(R.id.tittle)
+    TextView mUserTittle;
+    @BindView(R.id.tv_like)
+    TextView mUserLike;
+    @BindView(R.id.tv_comment)
+    TextView mUserComment;
+    @BindView(R.id.tv_share)
+    TextView mUserShare;
+    @BindView(R.id.iv_follow)
+    ImageView mUserFollow;
+    @BindView(R.id.ci_avatar)
+    ImageView mUserAvatar;
+
     public VideoBrowsePlayerFragment() {
     }
 
@@ -67,12 +83,20 @@ public class VideoBrowsePlayerFragment extends XBaseFragment implements View.OnC
         super.onViewCreated(view, savedInstanceState);
         mVideoResult = getArguments().getParcelable(TAG);
 
-        Glide.with(App.getContext()).load(mVideoResult.cover_url).crossFade().centerCrop().thumbnail(0.1f).into(mCover);
+        Glide.with(App.getContext()).load(mVideoResult.cover_url)
+                .crossFade().centerCrop()/*.thumbnail(0.1f)*/.into(mCover);
         mVideoView.getHolder().addCallback(callback);
         mVideoView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         mVideoView.getHolder().setKeepScreenOn(true);
         mPause.setOnClickListener(this);
         mStart.setOnClickListener(this);
+
+        mUserName.setText(mVideoResult.name);
+        mUserTittle.setText(mVideoResult.title);
+        mUserLike.setText(mVideoResult.total_viewer);
+        mUserComment.setText(mVideoResult.comment_num);
+        Glide.with(App.getContext()).load(StringUtils.convertUrlStr(mVideoResult.avatar))
+                .crossFade().centerCrop()/*.thumbnail(0.1f)*/.into(mUserAvatar);
     }
 
     @Override

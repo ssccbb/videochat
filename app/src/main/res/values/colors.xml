@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">@color/app_theme</color>
     <color name="colorAccent">#FF4081</color>
     <color name="app_theme">#ec6053</color>
+    <color name="app_dark">#1f1f21</color>
 
     <!--indicator-->
     <color name="view_indicator_default_color">#C5C5C5</color>
@@ -24,8 +25,8 @@
     <color name="app_green">#66CD00</color>
     <color name="app_brown">#CD9B9B</color>
     <color name="app_divider">#20ffffff</color>
-    <color name="app_shadow">#999</color>
-    <color name="app_shadowdark">#666</color>
+    <color name="app_shadow">#999999</color>
+    <color name="app_shadowdark">#666666</color>
     <color name="app_yellowdark">#ffa604</color>
     <color name="app_gold">#e3cda5</color>
 </resources>

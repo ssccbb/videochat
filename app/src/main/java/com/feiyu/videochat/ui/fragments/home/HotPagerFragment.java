@@ -12,6 +12,7 @@ import com.feiyu.videochat.R;
 import com.feiyu.videochat.adapter.HomeHotBannerAdapter;
 import com.feiyu.videochat.adapter.HomeHotHostAdapter;
 import com.feiyu.videochat.common.XBaseFragment;
+import com.feiyu.videochat.model.BannerResults;
 import com.feiyu.videochat.model.HotHostResults;
 import com.feiyu.videochat.model.PhoneVertifyResult;
 import com.feiyu.videochat.net.StateCode;
@@ -20,6 +21,7 @@ import com.feiyu.videochat.net.httprequest.ApiCallback;
 import com.feiyu.videochat.net.httprequest.okhttp.JKOkHttpParamKey;
 import com.feiyu.videochat.net.httprequest.okhttp.OkHttpRequestUtils;
 import com.feiyu.videochat.ui.activitys.HostInfoActivity;
+import com.feiyu.videochat.utils.SharedPreUtil;
 import com.feiyu.videochat.views.XReloadableRecyclerContentLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +35,9 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
     private static final String TAG = HotPagerFragment.class.getSimpleName();
     public static HotPagerFragment instance;
     private HomeHotHostAdapter mHotAdapter;
+    private HomeHotBannerAdapter mBannerAdapter;
     private int next_page = 0;
+    private BannerResults banners;
 
     public static HotPagerFragment newInstance(){
         if (instance != null){
@@ -48,14 +52,9 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
     @Override
     public void initData(Bundle savedInstanceState) {
         mList.showLoading();
-        List bannerData = new ArrayList();
-        bannerData.add(0);
-        bannerData.add(1);
-        bannerData.add(2);
-        bannerData.add(3);
-        HomeHotBannerAdapter adapter = new HomeHotBannerAdapter(App.getContext(),bannerData);
+        mBannerAdapter = new HomeHotBannerAdapter(App.getContext(),null);
         mHotAdapter = new HomeHotHostAdapter(getActivity(),null);
-        mHotAdapter.setBannerAdapter(adapter);
+        mHotAdapter.setBannerAdapter(mBannerAdapter);
         mList.getRecyclerView().setAdapter(mHotAdapter);
         mList.getRecyclerView().setItemAnimator(new DefaultItemAnimator());
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
@@ -72,6 +71,8 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
         mHotAdapter.addOnItemClickListener(this);
 
         postHotList(1);
+        if (!SharedPreUtil.isLogin()) return;
+        postBanner(SharedPreUtil.getLoginInfo().uid);
     }
 
     /**
@@ -118,6 +119,36 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
                 });
     }
 
+    /**
+     * post获取用户
+     * */
+    private void postBanner(String uid){
+        OkHttpRequestUtils.getInstance().requestByPost(Api.API_BASE_URL +"/revolve/get_revolve_list",
+                OkHttpRequestUtils.getInstance().JkRequestParameters(JKOkHttpParamKey.GET_USER_INFO, uid),
+                PhoneVertifyResult.class, getActivity(), new ApiCallback() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        Log.e(TAG, "onSuccess: "+(String) response );
+                        banners = new BannerResults((String) response);
+                        if (!banners.code.equals(StateCode.STATE_0000)){
+                            Toast.makeText(getActivity(), banners.message, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        mBannerAdapter.setData(banners.revolve_list);
+                    }
+
+                    @Override
+                    public void onError(String err_msg) {
+                        Log.e(TAG, "onError: "+err_msg );
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Log.e(TAG, "onFailure !");
+                    }
+                });
+    }
+
     @Override
     public void onItemClick(View view, int position, HotHostResults.HotHostResult hotHostResult) {
         HostInfoActivity.open(getActivity(),hotHostResult);
@@ -126,6 +157,8 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
     @Override
     public void onRefresh() {
         postHotList(1);
+        if (!SharedPreUtil.isLogin()) return;
+        postBanner(SharedPreUtil.getLoginInfo().uid);
     }
 
     @Override
@@ -143,7 +176,6 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
     public Object newP() {
         return null;
     }
-
 
     // TODO: 2018/8/24  for test
     /**

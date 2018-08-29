@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.XBaseActivity;
 import com.feiyu.videochat.common.XBaseFragment;
@@ -12,6 +15,7 @@ import com.feiyu.videochat.ui.fragments.setting.HelpFragment;
 import com.feiyu.videochat.ui.fragments.setting.SysSettingFragment;
 import com.feiyu.videochat.ui.fragments.setting.UserInfoEditFragment;
 import com.feiyu.videochat.utils.StringUtils;
+import com.google.gson.Gson;
 
 public class SettingActivity extends XBaseActivity {
     public static final String TAG = SettingActivity.class.getSimpleName();

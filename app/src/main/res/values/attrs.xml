@@ -162,4 +162,13 @@
         <attr name="notice" format="string" />
         <attr name="head_icon_visible" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="SubsamplingScaleImageView">
+        <attr name="sub_src" format="reference" />
+        <attr name="assetName" format="string" />
+        <attr name="panEnabled" format="boolean" />
+        <attr name="zoomEnabled" format="boolean" />
+        <attr name="quickScaleEnabled" format="boolean" />
+        <attr name="tileBackgroundColor" format="color" />
+    </declare-styleable>
 </resources>

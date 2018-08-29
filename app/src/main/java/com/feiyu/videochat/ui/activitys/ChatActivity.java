@@ -8,6 +8,9 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,20 +24,24 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.Constants;
 import com.feiyu.videochat.common.XBaseActivity;
+import com.feiyu.videochat.model.AnchorInfoResult;
 import com.feiyu.videochat.utils.MusicPlayer;
+import com.feiyu.videochat.utils.StringUtils;
 import com.feiyu.videochat.views.CircleImageView;
-import com.zhouwei.blurlibrary.EasyBlur;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
-public class ChatActivity extends XBaseActivity implements View.OnClickListener,SurfaceHolder.Callback {
+public class ChatActivity extends XBaseActivity implements View.OnClickListener {
     @BindView(R.id.cover)
     ImageView mCover;
     //
@@ -51,9 +58,11 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener,
     SurfaceView mCameraView;
     @BindView(R.id.close)
     View mExit;
+    //5s视频
+    @BindView(R.id.sv_video)
+    SurfaceView mVideoView;
 
     public static final String TAG = ChatActivity.class.getSimpleName();
-    private Bitmap mCoverBitmap;
     private Handler mPlayerHandler;
     private MusicPlayer mPlayer;
     private SurfaceHolder mCameraHolder;
@@ -62,24 +71,37 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener,
     private int frontCamera = 0;
     private int backCamera = 0;
     private int current_camera_type = frontCamera;
+    private MediaPlayer mediaPlayer;
+    private AnchorInfoResult mHost;
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        BitmapDrawable d = (BitmapDrawable) getResources().getDrawable(R.drawable.timg);
-        mCoverBitmap = EasyBlur.with(ChatActivity.this)
-                .bitmap(d.getBitmap()) //要模糊的图片
-                .radius(10)//模糊半径
-                .scale(15)//指定模糊前缩小的倍数
-                //.policy(EasyBlur.BlurPolicy.FAST_BLUR)//使用fastBlur
-                .blur();
-        mCover.setImageBitmap(mCoverBitmap);
-        mAvatar.setImageResource(R.drawable.timg1);
-        mPlayerHandler = new Handler();
-        mPlayer = new MusicPlayer(this);
         mStop.setOnClickListener(this);
         mExit.setOnClickListener(this);
+
+        String host_json = this.getIntent().getStringExtra(TAG);
+        if (!StringUtils.isEmpty(host_json)){
+            Gson gson = new Gson();
+            mHost = gson.fromJson(host_json,AnchorInfoResult.class);
+        }
+        if (mHost == null) return;
+
+        Glide.with(App.getContext()).load(StringUtils.convertUrlStr(mHost.avatar))
+                .bitmapTransform(new BlurTransformation(App.getContext(),
+                        Constants.BLUR_RADIUS + 3,Constants.BLUR_SAMPLING))
+                .crossFade()/*.thumbnail(0.1f)*/.into(mCover);
+        Glide.with(App.getContext()).load(StringUtils.convertUrlStr(mHost.avatar))
+                .crossFade()/*.thumbnail(0.1f)*/.into(mAvatar);
+
+        Log.e(TAG, "initData: "+mHost.video_5s );
+        mVideoView.getHolder().addCallback(callback);
+        mVideoView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        mVideoView.getHolder().setKeepScreenOn(true);
+
+        mPlayerHandler = new Handler();
+        mPlayer = new MusicPlayer(this);
         mCameraHolder = mCameraView.getHolder();
-        mCameraHolder.addCallback(this);
+        mCameraHolder.addCallback(camera_callback);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
@@ -89,6 +111,7 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener,
                 return;
             }
         }
+
         autoResult();
     }
 
@@ -102,14 +125,17 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener,
         return null;
     }
 
-    public static void open(Context context){
-        context.startActivity(new Intent(context,ChatActivity.class));
+    public static void open(Context context, AnchorInfoResult host){
+        Gson gson = new Gson();
+        String json = gson.toJson(host);
+        Intent goTo = new Intent(context, ChatActivity.class);
+        goTo.putExtra(ChatActivity.TAG,json);
+        context.startActivity(goTo);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mCoverBitmap.recycle();
         if (mPlayer != null) {
             mPlayer.releaseAll();
             mPlayer = null;
@@ -202,52 +228,57 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener,
     private void switch2Connect(){
         mRequestView.setVisibility(View.GONE);
         mChatView.setVisibility(View.VISIBLE);
+        mVideoView.setVisibility(View.VISIBLE);
+        mCover.setVisibility(View.GONE);
         if (mCamera != null){
             mCamera.startPreview();
         }
+
     }
 
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        try {
-            int cameraCount = Camera.getNumberOfCameras();
-            Camera.CameraInfo info = new Camera.CameraInfo();
-            for(int cameraIndex = 0; cameraIndex<cameraCount; cameraIndex++){
-                Camera.getCameraInfo(cameraIndex, info);
-                if(info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT){
-                    frontCamera = cameraIndex;//前置
-                }else if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK){
-                    backCamera = cameraIndex;//后置
+    private SurfaceHolder.Callback camera_callback = new SurfaceHolder.Callback() {
+        @Override
+        public void surfaceCreated(SurfaceHolder holder) {
+            try {
+                int cameraCount = Camera.getNumberOfCameras();
+                Camera.CameraInfo info = new Camera.CameraInfo();
+                for(int cameraIndex = 0; cameraIndex<cameraCount; cameraIndex++){
+                    Camera.getCameraInfo(cameraIndex, info);
+                    if(info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT){
+                        frontCamera = cameraIndex;//前置
+                    }else if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK){
+                        backCamera = cameraIndex;//后置
+                    }
                 }
+                current_camera_type = frontCamera;
+                mCamera = Camera.open(current_camera_type);
+                mCamera.setPreviewDisplay(mCameraHolder);
+                mCamera.stopPreview();
+            } catch (Exception e) {
+                if (null != mCamera) {
+                    mCamera.release();
+                    mCamera = null;
+                }
+                e.printStackTrace();
+                Log.e(TAG, "surfaceCreated: "+e.getMessage() );
+                Toast.makeText(ChatActivity.this, "启动摄像头失败,请开启摄像头权限", Toast.LENGTH_SHORT).show();
             }
-            current_camera_type = frontCamera;
-            mCamera = Camera.open(current_camera_type);
-            mCamera.setPreviewDisplay(mCameraHolder);
-            mCamera.stopPreview();
-        } catch (Exception e) {
+        }
+
+        @Override
+        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            initCamera();
+        }
+
+        @Override
+        public void surfaceDestroyed(SurfaceHolder holder) {
             if (null != mCamera) {
+                mCamera.stopPreview();
                 mCamera.release();
                 mCamera = null;
             }
-            e.printStackTrace();
-            Log.e(TAG, "surfaceCreated: "+e.getMessage() );
-            Toast.makeText(this, "启动摄像头失败,请开启摄像头权限", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        initCamera();
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        if (null != mCamera) {
-            mCamera.stopPreview();
-            mCamera.release();
-            mCamera = null;
-        }
-    }
+    };
 
     private void initCamera(){
         Camera.Parameters parameters = mCamera.getParameters();//获取camera的parameter实例
@@ -312,4 +343,110 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener,
         }
         return optimalSize;
     }
+
+    /**   5s视频播放  */
+    private SurfaceHolder.Callback callback = new SurfaceHolder.Callback() {
+        // SurfaceHolder被修改的时候回调
+        @Override
+        public void surfaceDestroyed(SurfaceHolder holder) {
+            Log.e(TAG, "SurfaceHolder 被销毁");
+            stop();
+        }
+
+        @Override
+        public void surfaceCreated(SurfaceHolder holder) {
+            Log.e(TAG, "SurfaceHolder 被创建");
+            play(0);
+//            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+//                mediaPlayer.pause();
+//            }
+        }
+
+        @Override
+        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            Log.e(TAG, "SurfaceHolder 大小被改变");
+        }
+
+    };
+
+    /*
+     * 停止播放
+     */
+    protected void stop() {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
+    /**
+     * 开始播放
+     *
+     * @param msec 播放初始位置
+     */
+    protected void play(final int msec) {
+        // 获取视频文件地址
+        Log.e(TAG, "play: "+mHost.video_5s );
+        Uri uri = Uri.parse(StringUtils.convertUrlStr(mHost.video_5s));
+        try {
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            // 设置播放的视频源
+            mediaPlayer.setDataSource(App.getContext(),uri);
+            Log.e(TAG, "开始装载");
+            mediaPlayer.prepareAsync();
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    try {
+                        // 设置显示视频的SurfaceHolder
+                        mediaPlayer.setDisplay(mVideoView.getHolder());
+                        Log.e(TAG, "装载完成");
+                        mCover.setVisibility(View.GONE);
+                        mediaPlayer.start();
+                        // 按照初始位置播放
+                        mediaPlayer.seekTo(msec);
+                    }catch (IllegalArgumentException e){
+                        //提前结束了activity，surface被提前释放异常
+                        Log.e(TAG, "onPrepared: "+e.toString() );
+                    }
+                }
+            });
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    // 在播放完毕被回调
+                }
+            });
+
+            mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    // 发生错误重新播放
+                    stop();
+                    return false;
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, "play error: "+e.toString() );
+        }
+
+    }
+
+    /**
+     * 重新开始播放
+     */
+    protected void replay() {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.seekTo(0);
+            return;
+        }
+        play(0);
+    }
+    /**   5s视频播放完毕  */
 }

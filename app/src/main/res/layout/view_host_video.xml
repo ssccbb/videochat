@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="194dp"
+    android:background="@color/app_dark">
+
+    <ImageView
+        android:id="@+id/cover"
+        android:layout_margin="1dp"
+        android:src="@color/app_shadow"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="192dp" />
+    
+    <RelativeLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="174dp">
+
+        <ImageView
+            android:id="@+id/lock"
+            android:src="@mipmap/ic_lock"
+            android:layout_width="15dp"
+            android:layout_height="15dp" />
+
+        <TextView
+            android:id="@+id/type"
+            android:text="私房视频"
+            android:textSize="10sp"
+            android:textColor="@color/app_white"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/lock"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp" />
+
+        <TextView
+            android:id="@+id/tittle"
+            android:text="标题"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/app_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/num"
+            android:text="2233"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/app_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_toLeftOf="@+id/num"
+            android:layout_alignParentBottom="true"
+            android:src="@mipmap/ic_video_like_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

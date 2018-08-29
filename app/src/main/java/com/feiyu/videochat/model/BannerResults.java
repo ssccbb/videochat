@@ -1,56 +1,73 @@
 package com.feiyu.videochat.model;
 
-import com.feiyu.videochat.net.httpresponse.BaseResponse;
+import com.feiyu.videochat.model.basemodel.XBaseModel;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
-import java.io.Serializable;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class BannerResults extends BaseResponse implements Serializable {
-    // 序列化UID 用于反序列化
-    private static final long serialVersionUID = 4863726647304575308L;
+import java.util.ArrayList;
+import java.util.List;
 
+public class BannerResults extends XBaseModel {
 
-    /**
-     * state : 0
-     * msg : 请求成功
-     * data : {"cover_url":"http://","link_url":"http://"}
-     */
+    public List<Banner> revolve_list = new ArrayList<>();;
 
-    public int state;
-    public String msg;
-    public DataBean data;
-
-    public int getState() {
-        return state;
+    public BannerResults(String json) {
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            code = jsonObject.getString("state");
+            message = jsonObject.getString("msg");
+            if (!jsonObject.has("data")) return;
+            JSONObject data = jsonObject.getJSONObject("data");
+            JSONArray array = data.getJSONArray("revolve_list");
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject object = array.getJSONObject(i);
+                Banner banner = new Banner(object);
+                revolve_list.add(banner);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public List<Banner> getRevolve_list() {
+        return revolve_list;
     }
 
-    public String getMsg() {
-        return msg;
+    public void setRevolve_list(List<Banner> revolve_list) {
+        this.revolve_list = revolve_list;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
-    }
-
-    public static class DataBean {
+    public static class Banner {
         /**
-         * cover_url : http://
-         * link_url : http://
+         * cover_url : a.kinnekpro.com/Public/images/banner/7b9060a65804efac.jpg
+         * type : 3
+         * data : {"link_url":"https://www.baidu.com/"}
+         * inner : 0
          */
 
-        public String cover_url;
+        public String cover_url = null;
+        public String type;
+        public String inner;
         public String link_url;
+
+        public Banner() {
+        }
+
+        public Banner(JSONObject jsonObject) {
+            try {
+                cover_url = jsonObject.getString("cover_url");
+                type = jsonObject.getString("type");
+                JSONObject data = jsonObject.getJSONObject("data");
+                link_url = data.getString("link_url");
+                inner = jsonObject.getString("inner");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         public String getCover_url() {
             return cover_url;
@@ -58,6 +75,22 @@ public class BannerResults extends BaseResponse implements Serializable {
 
         public void setCover_url(String cover_url) {
             this.cover_url = cover_url;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getInner() {
+            return inner;
+        }
+
+        public void setInner(String inner) {
+            this.inner = inner;
         }
 
         public String getLink_url() {

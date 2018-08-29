@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activitys.IndexActivity"
-            android:launchMode="standard"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
@@ -59,6 +59,12 @@
             android:screenOrientation="portrait"
             android:launchMode="standard"/>
         <activity android:name=".ui.activitys.UserActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="standard"/>
+        <activity android:name=".ui.activitys.HostResActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="standard"/>
+        <activity android:name=".ui.activitys.PicBrowseActivity"
             android:screenOrientation="portrait"
             android:launchMode="standard"/>
         <provider

@@ -16,6 +16,7 @@ public class LoginInfoResults extends XBaseModel {
     public String uid;
     public String phone;
     public String user_id;
+    public String vip;
 
     public LoginInfoResults(String json) {
         try {
@@ -27,6 +28,7 @@ public class LoginInfoResults extends XBaseModel {
             uid = data.getString("uid");
             phone = data.getString("phone");
             user_id = data.getString("user_id");
+            vip = data.getString("vip");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -54,5 +56,13 @@ public class LoginInfoResults extends XBaseModel {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public String getVip() {
+        return vip;
+    }
+
+    public void setVip(String vip) {
+        this.vip = vip;
     }
 }

@@ -22,6 +22,7 @@ import com.feiyu.videochat.net.api.Api;
 import com.feiyu.videochat.net.httprequest.ApiCallback;
 import com.feiyu.videochat.net.httprequest.okhttp.JKOkHttpParamKey;
 import com.feiyu.videochat.net.httprequest.okhttp.OkHttpRequestUtils;
+import com.feiyu.videochat.utils.SharedPreUtil;
 import com.feiyu.videochat.views.XReloadableRecyclerContentLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ public class VipVideoActivity extends XBaseActivity implements XRecyclerView.OnR
     private VipVideoAdapter mVideoAdapter;
     public static final String TAG = VipVideoActivity.class.getSimpleName();
     private int next_page = 1;
+    private String uid;
 
     @BindView(R.id.back)
     View mBack;
@@ -49,7 +51,8 @@ public class VipVideoActivity extends XBaseActivity implements XRecyclerView.OnR
         mTittle.setText("VIP视频专区");
         mBack.setOnClickListener(this);
         recyclerSet();
-        postHotList(1);
+        uid = SharedPreUtil.getLoginInfo().uid;
+        postHotList(1, uid);
     }
 
     private void recyclerSet(){
@@ -68,9 +71,9 @@ public class VipVideoActivity extends XBaseActivity implements XRecyclerView.OnR
     /**
      * post获取热门
      * */
-    private void postHotList(int page){
+    private void postHotList(int page,String uid){
         OkHttpRequestUtils.getInstance().requestByPost(Api.API_BASE_URL +"/Video/vip_video",
-                OkHttpRequestUtils.getInstance().JkRequestParameters(JKOkHttpParamKey.SINGLE_PAGE, String.valueOf(page)),
+                OkHttpRequestUtils.getInstance().JkRequestParameters(JKOkHttpParamKey.VIP_VIDEO, String.valueOf(page),uid),
                 PhoneVertifyResult.class, this, new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
@@ -78,13 +81,13 @@ public class VipVideoActivity extends XBaseActivity implements XRecyclerView.OnR
                         Log.e(TAG, "onSuccess: "+(String) response );
                         HotVideoResults mHotData = new HotVideoResults((String)response);
                         if (!mHotData.code.equals(StateCode.STATE_0000)){
-                            Toast.makeText(VipVideoActivity.this, mHotData.message, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(VipVideoActivity.this, mHotData.message, Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "onSuccess: code == "+mHotData.code +" & msg == "+mHotData.message);
                             mList.showError();
                             return;
                         }
                         if (mHotData.list.isEmpty()){
-                            Toast.makeText(VipVideoActivity.this, "没有更多数据", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(VipVideoActivity.this, "没有更多数据", Toast.LENGTH_SHORT).show();
                             if (page == 1){
                                 mList.showEmpty();
                             }
@@ -112,12 +115,12 @@ public class VipVideoActivity extends XBaseActivity implements XRecyclerView.OnR
 
     @Override
     public void onRefresh() {
-        postHotList(1);
+        postHotList(1,uid);
     }
 
     @Override
     public void onLoadMore(int page) {
-        postHotList(next_page);
+        postHotList(next_page,uid);
     }
 
     @Override

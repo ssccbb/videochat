@@ -263,7 +263,7 @@ public class StringUtils {
 
     public static String convertUrlStr(String url){
         if (isEmpty(url)) return "";
-        if (!url.contains("http://") || !url.contains("https://")){
+        if (!url.startsWith("http://") && !url.startsWith("https://")){
             return "http://" + url;
         }
         return url;
