@@ -7,7 +7,7 @@
 
     <ImageView
         android:id="@+id/img"
-        android:src="@drawable/timg1"
+        android:background="@mipmap/ic_default_placeholder"
         android:scaleType="centerCrop"
         android:layout_width="50dp"
         android:layout_height="50dp" />

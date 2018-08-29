@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content" />
                 <com.feiyu.videochat.views.CircleImageView
                     android:id="@+id/avatar"
-                    android:src="@drawable/timg1"
+                    android:background="@mipmap/ic_default_avatar"
                     android:layout_width="60dp"
                     android:layout_height="60dp" />
             </LinearLayout>

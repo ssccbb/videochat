@@ -1,5 +1,7 @@
 package com.feiyu.videochat.ui.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
@@ -116,9 +119,9 @@ public class SubSampleImagesViewFragment extends XBaseFragment {
             mUrl = arguments.getString(URL);
         }
 
+        //mSubImageView.setMinScale(1.0f);
+        //mSubImageView.setMaxScale(1.0f);
         mSubImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_INSIDE);
-        mSubImageView.setMinScale(1.0f);
-        mSubImageView.setMaxScale(10.0f);
         Glide.with(getActivity()).load(mUrl).downloadOnly(new SimpleTarget<File>() {
             @Override
             public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
@@ -126,7 +129,7 @@ public class SubSampleImagesViewFragment extends XBaseFragment {
                     mPBLoading.setVisibility(View.GONE);
                 }
                 mSubImageView.setImage(ImageSource.uri(Uri.fromFile(resource)),
-                        new ImageViewState(2.0F, new PointF(0, 0), 0));
+                        new ImageViewState(getInitImageScale(resource.getAbsolutePath()), new PointF(0, 0), 0));
             }
         });
     }
@@ -189,6 +192,38 @@ public class SubSampleImagesViewFragment extends XBaseFragment {
                 mLoadFailed = true;
             }
         }, CallerThreadExecutor.getInstance());
+    }
+
+    /**
+     * 计算出图片初次显示需要放大倍数
+     * @param imagePath 图片的绝对路径
+     */
+    public float getInitImageScale(String imagePath){
+        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+        WindowManager wm = getActivity().getWindowManager();
+        int width = wm.getDefaultDisplay().getWidth();
+        int height = wm.getDefaultDisplay().getHeight();
+        // 拿到图片的宽和高
+        int dw = bitmap.getWidth();
+        int dh = bitmap.getHeight();
+        float scale = 1.0f;
+        //图片宽度大于屏幕，但高度小于屏幕，则缩小图片至填满屏幕宽
+        if (dw > width && dh <= height) {
+            scale = width * 1.0f / dw;
+        }
+        //图片宽度小于屏幕，但高度大于屏幕，则放大图片至填满屏幕宽
+        if (dw <= width && dh > height) {
+            scale = width * 1.0f / dw;
+        }
+        //图片高度和宽度都小于屏幕，则放大图片至填满屏幕宽
+        if (dw < width && dh < height) {
+            scale = width * 1.0f / dw;
+        }
+        //图片高度和宽度都大于屏幕，则缩小图片至填满屏幕宽
+        if (dw > width && dh > height) {
+            scale = width * 1.0f / dw;
+        }
+        return scale;
     }
 
     @Override

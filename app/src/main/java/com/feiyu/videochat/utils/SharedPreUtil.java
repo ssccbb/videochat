@@ -18,7 +18,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class SharedPreUtil {
-
+    public static final String TAG = SharedPreUtil.class.getSimpleName();
     private static SharedPreferences sp;
 
     private static final String SharedPreference_SessionId = "sessionId";
@@ -150,6 +150,17 @@ public class SharedPreUtil {
 
     public static boolean isLogin(){
         return sp.contains(Constants.SP_LOGIN_INFO);
+    }
+
+    public static boolean isVip(){
+        LoginInfoResults loginInfo = getLoginInfo();
+        int vip = 0;
+        try {
+            vip = Integer.parseInt(loginInfo.vip);
+        }catch (NumberFormatException e){
+            Log.e(SharedPreUtil.TAG, "isVip: "+e.toString() );
+        }
+        return !(vip == Constants.NORMAL_USER_TYPE);
     }
 
     /*****************************          public method end                 ******************************/

@@ -29,4 +29,6 @@
     <color name="app_shadowdark">#666666</color>
     <color name="app_yellowdark">#ffa604</color>
     <color name="app_gold">#e3cda5</color>
+    <color name="app_orange">#f09b3b</color>
+    <color name="app_blue">#4c74dd</color>
 </resources>

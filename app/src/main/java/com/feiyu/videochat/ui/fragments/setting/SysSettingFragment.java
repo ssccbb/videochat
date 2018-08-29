@@ -2,23 +2,18 @@ package com.feiyu.videochat.ui.fragments.setting;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
-import com.feiyu.videochat.adapter.HomeChildPagerAdapter;
 import com.feiyu.videochat.common.XBaseFragment;
 import com.feiyu.videochat.ui.activitys.MsgActivity;
-import com.feiyu.videochat.ui.activitys.SearchActivity;
 import com.feiyu.videochat.ui.activitys.SettingActivity;
 import com.feiyu.videochat.utils.SharedPreUtil;
 import com.feiyu.videochat.utils.Utils;
-import com.feiyu.videochat.views.VCDialog;
+import com.feiyu.videochat.views.dialog.VCDialog;
 
 import butterknife.BindView;
 

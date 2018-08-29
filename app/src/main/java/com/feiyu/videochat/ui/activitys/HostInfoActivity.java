@@ -17,6 +17,7 @@ import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.adapter.HostResAdapter;
 import com.feiyu.videochat.adapter.SimpleDividerDecoration;
+import com.feiyu.videochat.common.Constants;
 import com.feiyu.videochat.common.XBaseActivity;
 import com.feiyu.videochat.model.AnchorInfoResult;
 import com.feiyu.videochat.model.HotHostResults;
@@ -49,6 +50,7 @@ public class HostInfoActivity extends XBaseActivity implements View.OnClickListe
     private HostResAdapter mPicAdapter;
     private HostResAdapter mVideoAdapter;
     private int pay_status = -1;
+    private int mHostStates = -1;
 
     @BindView(R.id.back)
     View mBack;
@@ -84,10 +86,13 @@ public class HostInfoActivity extends XBaseActivity implements View.OnClickListe
     TextView mLineTime;
     @BindView(R.id.sign)
     TextView mSign;
+    @BindView(R.id.auth)
+    View mAuth;
 
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        mConnect.setSelected(false);
         mBack.setOnClickListener(this);
         mConnect.setOnClickListener(this);
         mFullPics.setOnClickListener(this);
@@ -100,7 +105,6 @@ public class HostInfoActivity extends XBaseActivity implements View.OnClickListe
         initVideoList();
         postAnchorInfo(mHost.uid);
         postAnchorPayInfo(mHost.uid);
-
     }
 
     private void initPicList() {
@@ -163,7 +167,9 @@ public class HostInfoActivity extends XBaseActivity implements View.OnClickListe
         Glide.with(App.getContext()).load(StringUtils.convertUrlStr(mUserInfo.avatar))
                 .crossFade()/*.thumbnail(0.1f)*/.centerCrop().into(mCover);
         mName.setText(StringUtils.isEmpty(mUserInfo.nickname) ? "" : mUserInfo.nickname);
-        mStatus.setImageResource(Utils.getHostStatus(Integer.parseInt(mUserInfo.answer_state)));//1空闲 2在聊 3勿扰
+        mHostStates = Integer.parseInt(mUserInfo.answer_state);
+        mStatus.setImageResource(Utils.getHostStatus(mHostStates));//1空闲 2在聊 3勿扰
+        mConnect.setSelected(mHostStates == Constants.HOST_STATUS_FREE);
         mPrice.setText(StringUtils.isEmpty(mUserInfo.fee) ? "0" : mUserInfo.fee);
         mInfo.setText( mUserInfo.city);
         mIDNum.setText("微聊ID:" + mUserInfo.user_id);
@@ -173,6 +179,7 @@ public class HostInfoActivity extends XBaseActivity implements View.OnClickListe
         mLineAgree.setText(mUserInfo.answer_rate + "%");
         mLineTime.setText(mUserInfo.live_time);
         mSign.setText(mUserInfo.signature);
+        mAuth.setVisibility(View.VISIBLE);
 
         List<AnchorInfoResult.VideoListBean> pics = new ArrayList<>();
         for (int i = 0; i < mUserInfo.pic_list.size(); i++) {
@@ -248,7 +255,17 @@ public class HostInfoActivity extends XBaseActivity implements View.OnClickListe
             this.finish();
         }
         if (v == mConnect) {
-            ChatActivity.open(this, mUserInfo);
+            switch (mHostStates){
+                case Constants.HOST_STATUS_FREE:
+                    ChatActivity.open(this, mUserInfo);
+                    break;
+                case Constants.HOST_STATUS_CHAT:
+                    Toast.makeText(this, this.getResources().getString(R.string.host_state_hint_chat), Toast.LENGTH_SHORT).show();
+                    return;
+                case Constants.HOST_STATUS_BUSY:
+                    Toast.makeText(this, this.getResources().getString(R.string.host_state_hint_busy), Toast.LENGTH_SHORT).show();
+                    return;
+            }
         }
         if (v == mFollow) {
             mFollow.setSelected(!mFollow.isSelected());

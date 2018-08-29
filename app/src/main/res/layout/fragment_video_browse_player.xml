@@ -62,7 +62,7 @@
             android:id="@+id/ci_avatar"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:src="@drawable/timg1"
+            android:background="@mipmap/ic_default_avatar"
             android:padding="1dp" />
 
         <ImageView

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="萝莉"
+    android:paddingLeft="@dimen/dp_10"
+    android:paddingRight="@dimen/dp_10"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp"
+    android:textColor="@color/app_white"
+    android:background="@drawable/bg_gradient_radius10_hoop_purpers"
+    android:id="@+id/text"/>

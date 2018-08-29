@@ -22,7 +22,9 @@ import com.feiyu.videochat.net.httprequest.ApiCallback;
 import com.feiyu.videochat.net.httprequest.okhttp.JKOkHttpParamKey;
 import com.feiyu.videochat.net.httprequest.okhttp.OkHttpRequestUtils;
 import com.feiyu.videochat.ui.activitys.VideoBrowseActivity;
+import com.feiyu.videochat.ui.activitys.VipActivity;
 import com.feiyu.videochat.ui.activitys.VipVideoActivity;
+import com.feiyu.videochat.utils.SharedPreUtil;
 import com.feiyu.videochat.views.XReloadableRecyclerContentLayout;
 
 import java.util.ArrayList;

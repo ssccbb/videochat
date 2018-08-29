@@ -6,6 +6,9 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import com.facebook.binaryresource.BinaryResource;
 import com.facebook.binaryresource.FileBinaryResource;
@@ -442,5 +445,14 @@ public class Utils {
             }
         }
         return localFile;
+    }
+
+    public View inflateFlag(Context context, String flag){
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.view_flag, null, false);
+        TextView text = view.findViewById(R.id.text);
+        text.setText(flag);
+        text.setBackground(context.getResources().getDrawable(Constants.round_bg[Math.round(Constants.round_bg.length)]));
+        return view;
     }
 }

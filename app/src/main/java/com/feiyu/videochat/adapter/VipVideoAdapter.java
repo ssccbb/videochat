@@ -136,9 +136,6 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
             name.setText(hotVideo.title);
             name.setTextColor(mContext.getResources().getColor(R.color.app_black));
             Glide.with(App.getContext()).load(StringUtils.convertUrlStr(hotVideo.cover_url)).crossFade()/*.thumbnail(0.1f)*/.centerCrop().into(cover);
-            cover.setBackground(
-                    mContext.getResources().getDrawable(
-                            Constants.round_color[(int) (Math.random()*4)]));
             heartNum.setVisibility(View.VISIBLE);
             heartNum.setText(hotVideo.total_viewer);
             heart.setVisibility(View.VISIBLE);

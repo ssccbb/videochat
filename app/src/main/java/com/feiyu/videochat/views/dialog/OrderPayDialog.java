@@ -1,6 +1,5 @@
-package com.feiyu.videochat.views;
+package com.feiyu.videochat.views.dialog;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -15,14 +14,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 import com.feiyu.videochat.R;
-import com.feiyu.videochat.utils.StringUtils;
 
 /**
  * Created by sun on 21/12/2017.
  */
 
-public class ChargeDialog extends DialogFragment implements View.OnClickListener{
-    public static final String TAG = ChargeDialog.class.getSimpleName();
+public class OrderPayDialog extends DialogFragment implements View.OnClickListener{
+    public static final String TAG = OrderPayDialog.class.getSimpleName();
     private onChargeClickListener onChargeClickListener;
     private View mCancel,mAlipay;
     private TextView mPrice;

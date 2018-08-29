@@ -26,6 +26,7 @@ import com.feiyu.videochat.net.api.Api;
 import com.feiyu.videochat.net.httprequest.ApiCallback;
 import com.feiyu.videochat.net.httprequest.okhttp.JKOkHttpParamKey;
 import com.feiyu.videochat.net.httprequest.okhttp.OkHttpRequestUtils;
+import com.feiyu.videochat.utils.StringUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
@@ -40,6 +41,10 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
     TextView skip;
     @BindView(R.id.ids)
     ImageView img;
+    @BindView(R.id.id_container)
+    View idContainer;
+    @BindView(R.id.splash)
+    ImageView splash;
 
     private IDResult ids;
     private Handler uiHandler = new Handler();
@@ -76,8 +81,12 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
         }
         if (v == img){
             uiHandler.removeCallbacksAndMessages(null);
-            if (ids == null) return;
-            Toast.makeText(this, "link to:"+ids.link_url, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "link to:"+ids.link_url, Toast.LENGTH_SHORT).show();
+            if (ids == null || StringUtils.isEmpty(ids.link_url)) return;
+            Intent intent = new Intent(context, WebBrowseActivity.class);
+            intent.putExtra(WebBrowseActivity.TITTLE, this.getResources().getString(R.string.app_name));
+            intent.putExtra(WebBrowseActivity.URL, ids.link_url);
+            context.startActivityForResult(intent,0);
         }
     }
 
@@ -92,10 +101,12 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
                     public void onSuccess(Object response) {
                         Log.e(TAG, "onSuccess: "+(String) response );
                         ids = new IDResult((String) response);
-                        ILFactory.getLoader().loadNet(App.getContext(),"http://"+ids.cover_url,ILoader.Options.defaultOptions(),new LoadCallback(){
+                        ILFactory.getLoader().loadNet(App.getContext(), StringUtils.convertUrlStr(ids.cover_url),ILoader.Options.defaultOptions(),new LoadCallback(){
 
                             @Override
                             public void onLoadReady(Bitmap bitmap) {
+                                idContainer.setVisibility(View.VISIBLE);
+                                splash.setVisibility(View.GONE);
                                 img.setImageBitmap(bitmap);
                                 uiHandler.postDelayed(skipRunnable,3000);
                             }
@@ -131,5 +142,11 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
             return false;
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        next();
     }
 }

@@ -19,7 +19,7 @@
                 android:background="@color/app_pink">
                 <ImageView
                     android:id="@+id/cover"
-                    android:src="@drawable/timg1"
+                    android:background="@mipmap/ic_default_placeholder"
                     android:scaleType="centerCrop"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
@@ -35,10 +35,12 @@
                     android:layout_marginBottom="5dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:src="@mipmap/ic_host_status_free"
+                    android:src="@mipmap/ic_host_status_busy"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp" />
                 <ImageView
+                    android:id="@+id/auth"
+                    android:visibility="gone"
                     android:src="@mipmap/ic_auth"
                     android:layout_margin="5dp"
                     android:layout_alignParentBottom="true"
@@ -287,7 +289,7 @@
     <LinearLayout
         android:id="@+id/connect"
         android:gravity="center"
-        android:background="@mipmap/bg_status_bar_head"
+        android:background="@drawable/bg_host_connect"
         android:layout_width="match_parent"
         android:layout_height="48dp">
         <ImageView

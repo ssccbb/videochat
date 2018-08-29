@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.model.BannerResults;
+import com.feiyu.videochat.ui.activitys.WebBrowseActivity;
 import com.feiyu.videochat.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -50,7 +51,6 @@ public class HomeHotBannerAdapter extends PagerAdapter {
         for (int i = 0; i < mData.size(); i++) {
             View item = inflater.inflate(R.layout.view_banner_item,null,false);
             ImageView img = item.findViewById(R.id.banner_img);
-            img.setImageResource(R.mipmap.ic_loading_fail);
             img.setScaleType(ImageView.ScaleType.CENTER_CROP);
             BannerResults.Banner banner = (BannerResults.Banner) mData.get(i);
             if (!StringUtils.isEmpty(banner.cover_url)) {
@@ -60,7 +60,9 @@ public class HomeHotBannerAdapter extends PagerAdapter {
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mContext, banner.link_url+"", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mContext, banner.link_url+"", Toast.LENGTH_SHORT).show();
+                    if (banner == null || StringUtils.isEmpty(banner.link_url)) return;
+                    WebBrowseActivity.open(mContext,mContext.getResources().getString(R.string.app_name),banner.link_url);
                 }
             });
             mViews.add(item);

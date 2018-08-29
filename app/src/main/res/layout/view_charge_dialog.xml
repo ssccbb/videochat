@@ -57,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp">
         <ImageView
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/alipay"
             android:layout_width="20dp"
             android:layout_height="20dp" />
         <TextView

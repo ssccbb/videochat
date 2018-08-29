@@ -1,6 +1,5 @@
 package com.feiyu.videochat.ui.activitys;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +10,7 @@ import android.widget.Toast;
 import com.feiyu.videochat.App;
 import com.feiyu.videochat.R;
 import com.feiyu.videochat.common.XBaseActivity;
-import com.feiyu.videochat.views.ChargeDialog;
+import com.feiyu.videochat.views.dialog.OrderPayDialog;
 
 import butterknife.BindView;
 
@@ -47,7 +46,7 @@ public class VipActivity extends XBaseActivity implements View.OnClickListener{
 
     public static void open(Context context){
         Intent goTo = new Intent(context, VipActivity.class);
-        App.getContext().startActivity(goTo);
+        context.startActivity(goTo);
     }
 
     @Override
@@ -61,17 +60,17 @@ public class VipActivity extends XBaseActivity implements View.OnClickListener{
     }
 
     private void showChargeDialog(int price){
-        ChargeDialog chargeDialog = new ChargeDialog();
+        OrderPayDialog orderPayDialog = new OrderPayDialog();
         Bundle bundle = new Bundle();
-        bundle.putInt(ChargeDialog.TAG, price);
-        chargeDialog.addOnChargeClickListener(new ChargeDialog.onChargeClickListener() {
+        bundle.putInt(OrderPayDialog.TAG, price);
+        orderPayDialog.addOnChargeClickListener(new OrderPayDialog.onChargeClickListener() {
             @Override
             public void onChargeClick(int charge_value) {
-                chargeDialog.dismissAllowingStateLoss();
+                orderPayDialog.dismissAllowingStateLoss();
                 Toast.makeText(VipActivity.this, ""+charge_value, Toast.LENGTH_SHORT).show();
             }
         });
-        chargeDialog.setArguments(bundle);
-        chargeDialog.show(this.getSupportFragmentManager(), ChargeDialog.TAG);
+        orderPayDialog.setArguments(bundle);
+        orderPayDialog.show(this.getSupportFragmentManager(), OrderPayDialog.TAG);
     }
 }

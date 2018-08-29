@@ -39,7 +39,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <com.feiyu.videochat.views.CircleImageView
-            android:src="@drawable/timg1"
+            android:background="@mipmap/ic_default_avatar"
             android:layout_marginRight="7dp"
             android:layout_width="38dp"
             android:layout_height="38dp" />

@@ -1,4 +1,4 @@
-package com.feiyu.videochat.views;
+package com.feiyu.videochat.views.dialog;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -182,6 +182,11 @@ public class VCDialog extends android.support.v4.app.DialogFragment implements V
         if (v == confirm) {
             onDialogActionListner.onConfirm();
         }
+    }
+
+    public void setCancelable(boolean cancelable){
+        if (this.getDialog() == null) return;
+        this.getDialog().setCancelable(cancelable);
     }
 
     public void addOnDialogActionListner(onDialogActionListner onDialogActionListner) {

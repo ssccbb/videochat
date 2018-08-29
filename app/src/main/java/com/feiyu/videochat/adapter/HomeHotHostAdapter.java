@@ -82,9 +82,6 @@ public class HomeHotHostAdapter extends RecyclerView.Adapter implements View.OnC
 
             hotHostHolder.root.setTag(hotHost);
             hotHostHolder.root.setOnClickListener(this);
-            hotHostHolder.cover.setBackground(
-                    mContext.getResources().getDrawable(
-                            Constants.round_color[(int) (Math.random()*4)]));
             hotHostHolder.name.setText(hotHost.nickname);
             hotHostHolder.status.setImageResource(Utils.getHostStatus(Integer.parseInt(hotHost.anchor_state)));
             Glide.with(App.getContext()).load(StringUtils.convertUrlStr(hotHost.avatar)).crossFade()/*.thumbnail(0.1f)*/.centerCrop().into(hotHostHolder.cover);

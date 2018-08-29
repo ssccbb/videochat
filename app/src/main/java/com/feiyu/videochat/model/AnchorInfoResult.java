@@ -79,7 +79,7 @@ public class AnchorInfoResult extends XBaseModel {
             live_time = jsonObject.getString("live_time");
             online_time = jsonObject.getString("online_time");
             answer_rate = jsonObject.getString("answer_rate");
-            answer_state = jsonObject.getString("answer_state");
+            answer_state = jsonObject.getString("anchor_state");
             pay_diamond = jsonObject.getString("pay_diamond");
             is_pay = jsonObject.getString("is_pay");
             pic_count = jsonObject.getString("pic_count");

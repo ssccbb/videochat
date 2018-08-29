@@ -17,9 +17,12 @@ import com.feiyu.videochat.net.api.Api;
 import com.feiyu.videochat.net.httprequest.ApiCallback;
 import com.feiyu.videochat.net.httprequest.okhttp.JKOkHttpParamKey;
 import com.feiyu.videochat.net.httprequest.okhttp.OkHttpRequestUtils;
+import com.feiyu.videochat.ui.activitys.SettingActivity;
 import com.feiyu.videochat.ui.activitys.VideoBrowseActivity;
 import com.feiyu.videochat.ui.activitys.VipActivity;
+import com.feiyu.videochat.ui.fragments.setting.ChargeFragment;
 import com.feiyu.videochat.utils.SharedPreUtil;
+import com.feiyu.videochat.views.dialog.UnlockHostChargeDialog;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,6 +61,7 @@ public class HostVideoFragment extends XBaseFragment implements View.OnClickList
     public void initData(Bundle savedInstanceState) {
         mBack.setOnClickListener(this::onClick);
         mOpenVIP.setOnClickListener(this::onClick);
+        mUnlock.setOnClickListener(this::onClick);
         if (getArguments() != null) {
             Gson gson = new Gson();
             host = gson.fromJson(getArguments().getString(TAG),AnchorInfoResult.class);
@@ -106,6 +110,20 @@ public class HostVideoFragment extends XBaseFragment implements View.OnClickList
         }
         if (v == mOpenVIP){
             VipActivity.open(getActivity());
+        }
+        if (v == mUnlock){
+            UnlockHostChargeDialog dialog = new UnlockHostChargeDialog();
+            Bundle bundle = new Bundle();
+            bundle.putInt(UnlockHostChargeDialog.TAG,UnlockHostChargeDialog.Charge_Video_Type);
+            dialog.setArguments(bundle);
+            dialog.addOnDialogActionListner(new UnlockHostChargeDialog.onDialogActionListner() {
+                @Override
+                public void onChargeClick() {
+                    SettingActivity.open(getActivity(), ChargeFragment.TAG);
+                    dialog.dismissAllowingStateLoss();
+                }
+            });
+            dialog.show(getActivity().getSupportFragmentManager(),UnlockHostChargeDialog.TAG);
         }
     }
 

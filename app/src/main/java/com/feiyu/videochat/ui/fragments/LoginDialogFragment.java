@@ -9,11 +9,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,10 +28,11 @@ import com.feiyu.videochat.net.api.Api;
 import com.feiyu.videochat.net.httprequest.ApiCallback;
 import com.feiyu.videochat.net.httprequest.okhttp.JKOkHttpParamKey;
 import com.feiyu.videochat.net.httprequest.okhttp.OkHttpRequestUtils;
+import com.feiyu.videochat.utils.ScreenUtils;
 import com.feiyu.videochat.utils.SharedPreUtil;
 import com.feiyu.videochat.utils.StringUtils;
 import com.feiyu.videochat.utils.Utils;
-import com.feiyu.videochat.views.VCDialog;
+import com.feiyu.videochat.views.dialog.VCDialog;
 
 public class LoginDialogFragment extends DialogFragment implements View.OnClickListener {
     public static final String TAG = LoginDialogFragment.class.getSimpleName();
@@ -64,6 +67,18 @@ public class LoginDialogFragment extends DialogFragment implements View.OnClickL
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_login,container,false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getDialog() == null) return;
+        if (!getDialog().isShowing()) return;
+        Window dialogWindow = getDialog().getWindow();
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        dialogWindow.setGravity(Gravity.CENTER);
+        lp.width = ScreenUtils.getScreenWidth(getContext()) / 5 * 4;
+        dialogWindow.setAttributes(lp);
     }
 
     @Override

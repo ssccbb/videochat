@@ -16,7 +16,7 @@ import com.feiyu.videochat.net.httprequest.ApiCallback;
 import com.feiyu.videochat.net.httprequest.okhttp.JKOkHttpParamKey;
 import com.feiyu.videochat.net.httprequest.okhttp.OkHttpRequestUtils;
 import com.feiyu.videochat.utils.SharedPreUtil;
-import com.feiyu.videochat.views.ChargeDialog;
+import com.feiyu.videochat.views.dialog.OrderPayDialog;
 
 import butterknife.BindView;
 
@@ -146,17 +146,17 @@ public class ChargeFragment extends XBaseFragment implements View.OnClickListene
     }
 
     private void showChargeDialog(int price){
-        ChargeDialog chargeDialog = new ChargeDialog();
+        OrderPayDialog orderPayDialog = new OrderPayDialog();
         Bundle bundle = new Bundle();
-        bundle.putInt(ChargeDialog.TAG, price);
-        chargeDialog.addOnChargeClickListener(new ChargeDialog.onChargeClickListener() {
+        bundle.putInt(OrderPayDialog.TAG, price);
+        orderPayDialog.addOnChargeClickListener(new OrderPayDialog.onChargeClickListener() {
             @Override
             public void onChargeClick(int charge_value) {
-                chargeDialog.dismissAllowingStateLoss();
+                orderPayDialog.dismissAllowingStateLoss();
                 Toast.makeText(getActivity(), ""+charge_value, Toast.LENGTH_SHORT).show();
             }
         });
-        chargeDialog.setArguments(bundle);
-        chargeDialog.show(getChildFragmentManager(), ChargeDialog.TAG);
+        orderPayDialog.setArguments(bundle);
+        orderPayDialog.show(getChildFragmentManager(), OrderPayDialog.TAG);
     }
 }

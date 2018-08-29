@@ -16,4 +16,7 @@
 
     <string name="setting_help_hint">你好，\n我们将为你提供更多的帮助</string>
     <string name="setting_time_service_hint">工作日：9：00-22：00 周末：10：00-22：00\n节假日服务时间请关注app相关公告\n由此给您带来的不便敬请谅解</string>
+
+    <string name="host_state_hint_busy">主播当前未在线</string>
+    <string name="host_state_hint_chat">主播正聊得火热，换其他人试试吧~</string>
 </resources>

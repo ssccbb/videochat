@@ -24,6 +24,8 @@ import com.feiyu.videochat.net.httprequest.okhttp.JKOkHttpParamKey;
 import com.feiyu.videochat.net.httprequest.okhttp.OkHttpRequestUtils;
 import com.feiyu.videochat.utils.SharedPreUtil;
 import com.feiyu.videochat.views.XReloadableRecyclerContentLayout;
+import com.feiyu.videochat.views.dialog.VCDialog;
+
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
@@ -124,6 +126,14 @@ public class VipVideoActivity extends XBaseActivity implements XRecyclerView.OnR
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (!SharedPreUtil.isVip()){
+            showOpenVipDialog();
+        }
+    }
+
+    @Override
     public int getLayoutId() {
         return R.layout.activity_vip_video;
     }
@@ -131,6 +141,25 @@ public class VipVideoActivity extends XBaseActivity implements XRecyclerView.OnR
     @Override
     public Object newP() {
         return null;
+    }
+
+    private void showOpenVipDialog(){
+        VCDialog dialog = new VCDialog(VCDialog.Ddialog_Without_tittle_Block_Confirm,"","成为VIP即可无限观看\nVIP专区视频");
+        dialog.addOnDialogActionListner(new VCDialog.onDialogActionListner() {
+            @Override
+            public void onCancel() {
+                mBack.performClick();
+                dialog.dismissAllowingStateLoss();
+            }
+
+            @Override
+            public void onConfirm() {
+                dialog.dismissAllowingStateLoss();
+                VipActivity.open(VipVideoActivity.this);
+            }
+        });
+        dialog.show(getSupportFragmentManager(),VCDialog.TAG);
+        dialog.setCancelable(false);
     }
 
     public static void open(Context context){

@@ -67,6 +67,9 @@
         <activity android:name=".ui.activitys.PicBrowseActivity"
             android:screenOrientation="portrait"
             android:launchMode="standard"/>
+        <activity android:name=".ui.activitys.WebBrowseActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="$com.feiyu.videochat.fileProvider"

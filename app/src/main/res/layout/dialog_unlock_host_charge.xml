@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="@dimen/view_status_bar_height"
+    android:background="@drawable/bg_gradient_radius_white">
+    <ImageView
+        android:id="@+id/img"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/ic_video_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tittle"
+        android:layout_marginTop="55dp"
+        android:text="主播私房视频"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/app_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/desc"
+        android:layout_marginTop="10dp"
+        android:text="主播说这段视频尺度大，要付费才能进行观看"
+        android:textSize="11sp"
+        android:textColor="@color/app_shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/button"
+        android:text="余额不足 立即充值"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginTop="36dp"
+        android:background="@mipmap/bg_dialog_charge_button"
+        android:textColor="@color/app_white"
+        android:layout_marginBottom="10dp"
+        android:layout_width="275dp"
+        android:layout_height="50dp" />
+</LinearLayout>
