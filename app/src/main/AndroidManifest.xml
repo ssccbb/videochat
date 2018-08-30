@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.feiyu.videochat">
+    package="com.weiliao.kinnek">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -72,14 +72,14 @@
             android:launchMode="singleTop"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="$com.feiyu.videochat.fileProvider"
+            android:authorities="$com.weiliao.kinnek.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
-        <meta-data android:name="com.feiyu.videochat.common.CustomCachingGlideModule"
+        <meta-data android:name="com.weiliao.kinnek.common.CustomCachingGlideModule"
             android:value="GlideModule"/>
     </application>
 

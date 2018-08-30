@@ -28,9 +28,19 @@
         app:layout_constraintRight_toRightOf="parent"/>
 
     <ImageView
-        android:id="@+id/right_tool"
+        android:id="@+id/right_img_tool"
         android:src="@mipmap/ic_white_search"
         android:scaleType="center"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:visibility="gone"
+        android:background="?selectableItemBackground"
+        app:layout_constraintRight_toRightOf="parent"/>
+    <TextView
+        android:id="@+id/right_text_tool"
+        android:text="提交"
+        android:textColor="@color/app_white"
+        android:gravity="center"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:visibility="gone"

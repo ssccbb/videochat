@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <com.feiyu.videochat.views.TabIndicatorView
+    <com.weiliao.kinnek.views.TabIndicatorView
         android:id="@+id/tab_indicator"
         android:background="#ffffff"
         android:layout_width="match_parent"

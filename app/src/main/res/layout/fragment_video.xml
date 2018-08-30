@@ -8,7 +8,7 @@
         android:id="@+id/container"
         layout="@layout/view_index_normal_head"/>
 
-    <com.feiyu.videochat.views.XReloadableRecyclerContentLayout
+    <com.weiliao.kinnek.views.XReloadableRecyclerContentLayout
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="0dp"

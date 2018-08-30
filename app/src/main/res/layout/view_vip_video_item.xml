@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.feiyu.videochat.views.SquareLayoutView
+    <com.weiliao.kinnek.views.SquareLayoutView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/container">
@@ -46,7 +46,7 @@
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
-    </com.feiyu.videochat.views.SquareLayoutView>
+    </com.weiliao.kinnek.views.SquareLayoutView>
 
     <TextView
         android:id="@+id/name"

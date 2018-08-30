@@ -7,7 +7,7 @@
 
     <include layout="@layout/view_index_normal_head" />
 
-    <com.feiyu.videochat.views.mine.SelectItemView
+    <com.weiliao.kinnek.views.mine.SelectItemView
         android:id="@+id/item_system"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         app:icon="@mipmap/ic_message_system"
         app:notice="系统消息" />
 
-    <com.feiyu.videochat.views.mine.SelectItemView
+    <com.weiliao.kinnek.views.mine.SelectItemView
         android:id="@+id/item_commend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         app:icon="@mipmap/ic_message_recommed"
         app:notice="评论" />
 
-    <com.feiyu.videochat.views.mine.SelectItemView
+    <com.weiliao.kinnek.views.mine.SelectItemView
         android:id="@+id/item_like"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
         app:icon="@mipmap/ic_message_love"
         app:notice="点赞" />
 
-    <com.feiyu.videochat.views.mine.SelectItemView
+    <com.weiliao.kinnek.views.mine.SelectItemView
         android:id="@+id/item_black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
