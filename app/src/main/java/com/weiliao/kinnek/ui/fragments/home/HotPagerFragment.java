@@ -3,6 +3,7 @@ package com.weiliao.kinnek.ui.fragments.home;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -62,11 +63,13 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return position == 0 ? manager.getSpanCount() : 1;
+                //头部banner和底部loadmore占两格
+                return (position == 0 || position == mHotAdapter.getItemCount() ) ? manager.getSpanCount() : 1;
             }
         });
         mHotAdapter.addData(null,true);
         mList.getRecyclerView().setOnRefreshAndLoadMoreListener(this);
+        mList.getRecyclerView().useDefLoadMoreView();
         mList.getLoadingView().setVisibility(View.GONE);
         mHotAdapter.addOnItemClickListener(this);
 
@@ -97,9 +100,11 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
                             if (page == 1){
                                 mList.showEmpty();
                             }
+                            mList.getRecyclerView().removeAllFootView();
                             return;
                         }
                         next_page = Integer.valueOf(mHotData.next_page);
+                        mList.getRecyclerView().setPage(page,next_page);
                         mHotAdapter.addData(mHotData.list,page == 1 ? true : false);
                     }
 

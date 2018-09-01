@@ -1,49 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_black"
+    android:background="@color/app_dark"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:id="@+id/cover"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:gravity="center"
+    <io.vov.vitamio.widget.CenterLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextureView
-            android:id="@+id/sv_video"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+        <SurfaceView
+            android:id="@+id/surface"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </TextureView>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" >
+        </SurfaceView>
+    </io.vov.vitamio.widget.CenterLayout>
 
     <ImageView
         android:scaleType="fitXY"
+        android:layout_marginTop="-5dp"
         android:src="@mipmap/bg_video_mask_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <ImageView
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-5dp"
         android:src="@mipmap/bg_video_mask_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <View
-        android:id="@+id/pause"
-        android:layout_marginTop="80dp"
-        android:layout_marginBottom="130dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
+    <!--顶部操作栏-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -68,15 +64,16 @@
             tools:ignore="VectorDrawableCompat" />
     </RelativeLayout>
 
+    <!--右侧工具栏-->
     <RelativeLayout
         android:layout_width="56dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="155dp"
-        android:layout_marginEnd="8dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        android:layout_marginBottom="135dp"
+        android:layout_marginRight="8dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
 
         <com.weiliao.kinnek.views.CircleImageView
             android:id="@+id/ci_avatar"
@@ -87,6 +84,7 @@
 
         <ImageView
             android:id="@+id/iv_follow"
+            android:visibility="gone"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_below="@+id/ci_avatar"
@@ -100,9 +98,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ci_avatar"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="26dp"
             android:clickable="false"
-            android:drawableTop="@mipmap/ic_video_like_normal"
+            android:drawableTop="@drawable/ic_video_like"
             android:gravity="center"
             android:text="0"
             android:textColor="@color/app_white" />
@@ -113,26 +111,28 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_like"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="19dp"
+            android:layout_marginTop="15dp"
             android:drawableTop="@mipmap/ic_video_comment"
             android:gravity="center"
             android:text="0"
             android:textColor="@color/app_white" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_share"
             android:layout_width="36dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_comment"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="19dp"
+            android:layout_marginTop="15dp"
             android:drawableTop="@mipmap/ic_video_share"
             android:textColor="@color/app_white" />
 
     </RelativeLayout>
 
+    <!--底部信息栏-->
     <LinearLayout
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -150,11 +150,11 @@
             android:textSize="13sp" />
 
         <ProgressBar
-            android:id="@+id/pb_progressbar"
+            android:id="@+id/pb_loading"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:layout_marginBottom="11dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginTop="11dp"
             android:indeterminate="true"
             android:progressDrawable="@drawable/bg_short_video_progressbar" />
@@ -163,8 +163,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:paddingEnd="8dp"
-            android:paddingStart="18dp">
+            android:padding="10dp">
 
             <LinearLayout
                 android:id="@+id/name_container"
@@ -205,16 +204,20 @@
 
     </LinearLayout>
 
-    <!--<ImageView-->
-        <!--android:id="@+id/iv_start"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:src="@mipmap/ic_short_player_start"-->
-        <!--android:visibility="visible"-->
-        <!--app:layout_constraintTop_toTopOf="parent"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--app:layout_constraintRight_toRightOf="parent"/>-->
+    <ImageView
+        android:id="@+id/pause_icon"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/ic_short_player_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-</android.support.constraint.ConstraintLayout>
+    <View
+        android:id="@+id/pause"
+        android:layout_marginTop="80dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginBottom="130dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

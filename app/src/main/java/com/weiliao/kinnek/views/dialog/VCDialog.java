@@ -95,7 +95,7 @@ public class VCDialog extends android.support.v4.app.DialogFragment implements V
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.setCancelable(true);
+        this.setCancelable(false);
 
         //两个xml内的id别改！！
         mTittle = view.findViewById(R.id.dialog_tittle);

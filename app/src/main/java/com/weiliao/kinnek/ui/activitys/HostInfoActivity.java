@@ -88,7 +88,8 @@ public class HostInfoActivity extends XBaseActivity implements View.OnClickListe
     TextView mSign;
     @BindView(R.id.auth)
     View mAuth;
-
+    @BindView(R.id.flag)
+    TextView mFlag;
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -177,9 +178,10 @@ public class HostInfoActivity extends XBaseActivity implements View.OnClickListe
         mFollow.setOnClickListener(this::onClick);
         mOnlineTime.setText(mUserInfo.online_time);
         mLineAgree.setText(mUserInfo.answer_rate + "%");
-        mLineTime.setText(mUserInfo.live_time);
+        mLineTime.setText(Utils.formatTime(Long.parseLong(mUserInfo.live_time)));
         mSign.setText(mUserInfo.signature);
         mAuth.setVisibility(View.VISIBLE);
+        mFlag.setText(mUserInfo.anchor_label);
 
         List<AnchorInfoResult.VideoListBean> pics = new ArrayList<>();
         for (int i = 0; i < mUserInfo.pic_list.size(); i++) {
@@ -272,13 +274,13 @@ public class HostInfoActivity extends XBaseActivity implements View.OnClickListe
         }
         if (v == mFullPics) {
             if(mUserInfo!=null){
-                mUserInfo.setPay_status(pay_status);
+                mUserInfo.pay_status = pay_status;
             }
             HostResActivity.open(HostInfoActivity.this, HostPicFragment.TAG, mUserInfo);
         }
         if (v == mFullVideos) {
             if(mUserInfo!=null){
-                mUserInfo.setPay_status(pay_status);
+                mUserInfo.pay_status = pay_status;
             }
             HostResActivity.open(HostInfoActivity.this, HostVideoFragment.TAG, mUserInfo);
         }

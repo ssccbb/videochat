@@ -2,18 +2,18 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <!--已连通-->
+    <include
+        android:id="@+id/chat_container"
+        layout="@layout/view_chatting" />
     <ImageView
         android:id="@+id/cover"
         android:scaleType="centerCrop"
+        android:background="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <!--未连通-->
     <include
         android:id="@+id/connect_container"
         layout="@layout/view_chat_connectting" />
-    <!--已连通-->
-    <include
-        android:visibility="gone"
-        android:id="@+id/chat_container"
-        layout="@layout/view_chatting" />
 </android.support.constraint.ConstraintLayout>

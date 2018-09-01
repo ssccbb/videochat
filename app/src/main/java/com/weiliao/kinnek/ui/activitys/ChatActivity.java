@@ -6,10 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,11 +17,13 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -31,20 +33,27 @@ import com.weiliao.kinnek.common.Constants;
 import com.weiliao.kinnek.common.XBaseActivity;
 import com.weiliao.kinnek.model.AnchorInfoResult;
 import com.weiliao.kinnek.utils.MusicPlayer;
+import com.weiliao.kinnek.utils.SharedPreUtil;
 import com.weiliao.kinnek.utils.StringUtils;
 import com.weiliao.kinnek.views.CircleImageView;
 import com.google.gson.Gson;
+import com.weiliao.kinnek.views.dialog.VCDialog;
 
 import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
+import io.vov.vitamio.MediaPlayer;
+import io.vov.vitamio.Vitamio;
+import io.vov.vitamio.widget.CenterLayout;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class ChatActivity extends XBaseActivity implements View.OnClickListener {
     @BindView(R.id.cover)
     ImageView mCover;
     //
+    @BindView(R.id.name)
+    TextView name;
     @BindView(R.id.avatar)
     CircleImageView mAvatar;
     @BindView(R.id.stop)
@@ -71,11 +80,17 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
     private int frontCamera = 0;
     private int backCamera = 0;
     private int current_camera_type = frontCamera;
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer mMediaPlayer;
     private AnchorInfoResult mHost;
+    private int mVideoWidth;
+    private int mVideoHeight;
+    private boolean mIsVideoSizeKnown = false;
+    private boolean mIsVideoReadyToBePlayed = false;
+    private boolean is_vip = false;
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        Vitamio.isInitialized(this);
         mStop.setOnClickListener(this);
         mExit.setOnClickListener(this);
 
@@ -83,6 +98,7 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
         if (!StringUtils.isEmpty(host_json)){
             Gson gson = new Gson();
             mHost = gson.fromJson(host_json,AnchorInfoResult.class);
+            is_vip = SharedPreUtil.isVip();
         }
         if (mHost == null) return;
 
@@ -92,11 +108,11 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
                 .crossFade()/*.thumbnail(0.1f)*/.into(mCover);
         Glide.with(App.getContext()).load(StringUtils.convertUrlStr(mHost.avatar))
                 .crossFade()/*.thumbnail(0.1f)*/.into(mAvatar);
+        name.setText(mHost.nickname);
 
         Log.e(TAG, "initData: "+mHost.video_5s );
-        mVideoView.getHolder().addCallback(callback);
-        mVideoView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        mVideoView.getHolder().setKeepScreenOn(true);
+        mVideoView.getHolder().addCallback(video_callback);
+        mVideoView.getHolder().setFormat(PixelFormat.RGBA_8888);
 
         mPlayerHandler = new Handler();
         mPlayer = new MusicPlayer(this);
@@ -145,6 +161,11 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
             mCamera.release();
             mCamera = null;
         }
+        if (mMediaPlayer != null) {
+            if (mMediaPlayer.isPlaying()) mMediaPlayer.pause();
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
     }
 
     @Override
@@ -165,7 +186,7 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
             mPlayerHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    refuse(R.string.call_stop);
+                    refuse(R.string.call_exit);
                 }
             }, 500);
         }
@@ -199,6 +220,7 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
                 mPlayer.playCancelSound();
                 //随机生成结果
                 int result = (int) (Math.random() * 2);
+                if (is_vip) result = Constants.CONNECTTING_REFUSE;
                 Log.e(TAG, "run: "+result );
                 if (result == Constants.CONNECTTING_ACCEPT) {
                     accept();
@@ -233,7 +255,7 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
         if (mCamera != null){
             mCamera.startPreview();
         }
-
+        play();
     }
 
     private SurfaceHolder.Callback camera_callback = new SurfaceHolder.Callback() {
@@ -345,108 +367,179 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
     }
 
     /**   5s视频播放  */
-    private SurfaceHolder.Callback callback = new SurfaceHolder.Callback() {
-        // SurfaceHolder被修改的时候回调
-        @Override
-        public void surfaceDestroyed(SurfaceHolder holder) {
-            Log.e(TAG, "SurfaceHolder 被销毁");
-            stop();
-        }
 
+    private SurfaceHolder.Callback video_callback = new SurfaceHolder.Callback() {
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
-            Log.e(TAG, "SurfaceHolder 被创建");
-            play(0);
-//            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-//                mediaPlayer.pause();
-//            }
+            Log.e(TAG, "surfaceCreated call!" );
+            loadVideo();
         }
 
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            Log.e(TAG, "SurfaceHolder 大小被改变");
+            Log.e(TAG, "surfaceChanged call!" );
         }
 
+        @Override
+        public void surfaceDestroyed(SurfaceHolder holder) {
+            Log.e(TAG, "surfaceDestroyed call!" );
+        }
     };
 
-    /*
-     * 停止播放
-     */
-    protected void stop() {
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
+    private void loadVideo() {
+        if (StringUtils.isEmpty(mHost.video_5s))
+            //数据错误
+            return;
+
+        Log.e(TAG, "loadVideo: "+ mHost.video_5s);
+        if (mMediaPlayer != null && mMediaPlayer.isPlaying())
+            //当前正在播放 防止 setUserVisibleHint 和 surfaceCreated 时两个播放冲突
+            return;
+
+        doCleanUp();
+        releaseMediaPlayer();
+
+        //数据加载中展示封面
+        if (mCover != null &&
+                (mCover.getVisibility() == View.GONE)){
+            mCover.setVisibility(View.VISIBLE);
         }
-    }
 
-    /**
-     * 开始播放
-     *
-     * @param msec 播放初始位置
-     */
-    protected void play(final int msec) {
-        // 获取视频文件地址
-        Log.e(TAG, "play: "+mHost.video_5s );
-        Uri uri = Uri.parse(StringUtils.convertUrlStr(mHost.video_5s));
         try {
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            // 设置播放的视频源
-            mediaPlayer.setDataSource(App.getContext(),uri);
-            Log.e(TAG, "开始装载");
-            mediaPlayer.prepareAsync();
-            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
+            // Create a new media player and set the listeners
+            mMediaPlayer = new MediaPlayer(this);
+            mMediaPlayer.setDataSource(StringUtils.convertUrlStr(mHost.video_5s));
+            mMediaPlayer.setDisplay(mVideoView.getHolder());
+            mMediaPlayer.prepareAsync();
+            mMediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
                 @Override
-                public void onPrepared(MediaPlayer mp) {
-                    try {
-                        // 设置显示视频的SurfaceHolder
-                        mediaPlayer.setDisplay(mVideoView.getHolder());
-                        Log.e(TAG, "装载完成");
-                        mCover.setVisibility(View.GONE);
-                        mediaPlayer.start();
-                        // 按照初始位置播放
-                        mediaPlayer.seekTo(msec);
-                    }catch (IllegalArgumentException e){
-                        //提前结束了activity，surface被提前释放异常
-                        Log.e(TAG, "onPrepared: "+e.toString() );
-                    }
+                public void onBufferingUpdate(MediaPlayer mp, int percent) {
+
                 }
             });
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
+            mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    // 在播放完毕被回调
+                    mMediaPlayer.pause();
+                    showChargeDialog();
                 }
             });
-
-            mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-
+            mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    Log.e(TAG, "play source prepare done!");
+                    mIsVideoReadyToBePlayed = true;
+                    //play();
+                }
+            });
+            mMediaPlayer.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
+                @Override
+                public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
+                    Log.d(TAG, "onVideoSizeChanged called");
+                    if (width == 0 || height == 0) {
+                        Log.e(TAG, "invalid video width(" + width + ") or height(" + height + ")");
+                        return;
+                    }
+                    mIsVideoSizeKnown = true;
+                    changeVideoSize();
+                    //play();
+                }
+            });
+            mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
                 @Override
                 public boolean onError(MediaPlayer mp, int what, int extra) {
-                    // 发生错误重新播放
-                    stop();
+                    Log.e(TAG, "play erro msg( "+what+","+extra+")" );
+                    hostExit();
                     return false;
                 }
             });
+            setVolumeControlStream(AudioManager.STREAM_MUSIC);
         } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(TAG, "play error: "+e.toString() );
+            Log.e(TAG, "error: " + e.getMessage(), e);
         }
-
     }
 
     /**
-     * 重新开始播放
-     */
-    protected void replay() {
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            mediaPlayer.seekTo(0);
-            return;
+     * 适配全屏
+     * */
+    public void changeVideoSize() {
+        int videoWidth = mMediaPlayer.getVideoWidth();
+        int videoHeight = mMediaPlayer.getVideoHeight();
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int surfaceWidth = dm.widthPixels;
+        int surfaceHeight = dm.heightPixels;
+        float scaleVideo = (float) videoHeight / (float) videoWidth;
+        float scaleSurface = (float) surfaceHeight / (float) surfaceWidth;
+
+        if (scaleVideo > scaleSurface){
+            float f = (float) videoWidth / (float) surfaceWidth;
+            mVideoHeight = (int) (surfaceHeight / f);
+            mVideoWidth = surfaceWidth;
         }
-        play(0);
+        if (scaleVideo <= scaleSurface) {
+            mVideoWidth = (int) (surfaceHeight / scaleVideo);
+            mVideoHeight = surfaceHeight;
+        }
+        mVideoView.setLayoutParams(new CenterLayout.LayoutParams(mVideoWidth, mVideoHeight,0,0));
+    }
+
+    private void releaseMediaPlayer() {
+        if (mMediaPlayer != null) {
+            if (mMediaPlayer.isPlaying()) mMediaPlayer.pause();
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
+    }
+
+    private void doCleanUp() {
+        mVideoWidth = 0;
+        mVideoHeight = 0;
+        mIsVideoReadyToBePlayed = false;
+        mIsVideoSizeKnown = false;
+    }
+
+    private void play() {
+        if (mIsVideoReadyToBePlayed && mIsVideoSizeKnown) {
+            Log.e(TAG, "start play!");
+            mMediaPlayer.start();
+            mCover.setVisibility(View.GONE);
+        }
+    }
+
+    private void showChargeDialog(){
+        if (!mIsVideoReadyToBePlayed) return;
+        VCDialog dialog = new VCDialog(VCDialog.Ddialog_Without_tittle_Block_Confirm,"","成为VIP即可与主播私密视频");
+        dialog.addOnDialogActionListner(new VCDialog.onDialogActionListner() {
+            @Override
+            public void onCancel() {
+                mExit.performClick();
+                dialog.dismissAllowingStateLoss();
+            }
+
+            @Override
+            public void onConfirm() {
+                dialog.dismissAllowingStateLoss();
+                ChatActivity.this.finish();
+                VipActivity.open(ChatActivity.this);
+            }
+        });
+        dialog.show(getSupportFragmentManager(),VCDialog.TAG);
+    }
+
+    private void hostExit(){
+        if (mMediaPlayer != null && mMediaPlayer.isPlaying()){
+            mMediaPlayer.pause();
+        }
+        mPlayer.playCancelSound();
+        mPlayerHandler.removeCallbacksAndMessages(null);
+        mPlayerHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refuse(R.string.call_stop);
+            }
+        }, 500);
     }
     /**   5s视频播放完毕  */
+
 }

@@ -1,6 +1,7 @@
 package com.weiliao.kinnek.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import java.util.List;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class HostResAdapter extends RecyclerView.Adapter {
+    public static final String TAG = HostResAdapter.class.getSimpleName();
     private List data = new ArrayList();
 
     public HostResAdapter(List data) {

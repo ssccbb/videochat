@@ -2,12 +2,17 @@ package com.weiliao.kinnek.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.binaryresource.BinaryResource;
@@ -29,6 +34,7 @@ import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -455,4 +461,78 @@ public class Utils {
         text.setBackground(context.getResources().getDrawable(Constants.round_bg[Math.round(Constants.round_bg.length)]));
         return view;
     }
+
+    /**
+     * 给出url，获取视频的第一帧
+     *
+     * @param url
+     * @return
+     */
+    public static Bitmap getVideoThumbnail(String url) {
+        Bitmap bitmap = null;
+        //MediaMetadataRetriever 是android中定义好的一个类，提供了统一
+        //的接口，用于从输入的媒体文件中取得帧和元数据；
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            //根据文件路径获取缩略图
+            retriever.setDataSource(url, new HashMap());
+            //获得第一帧图片
+            bitmap = retriever.getFrameAtTime();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } finally {
+            retriever.release();
+        }
+        return bitmap;
+    }
+
+//    /**
+//     * 自动适配视频尺寸（留做备份）
+//     * */
+//    public void changeVideoSize() {
+//        int videoWidth = mediaPlayer.getVideoWidth();
+//        int videoHeight = mediaPlayer.getVideoHeight();
+//
+//        DisplayMetrics dm = new DisplayMetrics();
+//        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+//        int surfaceWidth = dm.widthPixels;
+//        int surfaceHeight = dm.heightPixels;
+//
+//        //根据视频尺寸去计算->视频可以在sufaceView中放大的最大倍数。
+//        float max;
+//        if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+//            //竖屏模式下按视频宽度计算放大倍数值
+//            max = Math.max((float) videoWidth / (float) surfaceWidth, (float) videoHeight / (float) surfaceHeight);
+//        } else {
+//            //横屏模式下按视频高度计算放大倍数值
+//            max = Math.max(((float) videoWidth / (float) surfaceHeight), (float) videoHeight / (float) surfaceWidth);
+//        }
+//
+//        //视频宽高分别/最大倍数值 计算出放大后的视频尺寸
+//        videoWidth = (int) Math.ceil((float) videoWidth / max);
+//        videoHeight = (int) Math.ceil((float) videoHeight / max);
+//
+//        //无法直接设置视频尺寸，将计算出的视频尺寸设置到surfaceView 让视频自动填充。
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(videoWidth, videoHeight);
+//        mVideoView.setLayoutParams(params);
+//    }
+
+    public static String formatTime(long time) {
+        String hs, ms, ss, formatTime;
+        long h, m, s;
+        h = time / 3600;
+        m = (time % 3600) / 60;
+        s = (time % 3600) % 60;
+        hs = "" + h;
+        ms = "" + m;
+        ss = "" + s;
+        if (hs.equals("0")) {
+            formatTime = ms + "分钟" + ss + "秒";
+        } else {
+            formatTime = hs + "小时" + ms + "分钟" + ss + "秒";
+        }
+
+        return formatTime;
+    }
+
 }

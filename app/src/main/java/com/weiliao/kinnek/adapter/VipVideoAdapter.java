@@ -14,10 +14,15 @@ import com.weiliao.kinnek.App;
 import com.weiliao.kinnek.R;
 import com.weiliao.kinnek.common.Constants;
 import com.weiliao.kinnek.model.HotVideoResult;
+import com.weiliao.kinnek.utils.ScreenUtils;
 import com.weiliao.kinnek.utils.StringUtils;
+import com.weiliao.kinnek.utils.Utils;
+import com.weiliao.kinnek.views.CircleImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 /**
  * Created on 2016/6/11.
@@ -94,7 +99,6 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
         Object object = v.getTag();
         if (object instanceof HotVideoResult && mOnItemClickListener != null) {
             HotVideoResult hotVideo = (HotVideoResult) object;
-            Log.e(TAG, "onClick: "+ hotVideo.position);
             if (hotVideo.type == 0 && !VIP_MODE){
                 mOnItemClickListener.onVipItemClick();
                 return;
@@ -105,8 +109,10 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
 
     class HotVideoHolder extends RecyclerView.ViewHolder {
         public View root;
+        public CircleImageView avatar;
         public ImageView cover;
         public TextView name;
+        public TextView tittle;
         public View heart;
         public TextView heartNum;
 
@@ -114,31 +120,49 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
             super(itemView);
             root = itemView;
             cover = root.findViewById(R.id.cover);
+            avatar = root.findViewById(R.id.avatar);
             name = root.findViewById(R.id.name);
+            tittle = root.findViewById(R.id.tittle);
             heart = root.findViewById(R.id.heart);
             heartNum = root.findViewById(R.id.heart_num);
         }
 
         void onBind(int position){
+            changeItemHeight();
             HotVideoResult hotVideo = getItem(position);
             root.setTag(hotVideo);
             root.setOnClickListener(VipVideoAdapter.this::onClick);
 
             if (hotVideo.type == 0 && !VIP_MODE) {
                 cover.setImageResource(R.mipmap.ic_video_vip);
-                name.setText("VIP私密视频专区");
-                name.setTextColor(mContext.getResources().getColor(R.color.app_red));
+                name.setVisibility(View.GONE);
+                avatar.setVisibility(View.GONE);
+                tittle.setVisibility(View.GONE);
                 heartNum.setVisibility(View.GONE);
                 heart.setVisibility(View.GONE);
                 return;
             }
 
-            name.setText(hotVideo.title);
-            name.setTextColor(mContext.getResources().getColor(R.color.app_black));
-            Glide.with(App.getContext()).load(StringUtils.convertUrlStr(hotVideo.cover_url)).crossFade()/*.thumbnail(0.1f)*/.centerCrop().into(cover);
-            heartNum.setVisibility(View.VISIBLE);
+            name.setText(StringUtils.isEmpty(hotVideo.name) ? "微聊用户" : hotVideo.name);
+            tittle.setText(hotVideo.title);
             heartNum.setText(hotVideo.total_viewer);
+            Glide.with(App.getContext()).load(hotVideo.cover_url)
+                    .crossFade().centerCrop().thumbnail(0.1f).into(cover);
+            Glide.with(App.getContext()).load(hotVideo.avatar)
+                    .crossFade().centerCrop().thumbnail(0.1f).into(avatar);
+            heartNum.setVisibility(View.VISIBLE);
             heart.setVisibility(View.VISIBLE);
+            avatar.setVisibility(View.VISIBLE);
+            tittle.setVisibility(View.VISIBLE);
+            name.setVisibility(View.VISIBLE);
+        }
+
+        void changeItemHeight(){
+            int screenWidth = ScreenUtils.getScreenWidth(mContext);
+            int width = (screenWidth - Utils.dip2px(mContext,2)) / 2;
+            int height = (int) ((float)width / (float)9 * (float) 16);
+            //Log.e(TAG, "changeItemHeight: "+width+"/"+height );
+            root.setLayoutParams(new ViewGroup.LayoutParams(width,height));
         }
     }
 

@@ -72,6 +72,7 @@ public class VideoPagerFragment extends XBaseFragment implements XRecyclerView.O
         mList.getRecyclerView().setItemAnimator(new DefaultItemAnimator());
         mList.getRecyclerView().setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mList.getRecyclerView().setOnRefreshAndLoadMoreListener(this);
+        mList.getRecyclerView().useDefLoadMoreView();
         mList.getLoadingView().setVisibility(View.GONE);
         mList.setDisplayState(XStateController.STATE_CONTENT);
     }
@@ -99,9 +100,11 @@ public class VideoPagerFragment extends XBaseFragment implements XRecyclerView.O
                             if (page == 1) {
                                 mList.showEmpty();
                             }
+                            mList.getRecyclerView().removeAllFootView();
                             return;
                         }
                         next_page = Integer.valueOf(mHotData.next_page);
+                        mList.getRecyclerView().setPage(page,next_page);
                         mVideoAdapter.addData(mHotData.list, page == 1 ? true : false);
                     }
 

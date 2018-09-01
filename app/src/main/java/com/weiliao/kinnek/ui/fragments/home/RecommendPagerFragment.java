@@ -54,6 +54,7 @@ public class RecommendPagerFragment extends XBaseFragment implements XRecyclerVi
         }
         mVideoAdapter.addData(data,true);
         mList.getRecyclerView().setOnRefreshAndLoadMoreListener(this);
+        mList.getRecyclerView().useDefLoadMoreView();
         mList.getLoadingView().setVisibility(View.GONE);
         mList.setDisplayState(XStateController.STATE_CONTENT);
     }

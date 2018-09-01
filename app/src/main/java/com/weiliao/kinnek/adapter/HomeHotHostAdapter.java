@@ -23,6 +23,8 @@ import com.weiliao.kinnek.views.banner.ScaleTransformer;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
+
 /**
  * Created on 2016/6/11.
  * 用于首页热门host
@@ -84,7 +86,8 @@ public class HomeHotHostAdapter extends RecyclerView.Adapter implements View.OnC
             hotHostHolder.root.setOnClickListener(this);
             hotHostHolder.name.setText(hotHost.nickname);
             hotHostHolder.status.setImageResource(Utils.getHostStatus(Integer.parseInt(hotHost.anchor_state)));
-            Glide.with(App.getContext()).load(StringUtils.convertUrlStr(hotHost.avatar)).crossFade()/*.thumbnail(0.1f)*/.centerCrop().into(hotHostHolder.cover);
+            Glide.with(App.getContext()).load(StringUtils.convertUrlStr(hotHost.avatar))
+                    .crossFade()/*.thumbnail(0.1f)*/.centerCrop().into(hotHostHolder.cover);
             return;
         }
 

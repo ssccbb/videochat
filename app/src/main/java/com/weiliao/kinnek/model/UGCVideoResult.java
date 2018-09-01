@@ -79,4 +79,17 @@ public class UGCVideoResult implements Parcelable{
         dest.writeString(this.uid);
         dest.writeString(this.avatar);
     }
+
+    @Override
+    public String toString() {
+        return "ugc video param:\ntitle - "+title
+                +"\nvideo_url - "+video_url
+                +"\ncover_url - "+cover_url
+                +"\ntotal_viewer - "+total_viewer
+                +"\ncomment_num - "+comment_num
+                +"\npick_num - "+pick_num
+                +"\nname - "+name
+                +"\nuid - "+uid
+                +"\navatar - "+avatar;
+    }
 }

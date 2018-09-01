@@ -88,6 +88,13 @@ public class HotHostResults extends XBaseModel {
         public String answer_rate;
         public String anchor_state;//1空闲 2在聊 3勿扰
 
+        public HotHostResult(String uid) {
+            this.uid = uid;
+        }
+
+        public HotHostResult() {
+        }
+
         public String getUid() {
             return uid;
         }

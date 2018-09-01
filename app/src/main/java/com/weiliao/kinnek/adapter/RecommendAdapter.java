@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.weiliao.kinnek.R;
 import com.weiliao.kinnek.common.Constants;
 import com.weiliao.kinnek.model.HotVideoResult;
+import com.weiliao.kinnek.utils.ScreenUtils;
+import com.weiliao.kinnek.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +61,7 @@ public class RecommendAdapter extends RecyclerView.Adapter implements View.OnCli
             hotVideoHolder.cover.setBackground(
                     mContext.getResources().getDrawable(
                             Constants.round_color[(int) (Math.random()*4)]));
+            changeItemHeight(hotVideoHolder.root);
             return;
         }
     }
@@ -85,6 +88,14 @@ public class RecommendAdapter extends RecyclerView.Adapter implements View.OnCli
             HotVideoResult hotVideo = (HotVideoResult) object;
             mOnItemClickListener.onItemClick(v, hotVideo.position, hotVideo);
         }
+    }
+
+    private void changeItemHeight(View root){
+        int screenWidth = ScreenUtils.getScreenWidth(mContext);
+        int width = (screenWidth - Utils.dip2px(mContext,2)) / 2;
+        int height = (int) ((float)width / (float)9 * (float) 16);
+        //Log.e(TAG, "changeItemHeight: "+width+"/"+height );
+        root.setLayoutParams(new ViewGroup.LayoutParams(width,height));
     }
 
     class HotVideoHolder extends RecyclerView.ViewHolder {

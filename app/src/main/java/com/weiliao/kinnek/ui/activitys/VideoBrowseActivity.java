@@ -1,15 +1,12 @@
 package com.weiliao.kinnek.ui.activitys;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.WindowManager;
 
-import com.weiliao.kinnek.App;
 import com.weiliao.kinnek.R;
 import com.weiliao.kinnek.common.Constants;
 import com.weiliao.kinnek.common.XBaseActivity;
@@ -17,7 +14,6 @@ import com.weiliao.kinnek.model.UGCVideoResult;
 import com.weiliao.kinnek.ui.fragments.VideoBrowseFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 视频浏览页面
@@ -33,6 +29,8 @@ public class VideoBrowseActivity extends XBaseActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         super.onCreate(savedInstanceState);
     }
 

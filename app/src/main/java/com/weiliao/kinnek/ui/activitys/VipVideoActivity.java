@@ -66,6 +66,7 @@ public class VipVideoActivity extends XBaseActivity implements XRecyclerView.OnR
         mList.getRecyclerView().setItemAnimator(new DefaultItemAnimator());
         mList.getRecyclerView().setLayoutManager(new GridLayoutManager(this,2));
         mList.getRecyclerView().setOnRefreshAndLoadMoreListener(this);
+        mList.getRecyclerView().useDefLoadMoreView();
         mList.getLoadingView().setVisibility(View.GONE);
         mList.setDisplayState(XStateController.STATE_CONTENT);
     }
@@ -93,9 +94,11 @@ public class VipVideoActivity extends XBaseActivity implements XRecyclerView.OnR
                             if (page == 1){
                                 mList.showEmpty();
                             }
+                            mList.getRecyclerView().removeAllFootView();
                             return;
                         }
                         next_page = Integer.valueOf(mHotData.next_page);
+                        mList.getRecyclerView().setPage(page,next_page);
                         mVideoAdapter.addData(mHotData.list,page == 1 ? true : false);
                     }
 
@@ -159,7 +162,6 @@ public class VipVideoActivity extends XBaseActivity implements XRecyclerView.OnR
             }
         });
         dialog.show(getSupportFragmentManager(),VCDialog.TAG);
-        dialog.setCancelable(false);
     }
 
     public static void open(Context context){

@@ -3,7 +3,7 @@ package com.weiliao.kinnek.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import com.weiliao.kinnek.model.UGCVideoResult;
-import com.weiliao.kinnek.ui.fragments.VideoBrowsePlayerFragment;
+import com.weiliao.kinnek.ui.fragments.VitamioVideoPlayerFragment;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class ShortCoverAdapter extends SmartFragmentStatePagerAdapter{
     @Override
     public Fragment getItem(int position) {
         UGCVideoResult videoResult = shortVideoList.get(position);
-        return VideoBrowsePlayerFragment.newInstance(videoResult);
+        return VitamioVideoPlayerFragment.newInstance(videoResult);
     }
 
     @Override
