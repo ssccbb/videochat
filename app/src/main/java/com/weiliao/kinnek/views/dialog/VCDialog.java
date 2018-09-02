@@ -95,8 +95,6 @@ public class VCDialog extends android.support.v4.app.DialogFragment implements V
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.setCancelable(false);
-
         //两个xml内的id别改！！
         mTittle = view.findViewById(R.id.dialog_tittle);
         mContent = view.findViewById(R.id.dialog_content);
@@ -138,6 +136,7 @@ public class VCDialog extends android.support.v4.app.DialogFragment implements V
         dialogWindow.setGravity(Gravity.CENTER);
         lp.width = ScreenUtils.getScreenWidth(getContext()) / 5 * 4;
         dialogWindow.setAttributes(lp);
+        this.getDialog().setCancelable(false);
     }
 
     @Override
@@ -182,11 +181,6 @@ public class VCDialog extends android.support.v4.app.DialogFragment implements V
         if (v == confirm) {
             onDialogActionListner.onConfirm();
         }
-    }
-
-    public void setCancelable(boolean cancelable){
-        if (this.getDialog() == null) return;
-        this.getDialog().setCancelable(cancelable);
     }
 
     public void addOnDialogActionListner(onDialogActionListner onDialogActionListner) {

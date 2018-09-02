@@ -43,9 +43,8 @@
         android:layout_height="wrap_content" />
     
     <View
-        android:alpha="0.3"
         android:layout_marginTop="10dp"
-        android:background="@color/app_shadow"
+        android:background="@color/app_gray"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
 
@@ -62,6 +61,35 @@
             android:layout_height="20dp" />
         <TextView
             android:text="支付宝支付"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:src="@mipmap/ic_arrow_right"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp" />
+    </LinearLayout>
+    <View
+        android:layout_marginTop="10dp"
+        android:background="@color/app_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <LinearLayout
+        android:id="@+id/weixin"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="?selectableItemBackground"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+        <ImageView
+            android:src="@mipmap/wepay"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+        <TextView
+            android:text="微信支付"
             android:layout_marginLeft="@dimen/dp_10"
             android:textSize="16sp"
             android:textStyle="bold"

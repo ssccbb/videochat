@@ -32,6 +32,12 @@ import com.weiliao.kinnek.R;
 import com.weiliao.kinnek.common.Constants;
 import com.weiliao.kinnek.common.XBaseActivity;
 import com.weiliao.kinnek.model.AnchorInfoResult;
+import com.weiliao.kinnek.model.PhoneVertifyResult;
+import com.weiliao.kinnek.net.api.Api;
+import com.weiliao.kinnek.net.httprequest.ApiCallback;
+import com.weiliao.kinnek.net.httprequest.okhttp.JKOkHttpParamKey;
+import com.weiliao.kinnek.net.httprequest.okhttp.OkHttpRequestUtils;
+import com.weiliao.kinnek.ui.fragments.setting.ChargeFragment;
 import com.weiliao.kinnek.utils.MusicPlayer;
 import com.weiliao.kinnek.utils.SharedPreUtil;
 import com.weiliao.kinnek.utils.StringUtils;
@@ -86,7 +92,6 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
     private int mVideoHeight;
     private boolean mIsVideoSizeKnown = false;
     private boolean mIsVideoReadyToBePlayed = false;
-    private boolean is_vip = false;
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -98,7 +103,6 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
         if (!StringUtils.isEmpty(host_json)){
             Gson gson = new Gson();
             mHost = gson.fromJson(host_json,AnchorInfoResult.class);
-            is_vip = SharedPreUtil.isVip();
         }
         if (mHost == null) return;
 
@@ -210,17 +214,17 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
 
     /******        连接过程         ******/
 
-    // 模拟结果（无vip）
+    // 模拟结果
     private void autoResult() {
         mPlayer.playBgSound(R.raw.call_connectting);
-        // TODO: 2018/8/18 加个vip判断
         mPlayerHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mPlayer.playCancelSound();
                 //随机生成结果
                 int result = (int) (Math.random() * 2);
-                if (is_vip) result = Constants.CONNECTTING_REFUSE;
+                //5s看过
+                if (mHost.is_watch.equals(Constants.HOST_IS_WATCH)) result = Constants.CONNECTTING_REFUSE;
                 Log.e(TAG, "run: "+result );
                 if (result == Constants.CONNECTTING_ACCEPT) {
                     accept();
@@ -420,6 +424,7 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
             mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
+                    postHasWatch(SharedPreUtil.getLoginInfo().uid,mHost.uid);
                     mMediaPlayer.pause();
                     showChargeDialog();
                 }
@@ -509,7 +514,8 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
 
     private void showChargeDialog(){
         if (!mIsVideoReadyToBePlayed) return;
-        VCDialog dialog = new VCDialog(VCDialog.Ddialog_Without_tittle_Block_Confirm,"","成为VIP即可与主播私密视频");
+        VCDialog dialog = new VCDialog(VCDialog.Ddialog_Without_tittle_Block_Confirm,"",
+                getResources().getString(R.string.host_diamond_not_enough));
         dialog.addOnDialogActionListner(new VCDialog.onDialogActionListner() {
             @Override
             public void onCancel() {
@@ -520,8 +526,8 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
             @Override
             public void onConfirm() {
                 dialog.dismissAllowingStateLoss();
+                SettingActivity.open(ChatActivity.this, ChargeFragment.TAG);
                 ChatActivity.this.finish();
-                VipActivity.open(ChatActivity.this);
             }
         });
         dialog.show(getSupportFragmentManager(),VCDialog.TAG);
@@ -539,6 +545,31 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
                 refuse(R.string.call_stop);
             }
         }, 500);
+    }
+
+    /**
+     * post支付宝支付
+     */
+    private void postHasWatch(String uid, String anchor_uid) {
+        OkHttpRequestUtils.getInstance().requestByPost(Api.API_BASE_URL + "/Anchor/wach_video",
+                OkHttpRequestUtils.getInstance().JkRequestParameters(
+                        JKOkHttpParamKey.ANCHOR_INFO, anchor_uid,uid ),
+                PhoneVertifyResult.class, ChatActivity.this, new ApiCallback() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        Log.e(TAG, "onSuccess: " + (String) response);
+                    }
+
+                    @Override
+                    public void onError(String err_msg) {
+                        Log.e(TAG, "onError: " + err_msg);
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Log.e(TAG, "onFailure !");
+                    }
+                });
     }
     /**   5s视频播放完毕  */
 

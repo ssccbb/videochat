@@ -30,9 +30,12 @@ import com.weiliao.kinnek.net.httprequest.okhttp.JKOkHttpParamKey;
 import com.weiliao.kinnek.net.httprequest.okhttp.OkHttpRequestUtils;
 import com.weiliao.kinnek.ui.fragments.HostPicFragment;
 import com.weiliao.kinnek.ui.fragments.HostVideoFragment;
+import com.weiliao.kinnek.ui.fragments.LoginDialogFragment;
+import com.weiliao.kinnek.ui.fragments.setting.ChargeFragment;
 import com.weiliao.kinnek.utils.SharedPreUtil;
 import com.weiliao.kinnek.utils.StringUtils;
 import com.weiliao.kinnek.utils.Utils;
+import com.weiliao.kinnek.views.dialog.VCDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -172,7 +175,7 @@ public class HostInfoActivity extends XBaseActivity implements View.OnClickListe
         mStatus.setImageResource(Utils.getHostStatus(mHostStates));//1空闲 2在聊 3勿扰
         mConnect.setSelected(mHostStates == Constants.HOST_STATUS_FREE);
         mPrice.setText(StringUtils.isEmpty(mUserInfo.fee) ? "0" : mUserInfo.fee);
-        mInfo.setText( mUserInfo.city);
+        mInfo.setText(mUserInfo.city);
         mIDNum.setText("微聊ID:" + mUserInfo.user_id);
         mFollow.setSelected(false);
         mFollow.setOnClickListener(this::onClick);
@@ -257,9 +260,18 @@ public class HostInfoActivity extends XBaseActivity implements View.OnClickListe
             this.finish();
         }
         if (v == mConnect) {
-            switch (mHostStates){
+            if (!SharedPreUtil.isLogin()) {
+                showLoginDialog();
+                return;
+            }
+            switch (mHostStates) {
                 case Constants.HOST_STATUS_FREE:
-                    ChatActivity.open(this, mUserInfo);
+                    int diamond = SharedPreUtil.getAccountDiamond();
+                    if (diamond > 0) {
+                        ChatActivity.open(this, mUserInfo);
+                    } else {
+                        showChargeDialog();
+                    }
                     break;
                 case Constants.HOST_STATUS_CHAT:
                     Toast.makeText(this, this.getResources().getString(R.string.host_state_hint_chat), Toast.LENGTH_SHORT).show();
@@ -270,19 +282,60 @@ public class HostInfoActivity extends XBaseActivity implements View.OnClickListe
             }
         }
         if (v == mFollow) {
+            if (!SharedPreUtil.isLogin()) {
+                showLoginDialog();
+                return;
+            }
             mFollow.setSelected(!mFollow.isSelected());
         }
         if (v == mFullPics) {
-            if(mUserInfo!=null){
+            if (!SharedPreUtil.isLogin()) {
+                showLoginDialog();
+                return;
+            }
+            if (mUserInfo != null) {
                 mUserInfo.pay_status = pay_status;
             }
             HostResActivity.open(HostInfoActivity.this, HostPicFragment.TAG, mUserInfo);
         }
         if (v == mFullVideos) {
-            if(mUserInfo!=null){
+            if (!SharedPreUtil.isLogin()) {
+                showLoginDialog();
+                return;
+            }
+            if (mUserInfo != null) {
                 mUserInfo.pay_status = pay_status;
             }
             HostResActivity.open(HostInfoActivity.this, HostVideoFragment.TAG, mUserInfo);
         }
+    }
+
+    /**
+     * 去充值
+     * */
+    private void showChargeDialog() {
+        VCDialog dialog = new VCDialog(VCDialog.Ddialog_Without_tittle_Block_Confirm, "",
+                getResources().getString(R.string.host_diamond_not_enough));
+        dialog.addOnDialogActionListner(new VCDialog.onDialogActionListner() {
+            @Override
+            public void onCancel() {
+                dialog.dismissAllowingStateLoss();
+            }
+
+            @Override
+            public void onConfirm() {
+                dialog.dismissAllowingStateLoss();
+                SettingActivity.open(HostInfoActivity.this, ChargeFragment.TAG);
+            }
+        });
+        dialog.show(getSupportFragmentManager(), VCDialog.TAG);
+    }
+
+    /**
+     * 去登录
+     * */
+    private void showLoginDialog() {
+        LoginDialogFragment login = new LoginDialogFragment();
+        login.show(getSupportFragmentManager(), LoginDialogFragment.TAG);
     }
 }

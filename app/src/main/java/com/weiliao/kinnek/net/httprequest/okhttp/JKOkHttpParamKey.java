@@ -14,4 +14,8 @@ public class JKOkHttpParamKey {
     public final static String[] VERTIFY_CODE_LOGIN = {"phone","verification_code","os"};
     public final static String[] VIP_VIDEO = {"page","uid"};
     public final static String[] ANCHOR_INFO = {"anchor_uid","uid"};
+    public final static String[] UNIFORM_PAY = {"uid","money","channel","os","type"};
+
+    //alipay
+    public final static String[] ALI_PAY = {"uid","price","istype","notify_url","return_url","orderid","orderuid","goodsname","key"};
 }

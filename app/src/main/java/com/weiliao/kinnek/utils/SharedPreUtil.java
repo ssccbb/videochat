@@ -155,12 +155,25 @@ public class SharedPreUtil {
     public static boolean isVip(){
         LoginInfoResults loginInfo = getLoginInfo();
         int vip = 0;
+        if (loginInfo == null) return false;
         try {
             vip = Integer.parseInt(loginInfo.vip);
         }catch (NumberFormatException e){
             Log.e(SharedPreUtil.TAG, "isVip: "+e.toString() );
         }
         return !(vip == Constants.NORMAL_USER_TYPE);
+    }
+
+    public static int getAccountDiamond(){
+        LoginInfoResults loginInfo = getLoginInfo();
+        if (loginInfo == null) return 0;
+        int diamond = 0;
+        try {
+            diamond = Integer.parseInt(loginInfo.diamond);
+        }catch (NumberFormatException e){
+            Log.e(TAG, "getAccountDiamond: "+e.toString() );
+        }
+        return diamond;
     }
 
     /*****************************          public method end                 ******************************/

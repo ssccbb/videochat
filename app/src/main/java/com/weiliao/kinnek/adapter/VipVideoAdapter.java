@@ -143,7 +143,7 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
                 return;
             }
 
-            name.setText(StringUtils.isEmpty(hotVideo.name) ? "微聊用户" : hotVideo.name);
+            name.setText(StringUtils.isEmpty(hotVideo.name) ? Constants.default_user_name : hotVideo.name);
             tittle.setText(hotVideo.title);
             heartNum.setText(hotVideo.total_viewer);
             Glide.with(App.getContext()).load(hotVideo.cover_url)

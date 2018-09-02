@@ -10,6 +10,7 @@ import com.weiliao.kinnek.adapter.RecommendAdapter;
 import com.weiliao.kinnek.common.XBaseFragment;
 import com.weiliao.kinnek.model.HotVideoResult;
 import com.weiliao.kinnek.ui.activitys.VideoBrowseActivity;
+import com.weiliao.kinnek.views.StateView;
 import com.weiliao.kinnek.views.XReloadableRecyclerContentLayout;
 
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ public class RecommendPagerFragment extends XBaseFragment implements XRecyclerVi
 
     @BindView(R.id.list)
     XReloadableRecyclerContentLayout mList;
+    @BindView(R.id.steta)
+    StateView stateView;
 
     public static RecommendPagerFragment newInstance(){
         if (instance != null){
@@ -38,7 +41,8 @@ public class RecommendPagerFragment extends XBaseFragment implements XRecyclerVi
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        recyclerSet();
+        stateView.setMsg("敬请期待...");
+        //recyclerSet();
     }
 
     private void recyclerSet(){

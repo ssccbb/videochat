@@ -48,9 +48,18 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
 
     private IDResult ids;
     private Handler uiHandler = new Handler();
-    private Runnable skipRunnable = new Runnable() {
+
+    /* 主页正常跳转 */private Runnable skipRunnable = new Runnable() {
         @Override
         public void run() {
+            next();
+        }
+    };
+
+    /* 广告页加载错误跳转 */private Runnable idsErrorLoadRunnable = new Runnable() {
+        @Override
+        public void run() {
+            uiHandler.removeCallbacksAndMessages(null);
             next();
         }
     };
@@ -59,6 +68,7 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
     public void initData(Bundle savedInstanceState) {
         skip.setOnClickListener(this);
         img.setOnClickListener(this);
+        uiHandler.postDelayed(idsErrorLoadRunnable,2000);
 
         getIds();
     }
@@ -108,6 +118,7 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
                                 idContainer.setVisibility(View.VISIBLE);
                                 splash.setVisibility(View.GONE);
                                 img.setImageBitmap(bitmap);
+                                uiHandler.removeCallbacksAndMessages(null);
                                 uiHandler.postDelayed(skipRunnable,3000);
                             }
                         });

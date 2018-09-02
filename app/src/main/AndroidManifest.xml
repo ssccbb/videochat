@@ -72,6 +72,9 @@
         <activity android:name=".ui.activitys.WebBrowseActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"/>
+        <activity android:name=".pay.AlipayH5Activity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="$com.weiliao.kinnek.fileProvider"

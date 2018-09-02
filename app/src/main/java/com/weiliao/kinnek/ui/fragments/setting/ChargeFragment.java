@@ -1,14 +1,24 @@
 package com.weiliao.kinnek.ui.fragments.setting;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.weiliao.kinnek.R;
+import com.weiliao.kinnek.adapter.ChargeListAdapter;
 import com.weiliao.kinnek.common.XBaseFragment;
+import com.weiliao.kinnek.model.PayChargeItemResult;
 import com.weiliao.kinnek.model.PhoneVertifyResult;
+import com.weiliao.kinnek.model.UniformAlipayPayResult;
 import com.weiliao.kinnek.model.UserInfoResult;
 import com.weiliao.kinnek.net.StateCode;
 import com.weiliao.kinnek.net.api.Api;
@@ -18,29 +28,23 @@ import com.weiliao.kinnek.net.httprequest.okhttp.OkHttpRequestUtils;
 import com.weiliao.kinnek.utils.SharedPreUtil;
 import com.weiliao.kinnek.views.dialog.OrderPayDialog;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.BindView;
 
-public class ChargeFragment extends XBaseFragment implements View.OnClickListener{
+public class ChargeFragment extends XBaseFragment implements View.OnClickListener,ChargeListAdapter.OnChargeItemClickListener{
     public static final String TAG = ChargeFragment.class.getSimpleName();
     public static ChargeFragment instance;
     private UserInfoResult user;
+    private ChargeListAdapter mAdapter;
+    private String alipay_state = "0";
+    private String weixin_state = "0";
 
     @BindView(R.id.back)
     View mBack;
-    @BindView(R.id.item_500)
-    View mItem500;
-    @BindView(R.id.item_1580)
-    View mItem1580;
-    @BindView(R.id.item_2980)
-    View mItem2980;
-    @BindView(R.id.item_5200)
-    View mItem5200;
-    @BindView(R.id.item_13140)
-    View mItem13140;
-    @BindView(R.id.item_28880)
-    View mItem28880;
-    @BindView(R.id.item_38880)
-    View mItem38880;
+    @BindView(R.id.list)
+    RecyclerView mList;
     @BindView(R.id.question)
     View mQuestion;
     @BindView(R.id.diamond)
@@ -59,25 +63,30 @@ public class ChargeFragment extends XBaseFragment implements View.OnClickListene
     @Override
     public void initData(Bundle savedInstanceState) {
         mBack.setOnClickListener(this::onClick);
-        mItem500.setOnClickListener(this::onClick);
-        mItem1580.setOnClickListener(this::onClick);
-        mItem2980.setOnClickListener(this::onClick);
-        mItem5200.setOnClickListener(this::onClick);
-        mItem13140.setOnClickListener(this::onClick);
-        mItem28880.setOnClickListener(this::onClick);
-        mItem38880.setOnClickListener(this::onClick);
         mQuestion.setOnClickListener(this::onClick);
+        checkChargeList();
 
         if (!SharedPreUtil.isLogin()) return;
-        postUserInfo(SharedPreUtil.getLoginInfo().uid);
+        postUserInfo();
+        postChargeList();
+        postChargeType();
+    }
+
+    private void checkChargeList(){
+        mAdapter = new ChargeListAdapter(getActivity(),null);
+        mAdapter.addOnChargeItemClickListener(this);
+        mList.setLayoutManager(new LinearLayoutManager(getContext()));
+        mList.setItemAnimator(new DefaultItemAnimator());
+        mList.setAdapter(mAdapter);
+        mList.setHasFixedSize(true);
     }
 
     /**
      * post获取用户
      * */
-    private void postUserInfo(String uid){
+    private void postUserInfo(){
         OkHttpRequestUtils.getInstance().requestByPost(Api.API_BASE_URL +"/user/get_info",
-                OkHttpRequestUtils.getInstance().JkRequestParameters(JKOkHttpParamKey.GET_USER_INFO, uid),
+                OkHttpRequestUtils.getInstance().JkRequestParameters(JKOkHttpParamKey.GET_USER_INFO, SharedPreUtil.getLoginInfo().uid),
                 PhoneVertifyResult.class, getActivity(), new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
@@ -104,6 +113,69 @@ public class ChargeFragment extends XBaseFragment implements View.OnClickListene
                 });
     }
 
+    /**
+     * post获取充值列表
+     * */
+    private void postChargeList(){
+        OkHttpRequestUtils.getInstance().requestByPost(Api.API_BASE_URL +"/pay/item_list",
+                OkHttpRequestUtils.getInstance().JkRequestParameters(JKOkHttpParamKey.GET_USER_INFO, SharedPreUtil.getLoginInfo().uid),
+                PhoneVertifyResult.class, getActivity(), new ApiCallback() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        Log.e(TAG, "onSuccess: "+(String) response );
+                        PayChargeItemResult payChargeItemResult = new PayChargeItemResult((String) response);
+                        if (payChargeItemResult.code.equals(StateCode.STATE_0000)) {
+                            mAdapter.addData(payChargeItemResult.data);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String err_msg) {
+                        Log.e(TAG, "onError: "+err_msg );
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Log.e(TAG, "onFailure !");
+                    }
+                });
+    }
+
+    /**
+     * post获取可用充值方式
+     * */
+    private void postChargeType(){
+        OkHttpRequestUtils.getInstance().requestByPost(Api.API_BASE_URL +"/pay/pay_config",
+                OkHttpRequestUtils.getInstance().JkRequestParameters(JKOkHttpParamKey.GET_USER_INFO, SharedPreUtil.getLoginInfo().uid),
+                PhoneVertifyResult.class, getActivity(), new ApiCallback() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        Log.e(TAG, "onSuccess: "+(String) response );
+                        try {
+                            JSONObject jsonObject = new JSONObject((String)response);
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            JSONObject wx = data.getJSONObject("wx");
+                            weixin_state = wx.getString("state");
+                            JSONObject alipay = data.getJSONObject("alipay");
+                            alipay_state = alipay.getString("state");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, "postChargeType: "+e.toString() );
+                        }
+                    }
+
+                    @Override
+                    public void onError(String err_msg) {
+                        Log.e(TAG, "onError: "+err_msg );
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Log.e(TAG, "onFailure !");
+                    }
+                });
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_charge;
@@ -119,41 +191,24 @@ public class ChargeFragment extends XBaseFragment implements View.OnClickListene
         if (v == mBack){
             getActivity().finish();
         }
-        if (v == mItem500){
-            showChargeDialog(50);
-        }
-        if (v == mItem1580){
-            showChargeDialog(158);
-        }
-        if (v == mItem2980){
-            showChargeDialog(298);
-        }
-        if (v == mItem5200){
-            showChargeDialog(520);
-        }
-        if (v == mItem13140){
-            showChargeDialog(1314);
-        }
-        if (v == mItem28880){
-            showChargeDialog(2888);
-        }
-        if (v == mItem38880){
-            showChargeDialog(3888);
-        }
         if (v == mQuestion){
             Toast.makeText(getActivity(), "帮助", Toast.LENGTH_SHORT).show();
         }
     }
 
+    @Override
+    public void onChargeItemClick(int price) {
+        showChargeDialog(price);
+    }
+
     private void showChargeDialog(int price){
-        OrderPayDialog orderPayDialog = new OrderPayDialog();
+        OrderPayDialog orderPayDialog = new OrderPayDialog(getActivity(), alipay_state, weixin_state);
         Bundle bundle = new Bundle();
         bundle.putInt(OrderPayDialog.TAG, price);
         orderPayDialog.addOnChargeClickListener(new OrderPayDialog.onChargeClickListener() {
             @Override
-            public void onChargeClick(int charge_value) {
+            public void onChargeClick(UniformAlipayPayResult payBody) {
                 orderPayDialog.dismissAllowingStateLoss();
-                Toast.makeText(getActivity(), ""+charge_value, Toast.LENGTH_SHORT).show();
             }
         });
         orderPayDialog.setArguments(bundle);

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.weiliao.kinnek.R;
+import com.weiliao.kinnek.common.Constants;
 import com.weiliao.kinnek.common.XBaseFragment;
 import com.weiliao.kinnek.model.HotHostResults;
 import com.weiliao.kinnek.model.UGCVideoResult;
@@ -105,7 +106,7 @@ public class VitamioVideoPlayerFragment extends XBaseFragment implements Surface
         Log.e(TAG, "lazyInit ~ "+ video.toString());
         mLike.setText(video.pick_num);
         mComment.setText(video.comment_num);
-        mName.setText(StringUtils.isEmpty(video.name) ? "微聊用户" : video.name);
+        mName.setText(StringUtils.isEmpty(video.name) ? Constants.default_user_name : video.name);
         mTittle.setText(video.title);
 
         //mediaplayer

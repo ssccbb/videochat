@@ -58,6 +58,8 @@ public class AnchorInfoResult extends XBaseModel {
     public String video_count;
     public List<String> pic_list = new ArrayList<>();
     public List<VideoListBean> video_list = new ArrayList<>();
+    public String is_watch;//1观看0没看
+    public String diamond;
     public int pay_status = -1;//识别当前登录用户是否买断主播（需要自己调接口设置）
 
     public AnchorInfoResult(String json) {
@@ -86,6 +88,8 @@ public class AnchorInfoResult extends XBaseModel {
             is_pay = jsonObject.getString("is_pay");
             pic_count = jsonObject.getString("pic_count");
             video_count = jsonObject.getString("video_count");
+            is_watch = jsonObject.getString("is_watch");
+            diamond = jsonObject.getString("diamond");
             Gson gson = new Gson();
             JSONArray videos = jsonObject.getJSONArray("video_list");
             for (int i = 0; i < videos.length(); i++) {

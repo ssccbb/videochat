@@ -229,6 +229,33 @@ public class OkHttpRequestUtils {
         mCall.enqueue(new JkOkHttpCallBack(callBack, activity, responseCls, requestId));
     }
 
+    public void requestAlipayByPost(HashMap<String, String> maps,
+                              Class responseCls,
+                              Activity activity,
+                              ApiCallback callBack){
+        String url = "https://pay.bbbapi.com/?format=json";
+        // 创建请求的参数body
+        FormBody.Builder builder = new FormBody.Builder();
+        // 遍历key
+        if (null != maps) {
+            for (Map.Entry<String, String> entry : maps.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue().toString();
+                builder.add(key, value);
+            }
+        }
+        Log.e(TAG, "#requestByPost url=" + url);
+        // create request instance
+        RequestBody mRequestBody = builder.build();
+        Request mRequest = new Request.Builder().url(url).post(mRequestBody).build();
+
+        // create call instance
+        Call mCall = mOkHttpClient.newCall(mRequest);
+
+        // start request
+        mCall.enqueue(new JkOkHttpCallBack(callBack, activity, responseCls));
+    }
+
     /**
      * request by get
      * @author leibing

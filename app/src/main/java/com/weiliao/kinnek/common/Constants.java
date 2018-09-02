@@ -26,6 +26,14 @@ public class Constants {
     public static final int BLUR_RADIUS = 4;
     public static final int BLUR_SAMPLING = 2;
 
+    public static final String Charge_Type_Diamond = "0";
+    public static final String Charge_Type_Vip = "1";
+    public static final String Charge_Channel_Alipay = "alipay";
+    public static final String Charge_Channel_Weixin = "lq_wx";
+
+    public static final String HOST_IS_WATCH = "1";
+    public static final String HOST_NULL_WATCH = "0";
+
     /**
      * 普通用户
      * */
