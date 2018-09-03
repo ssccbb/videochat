@@ -77,4 +77,9 @@ dependencies {
     //vitamio视频播放
     api project(':vitamio')
     implementation 'org.apache.httpcomponents:httpcore:4.4.10'
+    // 微信支付sdk
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.1.4'
+    //eventbus
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
 }
