@@ -78,7 +78,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <com.weiliao.kinnek.views.CircleImageView
+        <com.qiiiqjk.kkanzh.views.CircleImageView
             android:id="@+id/ci_avatar"
             android:layout_width="56dp"
             android:layout_height="56dp"

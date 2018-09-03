@@ -28,7 +28,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content" />
-                <com.weiliao.kinnek.views.CircleImageView
+                <com.qiiiqjk.kkanzh.views.CircleImageView
                     android:id="@+id/avatar"
                     android:background="@mipmap/ic_default_avatar"
                     android:layout_width="60dp"

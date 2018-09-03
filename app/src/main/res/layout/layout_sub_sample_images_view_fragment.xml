@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="@color/app_dark">
 
-    <com.weiliao.kinnek.views.subsamplingScaleImageView.SubsamplingScaleImageView
+    <com.qiiiqjk.kkanzh.views.subsamplingScaleImageView.SubsamplingScaleImageView
         android:id="@+id/sub_sample_view"
         app:zoomEnabled="true"
         android:layout_width="match_parent"

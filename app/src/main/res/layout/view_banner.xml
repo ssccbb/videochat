@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="160dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.weiliao.kinnek.views.banner.AutoScrollViewPager
+    <com.qiiiqjk.kkanzh.views.banner.AutoScrollViewPager
         android:id="@+id/auto_scroll_view_pager"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:clipChildren="false"/>
-    <com.weiliao.kinnek.views.banner.PagerIndicatorView
+    <com.qiiiqjk.kkanzh.views.banner.PagerIndicatorView
         android:visibility="visible"
         android:id="@+id/auto_scroll_pager_indicator"
         app:layout_constraintBottom_toBottomOf="@+id/auto_scroll_view_pager"

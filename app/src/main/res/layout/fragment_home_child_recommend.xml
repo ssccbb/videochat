@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.weiliao.kinnek.views.XReloadableRecyclerContentLayout
+    <com.qiiiqjk.kkanzh.views.XReloadableRecyclerContentLayout
         android:id="@+id/list"
         android:visibility="gone"
         android:layout_width="match_parent"

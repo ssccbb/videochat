@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <com.weiliao.kinnek.views.TabIndicatorView
+    <com.qiiiqjk.kkanzh.views.TabIndicatorView
         android:id="@+id/tab_indicator"
         android:background="#ffffff"
         android:layout_width="match_parent"

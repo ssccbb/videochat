@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.weiliao.kinnek">
+    package="com.qiiiqjk.kkanzh">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -77,14 +77,14 @@
             android:launchMode="singleTop"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="$com.weiliao.kinnek.fileProvider"
+            android:authorities="$com.qiiiqjk.kkanzh.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
-        <meta-data android:name="com.weiliao.kinnek.common.CustomCachingGlideModule"
+        <meta-data android:name="com.qiiiqjk.kkanzh.common.CustomCachingGlideModule"
             android:value="GlideModule"/>
 
         <!--vitamio-->
@@ -94,7 +94,17 @@
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <!--wxap-->
+        <!--wxapi-->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
     </application>
 
 </manifest>
