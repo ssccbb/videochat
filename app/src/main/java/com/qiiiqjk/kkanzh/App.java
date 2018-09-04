@@ -31,7 +31,6 @@ public class App extends Application {
         super.onCreate();
         context = this;
 
-        initWX();
         Fresco.initialize(this);
         SharedPreUtil.init(this);
         UMConfigure.setLogEnabled(BuildConfig.DEBUG ? true : false);
@@ -41,10 +40,8 @@ public class App extends Application {
                 BuildConfig.DEVICE_TYPE,//device
                 BuildConfig.APPLICATION_ID);//push secret
         MobclickAgent.setScenarioType(context, MobclickAgent.EScenarioType.E_UM_NORMAL);
-//        CrashReport.initCrashReport(context,BuildConfig.BUGLY_APP_ID,BuildConfig.DEBUG ? true : false);
-        com.tencent.bugly.beta.Beta.autoCheckUpgrade = true;
+        com.tencent.bugly.beta.Beta.autoCheckUpgrade = false;
         Bugly.init(context,BuildConfig.BUGLY_APP_ID,BuildConfig.DEBUG ? true : false);
-//        Log.e("app", "onCreate: "+CrashReport.getBuglyVersion(this) );
     }
 
     public static App getInstance() {
@@ -52,16 +49,6 @@ public class App extends Application {
             return new App();
         }
         return instance;
-    }
-
-    /**
-     * 初始化微信支付SDK
-     */
-    private void initWX() {
-        // 通过WXAPIFactory工厂，获取IWXAPI的实例
-//        api = WXAPIFactory.createWXAPI(this, RxConstant.ThirdPartKey.WeixinId);
-//        api.registerApp(RxConstant.ThirdPartKey.WeixinId);
-        Log.e(TAG, "initWX: "+getPackageName());
     }
 
     /**

@@ -80,11 +80,11 @@ public class VipVideoActivity extends XBaseActivity implements XRecyclerView.OnR
                     @Override
                     public void onSuccess(Object response) {
                         mList.refreshState(false);
-                        Log.e(TAG, "onSuccess: "+(String) response );
+                        //Log.e(TAG, "onSuccess: "+(String) response );
                         HotVideoResults mHotData = new HotVideoResults((String)response);
                         if (!mHotData.code.equals(StateCode.STATE_0000)){
                             //Toast.makeText(VipVideoActivity.this, mHotData.message, Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "onSuccess: code == "+mHotData.code +" & msg == "+mHotData.message);
+                            //Log.e(TAG, "onSuccess: code == "+mHotData.code +" & msg == "+mHotData.message);
                             mList.showError();
                             return;
                         }

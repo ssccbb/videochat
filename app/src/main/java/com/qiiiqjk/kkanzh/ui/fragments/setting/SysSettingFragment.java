@@ -2,18 +2,36 @@ package com.qiiiqjk.kkanzh.ui.fragments.setting;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.qiiiqjk.kkanzh.BuildConfig;
 import com.qiiiqjk.kkanzh.common.XBaseFragment;
+import com.qiiiqjk.kkanzh.model.CheckUpdateResult;
+import com.qiiiqjk.kkanzh.model.PhoneVertifyResult;
+import com.qiiiqjk.kkanzh.net.api.Api;
+import com.qiiiqjk.kkanzh.net.httprequest.ApiCallback;
+import com.qiiiqjk.kkanzh.net.httprequest.okhttp.JKOkHttpParamKey;
+import com.qiiiqjk.kkanzh.net.httprequest.okhttp.OkHttpRequestUtils;
+import com.qiiiqjk.kkanzh.ui.activitys.IndexActivity;
+import com.qiiiqjk.kkanzh.utils.DownloadUtil;
+import com.qiiiqjk.kkanzh.utils.StringUtils;
 import com.qiiiqjk.kkanzh.utils.Utils;
+import com.qiiiqjk.kkanzh.views.dialog.UpdateDialogFragment;
 import com.qiiiqjk.kkanzh.views.dialog.VCDialog;
 import com.qiiiqjk.kkanzh.R;
 import com.qiiiqjk.kkanzh.ui.activitys.MsgActivity;
 import com.qiiiqjk.kkanzh.ui.activitys.SettingActivity;
 import com.qiiiqjk.kkanzh.utils.SharedPreUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 
 import butterknife.BindView;
 
@@ -112,7 +130,7 @@ public class SysSettingFragment extends XBaseFragment implements View.OnClickLis
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getContext(), "当前已是最新版本！", Toast.LENGTH_SHORT).show();
+                    checkUpdate();
                 }
             },1500);
         }
@@ -136,5 +154,83 @@ public class SysSettingFragment extends XBaseFragment implements View.OnClickLis
             });
             dialog.show(getChildFragmentManager(), VCDialog.TAG);
         }
+    }
+
+    private void checkUpdate(){
+        if (!SharedPreUtil.isLogin()) return;
+        OkHttpRequestUtils.getInstance().requestByGet(Api.API_BASE_URL +"/config/check_update",
+                OkHttpRequestUtils.getInstance().JkRequestParameters(JKOkHttpParamKey.CHECK_UPDATE,
+                        SharedPreUtil.getLoginInfo().uid, "2", String.valueOf(BuildConfig.VERSION_CODE)),
+                PhoneVertifyResult.class, getActivity(), new ApiCallback() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        Log.e("update", "onSuccess: "+(String) response );
+                        try {
+                            JSONObject object = new JSONObject((String)response);
+                            if(object.get("data") != null){
+                                Gson gson = new Gson();
+                                CheckUpdateResult update = gson.fromJson(
+                                        object.getJSONObject("data").toString(), CheckUpdateResult.class);
+                                if (StringUtils.isEmpty(update.link)) return;
+                                UpdateDialogFragment dialog = new UpdateDialogFragment();
+                                Bundle b = new Bundle();
+                                b.putSerializable(UpdateDialogFragment.TAG,update);
+                                dialog.setArguments(b);
+                                dialog.addOnClickListener(new UpdateDialogFragment.onClickListener() {
+                                    @Override
+                                    public void onConfirmCallback() {
+                                        dialog.dismissAllowingStateLoss();
+                                        Toast.makeText(getContext(), "后台下载", Toast.LENGTH_SHORT).show();
+                                        download(update.link);
+                                    }
+
+                                    @Override
+                                    public void onCancelCallback() {
+                                        dialog.dismissAllowingStateLoss();
+                                    }
+                                });
+                                dialog.show(getActivity().getSupportFragmentManager(),UpdateDialogFragment.TAG);
+                            }else {
+                                Toast.makeText(getContext(), "已经是最新版本！", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getContext(), "已经是最新版本！", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onError(String err_msg) {
+                        Log.e("update", "onError: "+err_msg );
+                        Toast.makeText(getContext(), "安装包下载失败！", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Log.e("update", "onFailure !");
+                        Toast.makeText(getContext(), "安装包下载失败！", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void download(String url){
+        DownloadUtil.get().download(url, new DownloadUtil.OnDownloadListener() {
+            @Override
+            public void onDownloadSuccess(File str) {
+                Log.e("update", "onDownloadSuccess: "+str.getAbsolutePath() );
+                Utils.installApk(getContext(),str);
+            }
+
+            @Override
+            public void onDownloading(int progress) {
+                Log.e("update", "onDownloading: "+progress );
+            }
+
+            @Override
+            public void onDownloadFailed() {
+                Log.e("update", "onDownloadFailed! ");
+                Toast.makeText(getContext(), "安装包下载失败！", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

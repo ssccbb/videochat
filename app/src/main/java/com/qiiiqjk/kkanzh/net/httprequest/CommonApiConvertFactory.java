@@ -42,7 +42,7 @@ public class CommonApiConvertFactory extends Converter.Factory{
             String reString;
             try {
                 reString = value.string();
-                Log.e(TAG, "#body=" + reString);
+                //Log.e(TAG, "#body=" + reString);
                 return (T) reString;
             } catch (Exception e) {
                 e.printStackTrace();

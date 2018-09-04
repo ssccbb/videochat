@@ -74,7 +74,7 @@ public class JSONRequestUtils {
         }
         if (jsonObj.length() > 0) {
             json = jsonObj.toString();
-            Log.e(TAG, "jsonBody: "+json );
+            //Log.e(TAG, "jsonBody: "+json );
         }
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), json);
         return requestBody;

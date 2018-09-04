@@ -169,7 +169,12 @@ public class HostInfoActivity extends XBaseActivity implements View.OnClickListe
         Glide.with(App.getContext()).load(StringUtils.convertUrlStr(mUserInfo.avatar))
                 .crossFade()/*.thumbnail(0.1f)*/.centerCrop().into(mCover);
         mName.setText(StringUtils.isEmpty(mUserInfo.nickname) ? "" : mUserInfo.nickname);
-        mHostStates = Integer.parseInt(mUserInfo.answer_state);
+        try {
+            mHostStates = Integer.parseInt(mUserInfo.answer_state);
+        }catch (NumberFormatException e){
+            Log.e(TAG, "initInfo: "+e.toString() );
+            mHostStates = 3;
+        }
         mStatus.setImageResource(Utils.getHostStatus(mHostStates));//1空闲 2在聊 3勿扰
         mConnect.setSelected(mHostStates == Constants.HOST_STATUS_FREE);
         mPrice.setText(StringUtils.isEmpty(mUserInfo.fee) ? "0" : mUserInfo.fee);
@@ -218,6 +223,8 @@ public class HostInfoActivity extends XBaseActivity implements View.OnClickListe
                             pay_status = Integer.parseInt(is_pay);
                         } catch (JSONException e) {
                             e.printStackTrace();
+                        } catch (NumberFormatException e){
+                            Log.e(TAG, "onSuccess: "+e.toString() );
                         }
                         Log.e(TAG, "onSuccess: " + (String) response);
                     }
@@ -250,6 +257,14 @@ public class HostInfoActivity extends XBaseActivity implements View.OnClickListe
         b.putSerializable(HostInfoActivity.TAG, host);
         goTo.putExtras(b);
         context.startActivity(goTo);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mUserInfo != null){
+            postAnchorInfo(mHost.uid);
+        }
     }
 
     @Override

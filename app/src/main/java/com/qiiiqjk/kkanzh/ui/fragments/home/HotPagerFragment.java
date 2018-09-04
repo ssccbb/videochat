@@ -20,6 +20,7 @@ import com.qiiiqjk.kkanzh.net.httprequest.ApiCallback;
 import com.qiiiqjk.kkanzh.net.httprequest.okhttp.JKOkHttpParamKey;
 import com.qiiiqjk.kkanzh.net.httprequest.okhttp.OkHttpRequestUtils;
 import com.qiiiqjk.kkanzh.ui.activitys.HostInfoActivity;
+import com.qiiiqjk.kkanzh.ui.fragments.LoginDialogFragment;
 import com.qiiiqjk.kkanzh.utils.SharedPreUtil;
 import com.qiiiqjk.kkanzh.views.XReloadableRecyclerContentLayout;
 
@@ -50,7 +51,7 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
     @Override
     public void initData(Bundle savedInstanceState) {
         mList.showLoading();
-        mBannerAdapter = new HomeHotBannerAdapter(getActivity(),null);
+        mBannerAdapter = new HomeHotBannerAdapter(getContext(),null);
         mHotAdapter = new HomeHotHostAdapter(getActivity(),null);
         mHotAdapter.setBannerAdapter(mBannerAdapter);
         mList.getRecyclerView().setAdapter(mHotAdapter);
@@ -85,7 +86,7 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
                     @Override
                     public void onSuccess(Object response) {
                         mList.refreshState(false);
-                        Log.e(TAG, "onSuccess: "+(String) response );
+                        //Log.e(TAG, "onSuccess: "+(String) response );
                         HotHostResults mHotData = new HotHostResults((String)response);
                         if (!mHotData.code.equals(StateCode.STATE_0000)){
                             Toast.makeText(getActivity(), mHotData.message, Toast.LENGTH_SHORT).show();
@@ -130,13 +131,14 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
                 PhoneVertifyResult.class, getActivity(), new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
-                        Log.e(TAG, "onSuccess: "+(String) response );
+                        //Log.e(TAG, "onSuccess: "+(String) response );
                         banners = new BannerResults((String) response);
                         if (!banners.code.equals(StateCode.STATE_0000)){
                             Toast.makeText(getActivity(), banners.message, Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        mBannerAdapter.setData(banners.revolve_list);
+                        mBannerAdapter = new HomeHotBannerAdapter(getContext(),banners.revolve_list);
+                        mHotAdapter.setBannerAdapter(mBannerAdapter);
                     }
 
                     @Override
@@ -153,6 +155,11 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
 
     @Override
     public void onItemClick(View view, int position, HotHostResults.HotHostResult hotHostResult) {
+        if (!SharedPreUtil.isLogin()){
+            LoginDialogFragment login = new LoginDialogFragment();
+            login.show(getActivity().getSupportFragmentManager(),LoginDialogFragment.TAG);
+            return;
+        }
         HostInfoActivity.open(getActivity(),hotHostResult);
     }
 
@@ -165,7 +172,7 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
 
     @Override
     public void onLoadMore(int page) {
-        Log.e(TAG, "onLoadMore: "+page );
+        //Log.e(TAG, "onLoadMore: "+page );
         postHotList(next_page);
     }
 
@@ -188,7 +195,7 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
         api.getVerifyCode("18600574847", getActivity(), new ApiCallback<PhoneVertifyResult>() {
             @Override
             public void onSuccess(PhoneVertifyResult response) {
-                Log.e(TAG, "onSuccess: "+response.dataInfo );
+                //Log.e(TAG, "onSuccess: "+response.dataInfo );
             }
 
             @Override
@@ -212,7 +219,7 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
                 PhoneVertifyResult.class, getActivity(), new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
-                        Log.e(TAG, "onSuccess: "+(String) response );
+                        //Log.e(TAG, "onSuccess: "+(String) response );
                     }
 
                     @Override
@@ -235,7 +242,7 @@ public class HotPagerFragment extends XBaseFragment implements XRecyclerView.OnR
                 PhoneVertifyResult.class, getActivity(), new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
-                        Log.e(TAG, "onSuccess: "+(String) response );
+                        //Log.e(TAG, "onSuccess: "+(String) response );
                     }
 
                     @Override

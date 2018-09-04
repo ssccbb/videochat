@@ -106,7 +106,7 @@ public class OkHttpRequestUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e(TAG, "requestByPostJson json= "+json.toString() );
+        //Log.e(TAG, "requestByPostJson json= "+json.toString() );
         HashMap<String,String> maps = new HashMap<>();
         if (json != null){
             maps.put("body",Utils.emptyConverter(TripleDES.encryptMode(json.toString())));
@@ -117,7 +117,7 @@ public class OkHttpRequestUtils {
                 builder.add(entry.getKey(), entry.getValue().toString());
             }
         }
-        Log.e(TAG, "#requestByPost url=" + url);
+        //Log.e(TAG, "#requestByPost url=" + url);
         // create request instance
         RequestBody mRequestBody = builder.build();
         Request mRequest = new Request.Builder().url(url).post(mRequestBody).build();
@@ -244,7 +244,7 @@ public class OkHttpRequestUtils {
                 builder.add(key, value);
             }
         }
-        Log.e(TAG, "#requestByPost url=" + url);
+        //Log.e(TAG, "#requestByPost url=" + url);
         // create request instance
         RequestBody mRequestBody = builder.build();
         Request mRequest = new Request.Builder().url(url).post(mRequestBody).build();

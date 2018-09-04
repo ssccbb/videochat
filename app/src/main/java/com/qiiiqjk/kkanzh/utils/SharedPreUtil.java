@@ -128,7 +128,7 @@ public class SharedPreUtil {
         }
         Gson gson = new Gson();
         String json = gson.toJson(loginInfoResults);
-        Log.e(Constants.SP_LOGIN_INFO, "saveLoginInfo: "+json );
+        //Log.e(Constants.SP_LOGIN_INFO, "saveLoginInfo: "+json );
         editor.putString(Constants.SP_LOGIN_INFO,json).commit();
     }
     
@@ -140,6 +140,23 @@ public class SharedPreUtil {
         Gson gson = new Gson();
         LoginInfoResults user = gson.fromJson(json,LoginInfoResults.class);
         return user;
+    }
+
+    public static void updateLoginInfo(LoginInfoResults login){
+        if (login == null){
+            return;
+        }
+        LoginInfoResults saved = getLoginInfo();
+        login.uid = saved.uid;
+        login.user_id = saved.user_id;
+        login.phone = saved.phone;
+        if (StringUtils.isEmpty(login.diamond)){
+            login.diamond = saved.diamond;
+        }
+        if (StringUtils.isEmpty(login.vip)){
+            login.vip = saved.vip;
+        }
+        saveLoginInfo(login);
     }
 
     public static void clearLoginInfo(){

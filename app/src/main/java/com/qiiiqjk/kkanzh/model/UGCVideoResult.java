@@ -11,6 +11,7 @@ public class UGCVideoResult implements Parcelable{
     public String comment_num;
     public String pick_num;
     public String name;
+    public String anchor_name;
     public String uid;
     public String avatar;
 
@@ -22,6 +23,7 @@ public class UGCVideoResult implements Parcelable{
         this.comment_num = in.readString();
         this.pick_num = in.readString();
         this.name = in.readString();
+        this.anchor_name = in.readString();
         this.uid = in.readString();
         this.avatar = in.readString();
     }
@@ -34,6 +36,7 @@ public class UGCVideoResult implements Parcelable{
         this.comment_num = hotVideoResult.comment_num;
         this.pick_num = hotVideoResult.pick_num;
         this.name = hotVideoResult.name;
+        this.anchor_name = hotVideoResult.anchor_name;
         this.uid = hotVideoResult.uid;
         this.avatar = hotVideoResult.uid;
     }
@@ -46,6 +49,7 @@ public class UGCVideoResult implements Parcelable{
         this.comment_num = hotVideoResult.comment_num;
         this.pick_num = hotVideoResult.pick_num;
         this.name = hotVideoResult.name;
+        this.anchor_name = hotVideoResult.anchor_name;
         this.uid = hotVideoResult.uid;
         this.avatar = hotVideoResult.avatar;
     }
@@ -76,6 +80,7 @@ public class UGCVideoResult implements Parcelable{
         dest.writeString(this.comment_num);
         dest.writeString(this.pick_num);
         dest.writeString(this.name);
+        dest.writeString(this.anchor_name);
         dest.writeString(this.uid);
         dest.writeString(this.avatar);
     }
@@ -89,6 +94,7 @@ public class UGCVideoResult implements Parcelable{
                 +"\ncomment_num - "+comment_num
                 +"\npick_num - "+pick_num
                 +"\nname - "+name
+                +"\nanchor_name - "+anchor_name
                 +"\nuid - "+uid
                 +"\navatar - "+avatar;
     }

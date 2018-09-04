@@ -64,7 +64,7 @@ public class JkWsManagerImpl implements IJkWsManager{
             cancelReconnect();
             // open status callback
             if (mJkWsStatusListener != null) {
-                Log.e(TAG, "#onOpen#response=" + response);
+                //Log.e(TAG, "#onOpen#response=" + response);
                 mJkWsStatusListener.onOpen(response);
             }
         }
@@ -73,7 +73,7 @@ public class JkWsManagerImpl implements IJkWsManager{
         public void onMessage(WebSocket webSocket, String text) {
             // message text callback
             if (mJkWsStatusListener != null) {
-                Log.e(TAG, "#onMessage#text=" + text);
+                //Log.e(TAG, "#onMessage#text=" + text);
                 mJkWsStatusListener.onMessage(text);
             }
         }
@@ -83,9 +83,9 @@ public class JkWsManagerImpl implements IJkWsManager{
             // message bytes callback
             if (mJkWsStatusListener != null) {
                 if (bytes != null) {
-                    Log.e(TAG, "#onMessage#bytes=" + bytes.toString());
+                    //Log.e(TAG, "#onMessage#bytes=" + bytes.toString());
                 }else {
-                    Log.e(TAG, "#onMessage#bytes");
+                    //Log.e(TAG, "#onMessage#bytes");
                 }
                 mJkWsStatusListener.onMessage(bytes);
             }
@@ -97,7 +97,7 @@ public class JkWsManagerImpl implements IJkWsManager{
             mCurrentStatus = JkWsStatus.ConnectStatus.DISCONNECTED;
             // closed status callback
             if (mJkWsStatusListener != null) {
-                Log.e(TAG, "#onClosed#code=" + code+"#reason="+ reason);
+                //Log.e(TAG, "#onClosed#code=" + code+"#reason="+ reason);
                 mJkWsStatusListener.onClosed(code, reason);
             }
         }
@@ -106,7 +106,7 @@ public class JkWsManagerImpl implements IJkWsManager{
         public void onClosing(WebSocket webSocket, int code, String reason) {
             // closing status callback
             if (mJkWsStatusListener != null) {
-                Log.e(TAG, "#onClosing#code=" + code+"#reason="+ reason);
+                //Log.e(TAG, "#onClosing#code=" + code+"#reason="+ reason);
                 mJkWsStatusListener.onClosing(code, reason);
             }
         }
@@ -117,7 +117,7 @@ public class JkWsManagerImpl implements IJkWsManager{
             mCurrentStatus = JkWsStatus.ConnectStatus.DISCONNECTED;
             // failure status callback
             if (mJkWsStatusListener != null) {
-                Log.e(TAG, "#onFailure#t=" + t+"#response="+ response);
+                //Log.e(TAG, "#onFailure#t=" + t+"#response="+ response);
                 if (t.toString().contains("Socket closed")){
                     mJkWsStatusListener.onClosed(JkWsStatus.StatusCode.NORMAL_CLOSE,
                             JkWsStatus.StatusTip.NORMAL_CLOSE);
@@ -157,10 +157,10 @@ public class JkWsManagerImpl implements IJkWsManager{
         if (!isNeedReconnect || !isNetworkConnected(mContext)) return;
         // set currentStatus as reconnect
         mCurrentStatus = JkWsStatus.ConnectStatus.RECONNECT;
-        Log.e(TAG, "#tryReconnect#reconnectCount=" + reconnectCount);
+        //Log.e(TAG, "#tryReconnect#reconnectCount=" + reconnectCount);
         // 重连延迟
         long delay = reconnectCount * RECONNECT_INTERVAL_TIME;
-        Log.e(TAG, "#tryReconnect#delay=" + delay);
+        //Log.e(TAG, "#tryReconnect#delay=" + delay);
         // 开始重连
         if (wsHandler != null
                 && reconnectRunnable != null) {
@@ -169,7 +169,7 @@ public class JkWsManagerImpl implements IJkWsManager{
             wsHandler.postDelayed(reconnectRunnable,
                     delay > RECONNECT_MAX_INTERVAL_TIME ? RECONNECT_INTERVAL_TIME : delay);
             if (delay > RECONNECT_MAX_INTERVAL_TIME){
-                Log.e(TAG, "#tryReconnect#reset reconnectCount");
+                //Log.e(TAG, "#tryReconnect#reset reconnectCount");
                 reconnectCount = 1;
             }
         }

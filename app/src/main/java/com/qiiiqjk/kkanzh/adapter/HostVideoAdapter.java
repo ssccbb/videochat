@@ -91,6 +91,7 @@ public class HostVideoAdapter extends RecyclerView.Adapter {
                 Glide.with(App.getContext()).load(StringUtils.convertUrlStr(videoListBean.cover_url.toString()))
                         .crossFade()/*.thumbnail(0.1f)*/.into(cover);
             }
+            lock.setVisibility(pay_status == 1 ? View.GONE : View.VISIBLE);
             num.setText(videoListBean.total_viewer);
             tittle.setText(videoListBean.title);
 

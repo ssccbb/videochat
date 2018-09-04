@@ -80,6 +80,7 @@ public class LoginDialogFragment extends DialogFragment implements View.OnClickL
         dialogWindow.setGravity(Gravity.CENTER);
         lp.width = ScreenUtils.getScreenWidth(getContext()) / 5 * 4;
         dialogWindow.setAttributes(lp);
+        this.getDialog().setCancelable(false);
     }
 
     @Override
@@ -114,7 +115,7 @@ public class LoginDialogFragment extends DialogFragment implements View.OnClickL
             PhoneVertifyResult.class, getActivity(), new ApiCallback() {
                 @Override
                 public void onSuccess(Object response) {
-                    Log.e(TAG, "onSuccess: "+(String) response );
+                    //Log.e(TAG, "onSuccess: "+(String) response );
                 }
 
                 @Override
@@ -139,7 +140,7 @@ public class LoginDialogFragment extends DialogFragment implements View.OnClickL
                 PhoneVertifyResult.class, getActivity(), new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
-                        Log.e(TAG, "onSuccess: "+(String) response );
+                        //Log.e(TAG, "onSuccess: "+(String) response );
                         LoginInfoResults userInfo = new LoginInfoResults(response.toString());
                         if (userInfo.code.equals(StateCode.STATE_0000)){
                             SharedPreUtil.saveLoginInfo(userInfo);

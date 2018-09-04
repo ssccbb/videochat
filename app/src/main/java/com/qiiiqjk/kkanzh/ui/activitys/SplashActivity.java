@@ -100,7 +100,7 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
                 PhoneVertifyResult.class, this, new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
-                        Log.e(TAG, "onSuccess: "+(String) response );
+                        //Log.e(TAG, "onSuccess: "+(String) response );
                         ids = new IDResult((String) response);
                         ILFactory.getLoader().loadNet(App.getContext(), StringUtils.convertUrlStr(ids.cover_url),ILoader.Options.defaultOptions(),new LoadCallback(){
 
@@ -149,6 +149,9 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (uiHandler != null){
+            uiHandler.removeCallbacksAndMessages(null);
+        }
         next();
     }
 }

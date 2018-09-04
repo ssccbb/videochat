@@ -25,7 +25,7 @@
     <string name="charge_diamond_tittle">温馨提示</string>
     <string name="charge_diamond_hint">充值服务不是即时到账，稍后请查询账户余额\n由此给您带来的不便深表歉意</string>
 
-
+    <string name="empty_hint">这里空空如也\n什么都没有</string>
 
 
     <!--pay-->

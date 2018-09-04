@@ -134,12 +134,12 @@ public class JkOkHttpWebSocketUtils {
                     = original.newBuilder().addHeader("Origin", "http://tw.sgz88.com");
             Request request = requestBuilder.build();
             long t1 = System.nanoTime();
-            Log.e(TAG, String.format("Sending request %s%s",
-                    request.url(),request.headers()));
+            //Log.e(TAG, String.format("Sending request %s%s",
+            //        request.url(),request.headers()));
             Response response = chain.proceed(request);
             long t2 = System.nanoTime();
-            Log.e(TAG, String.format("Received response for %s in %.1fms%n%s",
-                    request.url(), (t2 - t1) / 1e6d, response.headers()));
+            //Log.e(TAG, String.format("Received response for %s in %.1fms%n%s",
+            //        request.url(), (t2 - t1) / 1e6d, response.headers()));
             return response;
         }
     }

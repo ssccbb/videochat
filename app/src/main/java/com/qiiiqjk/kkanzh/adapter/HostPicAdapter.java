@@ -86,7 +86,7 @@ public class HostPicAdapter extends RecyclerView.Adapter {
                 Glide.with(App.getContext()).load(StringUtils.convertUrlStr(data.get(position).toString()))
                         .crossFade()/*.thumbnail(0.1f)*/.into(cover);
             }
-
+            lock.setVisibility(pay_status == 1 ? View.GONE : View.VISIBLE);
             root.setTag(data.get(position).toString());
             root.setOnClickListener(this);
         }

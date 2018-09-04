@@ -3,6 +3,7 @@ package com.qiiiqjk.kkanzh.adapter;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +83,12 @@ public class HomeHotHostAdapter extends RecyclerView.Adapter implements View.OnC
             hotHostHolder.root.setTag(hotHost);
             hotHostHolder.root.setOnClickListener(this);
             hotHostHolder.name.setText(hotHost.nickname);
-            hotHostHolder.status.setImageResource(Utils.getHostStatus(Integer.parseInt(hotHost.anchor_state)));
+            try {
+                hotHostHolder.status.setImageResource(Utils.getHostStatus(Integer.parseInt(hotHost.anchor_state)));
+            }catch (NumberFormatException e){
+                Log.e(TAG, "onBindViewHolder: "+e.toString() );
+                hotHostHolder.status.setImageResource(Utils.getHostStatus(-1));
+            }
             Glide.with(App.getContext()).load(StringUtils.convertUrlStr(hotHost.avatar))
                     .crossFade()/*.thumbnail(0.1f)*/.centerCrop().into(hotHostHolder.cover);
             return;

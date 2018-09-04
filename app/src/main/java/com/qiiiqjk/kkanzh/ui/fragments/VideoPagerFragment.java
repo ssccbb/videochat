@@ -20,6 +20,7 @@ import com.qiiiqjk.kkanzh.net.httprequest.ApiCallback;
 import com.qiiiqjk.kkanzh.net.httprequest.okhttp.JKOkHttpParamKey;
 import com.qiiiqjk.kkanzh.net.httprequest.okhttp.OkHttpRequestUtils;
 import com.qiiiqjk.kkanzh.ui.activitys.VideoBrowseActivity;
+import com.qiiiqjk.kkanzh.utils.SharedPreUtil;
 import com.qiiiqjk.kkanzh.views.XReloadableRecyclerContentLayout;
 import com.qiiiqjk.kkanzh.R;
 import com.qiiiqjk.kkanzh.ui.activitys.VipVideoActivity;
@@ -83,11 +84,11 @@ public class VideoPagerFragment extends XBaseFragment implements XRecyclerView.O
                     @Override
                     public void onSuccess(Object response) {
                         mList.refreshState(false);
-                        Log.e(TAG, "onSuccess: " + (String) response);
+                        //Log.e(TAG, "onSuccess: " + (String) response);
                         HotVideoResults mHotData = new HotVideoResults((String) response);
                         if (!mHotData.code.equals(StateCode.STATE_0000)) {
                             Toast.makeText(getActivity(), mHotData.message, Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "onSuccess: code == " + mHotData.code + " & msg == " + mHotData.message);
+                            //Log.e(TAG, "onSuccess: code == " + mHotData.code + " & msg == " + mHotData.message);
                             mList.showError();
                             return;
                         }
@@ -122,6 +123,10 @@ public class VideoPagerFragment extends XBaseFragment implements XRecyclerView.O
 
     @Override
     public void onItemClick(View view, int type, HotVideoResult hotVideo) {
+        if (!SharedPreUtil.isLogin()){
+            login();
+            return;
+        }
         //不可直接处理原数据 否则会导致返回树目不对
         ArrayList<HotVideoResult> videos = new ArrayList<HotVideoResult>();
         videos = (ArrayList<HotVideoResult>) ((ArrayList<HotVideoResult>) mVideoAdapter.getData()).clone();
@@ -139,7 +144,16 @@ public class VideoPagerFragment extends XBaseFragment implements XRecyclerView.O
 
     @Override
     public void onVipItemClick() {
-        VipVideoActivity.open(getActivity());
+        if (SharedPreUtil.isLogin()){
+            VipVideoActivity.open(getActivity());
+        }else {
+            login();
+        }
+    }
+
+    private void login(){
+        LoginDialogFragment login = new LoginDialogFragment();
+        login.show(getActivity().getSupportFragmentManager(),LoginDialogFragment.TAG);
     }
 
     @Override

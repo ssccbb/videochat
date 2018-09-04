@@ -3,15 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="@color/app_white"
     android:orientation="vertical">
+
+    <ImageView
+        android:scaleType="centerInside"
+        android:layout_width="wrap_content"
+        android:layout_height="180dp"
+        android:src="@mipmap/empty" />
 
     <TextView
         android:id="@+id/tv_msg"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="没有数据"
-        android:textColor="@android:color/black"
+        android:text="@string/empty_hint"
+        android:textColor="@color/app_shadow"
         android:textSize="14sp" />
 
 </LinearLayout>

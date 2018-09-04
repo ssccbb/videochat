@@ -8,8 +8,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.qiiiqjk.kkanzh.common.Constants;
+import com.qiiiqjk.kkanzh.model.LoginInfoResults;
 import com.qiiiqjk.kkanzh.model.PhoneVertifyResult;
+import com.qiiiqjk.kkanzh.model.UserInfoResult;
+import com.qiiiqjk.kkanzh.net.StateCode;
 import com.qiiiqjk.kkanzh.net.api.Api;
 import com.qiiiqjk.kkanzh.net.httprequest.ApiCallback;
 import com.qiiiqjk.kkanzh.net.httprequest.okhttp.JKOkHttpParamKey;
@@ -19,6 +23,7 @@ import com.qiiiqjk.kkanzh.common.XBaseActivity;
 import com.qiiiqjk.kkanzh.model.UniformAlipayPayResult;
 import com.qiiiqjk.kkanzh.model.UniformWeixinPayResult;
 import com.qiiiqjk.kkanzh.utils.SharedPreUtil;
+import com.qiiiqjk.kkanzh.utils.Utils;
 import com.qiiiqjk.kkanzh.utils.WXPayUtils;
 import com.qiiiqjk.kkanzh.views.dialog.OrderPayDialog;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -41,6 +46,8 @@ public class VipActivity extends XBaseActivity implements View.OnClickListener{
     public static final String TAG = VipActivity.class.getSimpleName();
     private String alipay_state = "0";
     private String weixin_state = "0";
+    private UserInfoResult user;
+    private int vip_left_day = 0;
 
     @BindView(R.id.back)
     View mBack;
@@ -48,13 +55,61 @@ public class VipActivity extends XBaseActivity implements View.OnClickListener{
     TextView mTittle;
     @BindView(R.id.open_vip)
     View open;
+    @BindView(R.id.open_container)
+    View openContainer;
+    @BindView(R.id.left)
+    TextView left;
 
     @Override
     public void initData(Bundle savedInstanceState) {
         mTittle.setText("VIP中心");
         mBack.setOnClickListener(this);
         open.setOnClickListener(this);
+
         postChargeType();
+        postUserInfo(SharedPreUtil.getLoginInfo().uid);
+    }
+
+    /**
+     * post获取用户
+     * */
+    private void postUserInfo(String uid){
+        OkHttpRequestUtils.getInstance().requestByPost(Api.API_BASE_URL +"/user/get_info",
+                OkHttpRequestUtils.getInstance().JkRequestParameters(JKOkHttpParamKey.GET_USER_INFO, uid),
+                PhoneVertifyResult.class, VipActivity.this, new ApiCallback() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        //Log.e(TAG, "onSuccess: "+(String) response );
+                        user = new UserInfoResult((String) response);
+                        if (!user.code.equals(StateCode.STATE_0000)){
+                            Toast.makeText(VipActivity.this, user.message, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if (!user.vip.equals(SharedPreUtil.getLoginInfo().vip)){
+                            LoginInfoResults loginInfoResults = new LoginInfoResults();
+                            loginInfoResults.vip = user.vip;
+                            SharedPreUtil.updateLoginInfo(loginInfoResults);
+                        }
+
+                        left.setText("您已开通会员 剩余"+ Utils.formatDayLeft(Long.parseLong(user.vip_ttl))+"天");
+                        if(SharedPreUtil.isVip()){
+                            openContainer.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String err_msg) {
+                        Toast.makeText(VipActivity.this, "用户拉取失败！", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onError: "+err_msg );
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Toast.makeText(VipActivity.this, "用户拉取失败！", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onFailure !");
+                    }
+                });
     }
 
     @Override
@@ -91,7 +146,7 @@ public class VipActivity extends XBaseActivity implements View.OnClickListener{
                 PhoneVertifyResult.class, VipActivity.this, new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
-                        Log.e(TAG, "onSuccess: "+(String) response );
+                        //Log.e(TAG, "onSuccess: "+(String) response );
                         try {
                             JSONObject jsonObject = new JSONObject((String)response);
                             JSONObject data = jsonObject.getJSONObject("data");
@@ -117,7 +172,7 @@ public class VipActivity extends XBaseActivity implements View.OnClickListener{
     }
 
     private void showChargeDialog(int price){
-        OrderPayDialog orderPayDialog = new OrderPayDialog(VipActivity.this, alipay_state, weixin_state);
+        OrderPayDialog orderPayDialog = new OrderPayDialog(VipActivity.this, alipay_state, weixin_state, Constants.Charge_Type_Vip);
         Bundle bundle = new Bundle();
         bundle.putInt(OrderPayDialog.TAG, price);
         orderPayDialog.addOnChargeClickListener(new OrderPayDialog.onChargeClickListener() {

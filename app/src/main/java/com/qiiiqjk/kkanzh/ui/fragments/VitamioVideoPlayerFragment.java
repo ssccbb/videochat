@@ -103,10 +103,10 @@ public class VitamioVideoPlayerFragment extends XBaseFragment implements Surface
         //ui
         Glide.with(getActivity()).load(StringUtils.convertUrlStr(video.cover_url)).thumbnail(0.1f).centerCrop().into(mCover);
         Glide.with(getActivity()).load(StringUtils.convertUrlStr(video.avatar)).thumbnail(0.1f).centerCrop().into(mAvatar);
-        Log.e(TAG, "lazyInit ~ "+ video.toString());
+        //Log.e(TAG, "lazyInit ~ "+ video.toString());
         mLike.setText(video.pick_num);
         mComment.setText(video.comment_num);
-        mName.setText(StringUtils.isEmpty(video.name) ? Constants.default_user_name : video.name);
+        mName.setText(StringUtils.isEmpty(video.anchor_name) ? Constants.default_user_name : video.anchor_name);
         mTittle.setText(video.title);
 
         //mediaplayer

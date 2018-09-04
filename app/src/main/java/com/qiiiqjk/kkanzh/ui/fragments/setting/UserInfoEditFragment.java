@@ -122,7 +122,7 @@ public class UserInfoEditFragment extends XBaseFragment implements View.OnClickL
                 PhoneVertifyResult.class, getActivity(), new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
-                        Log.e(TAG, "onSuccess: "+(String) response );
+                        //Log.e(TAG, "onSuccess: "+(String) response );
                         user = new UserInfoResult((String) response);
                         if (!user.code.equals(StateCode.STATE_0000)){
                             Toast.makeText(getActivity(), user.message, Toast.LENGTH_SHORT).show();

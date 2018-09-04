@@ -8,6 +8,9 @@ import com.qiiiqjk.kkanzh.R;
 
 public class Constants {
     public static final String default_user_name = "微聊用户";
+
+    public static final String default_download_apk_dir = "Download";
+
     public static final int[] round_color = {
             R.color.app_pink,
             R.color.app_purpes,
@@ -23,7 +26,7 @@ public class Constants {
 
     public static final String SP_LOGIN_INFO = "sp_login_info";
 
-    public static final int BLUR_RADIUS = 4;
+    public static final int BLUR_RADIUS = 15;
     public static final int BLUR_SAMPLING = 2;
 
     // 微信支付APPID 每次请求后改变

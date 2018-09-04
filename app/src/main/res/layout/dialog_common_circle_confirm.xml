@@ -35,10 +35,10 @@
             android:id="@+id/dialog_content"
             android:text="请输入交易密码确认操作"
             android:textSize="14sp"
-            android:textColor="#333"
+            android:textColor="#333333"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:gravity="center_vertical|left"
+            android:gravity="center"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

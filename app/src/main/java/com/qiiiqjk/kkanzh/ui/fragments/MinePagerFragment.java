@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.qiiiqjk.kkanzh.common.Constants;
 import com.qiiiqjk.kkanzh.common.XBaseFragment;
+import com.qiiiqjk.kkanzh.model.LoginInfoResults;
 import com.qiiiqjk.kkanzh.model.PhoneVertifyResult;
 import com.qiiiqjk.kkanzh.model.UserInfoResult;
 import com.qiiiqjk.kkanzh.net.StateCode;
@@ -127,6 +128,20 @@ public class MinePagerFragment extends XBaseFragment implements View.OnClickList
         mWallet.setDataNumber(""+user.diamond);
         mVip.setDataNumber(user.vip.equals("0") ? "未开通会员" : "已开通会员");
         name.setText(StringUtils.isEmpty(user.nickname) ? Constants.default_user_name : user.nickname);
+
+        LoginInfoResults saved = SharedPreUtil.getLoginInfo();
+        if (!saved.diamond.equals(user.diamond)){
+            LoginInfoResults login = new LoginInfoResults();
+            login.diamond = user.diamond;
+            SharedPreUtil.updateLoginInfo(login);
+        }
+    }
+
+    private void clearLogin(){
+        id.setText("ID：00000000");
+        mVip.setDataNumber("未开通会员");
+        mWallet.setDataNumber("0");
+        name.setText(Constants.default_user_name);
     }
 
     @Override
@@ -142,7 +157,10 @@ public class MinePagerFragment extends XBaseFragment implements View.OnClickList
     @Override
     public void onResume() {
         super.onResume();
-        if (!SharedPreUtil.isLogin()) return;
+        if (!SharedPreUtil.isLogin()) {
+            clearLogin();
+            return;
+        }
         postUserInfo(SharedPreUtil.getLoginInfo().uid);
     }
 

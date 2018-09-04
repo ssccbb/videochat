@@ -95,54 +95,54 @@ public abstract class CommonRetrofitCallback<T> implements Callback <T>{
     public void onResponse(Call<T> call, Response<T> response) {
         if (activityWeakRef == null
                 || activityWeakRef.get() == null) {
-            Log.e(TAG, "#" + ACTIVITY_WEAK_REF_IS_NULL);
+            //Log.e(TAG, "#" + ACTIVITY_WEAK_REF_IS_NULL);
             return;
         }
         // 处理是否当前页，如果非当前页则无需回调更新UI
         if (!AppManager.getInstance().isCurrent(activityWeakRef.get())){
-            Log.e(TAG, "#" + UPDATE_UI_PAGE_IS_NOT_CURRENT_PAGE);
+            //Log.e(TAG, "#" + UPDATE_UI_PAGE_IS_NOT_CURRENT_PAGE);
             return;
         }
         // 若数据为空则回调返回
         if (response == null || response.body() == null) {
             mCallback.onError(NULL_DATA);
-            Log.e(TAG, "#" + NULL_DATA);
+            //Log.e(TAG, "#" + NULL_DATA);
             return;
         }
         String body = (String) response.body();
         // 无数据回调处理
         if (StringUtils.isEmpty(body)){
             mCallback.onError(NULL_DATA);
-            Log.e(TAG, "#" + NULL_DATA);
+            //Log.e(TAG, "#" + NULL_DATA);
             return;
         }
         if (StringUtils.isNotEmpty(requestId)){
             switch (requestId){
                 case REQUEST_ID_ONE:
                     // 数据格式一处理
-                    Log.e(TAG, "#requestId=" + REQUEST_ID_ONE);
+                    //Log.e(TAG, "#requestId=" + REQUEST_ID_ONE);
                     requestIdOneDeal(body);
                     return;
                 case REQUEST_ID_TWO:
                     // 数据格式二处理
-                    Log.e(TAG, "#requestId=" + REQUEST_ID_TWO);
+                    //Log.e(TAG, "#requestId=" + REQUEST_ID_TWO);
                     requestIdTwoDeal(body);
                     return;
                 case REQUEST_ID_THREE:
                     // 数据格式三处理
-                    Log.e(TAG, "#requestId=" + REQUEST_ID_THREE);
+                    //Log.e(TAG, "#requestId=" + REQUEST_ID_THREE);
                     requestIdThreeDeal(body);
                     return;
                 default:
                     break;
             }
-            Log.e(TAG, "#are you compatible data ?");
+            //Log.e(TAG, "#are you compatible data ?");
             // 兼容数据
             compatibleData();
         }else {
-            Log.e(TAG, "#" + REQUESTID_IS_NULL);
+            //Log.e(TAG, "#" + REQUESTID_IS_NULL);
             // 数据格式二处理
-            Log.e(TAG, "#requestId=" + REQUEST_ID_TWO);
+            //Log.e(TAG, "#requestId=" + REQUEST_ID_TWO);
             requestIdTwoDeal(body);
         }
     }
@@ -326,7 +326,7 @@ public abstract class CommonRetrofitCallback<T> implements Callback <T>{
     public void onFailure(Call<T> call, Throwable t) {
         if (activityWeakRef == null
                 || activityWeakRef.get() == null) {
-            Log.e(TAG, "#onFailure#" + ACTIVITY_WEAK_REF_IS_NULL);
+            //Log.e(TAG, "#onFailure#" + ACTIVITY_WEAK_REF_IS_NULL);
             return;
         }
         // 失败回调

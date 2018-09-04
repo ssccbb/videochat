@@ -31,7 +31,8 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp" />
                 <TextView
-                    android:text="您已开通会员 剩余24天"
+                    android:id="@+id/left"
+                    android:text="您已开通会员 剩余0天"
                     android:textSize="10sp"
                     android:gravity="center"
                     android:textStyle="bold"

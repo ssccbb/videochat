@@ -158,7 +158,7 @@ import com.qiiiqjk.kkanzh.BuildConfig;
 
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
-        Log.e("onPageStarted","String:"+url);
+        //Log.e("onPageStarted","String:"+url);
         if (errorReceived) {
             // When dealing with error pages, WebView sometimes sends onPageStarted()
             // without a matching onPageFinished(). We hack around that by using

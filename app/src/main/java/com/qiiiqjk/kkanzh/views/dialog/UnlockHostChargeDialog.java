@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +15,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.qiiiqjk.kkanzh.ui.activitys.VipActivity;
 import com.qiiiqjk.kkanzh.R;
 import com.qiiiqjk.kkanzh.ui.activitys.SettingActivity;
 import com.qiiiqjk.kkanzh.ui.fragments.setting.ChargeFragment;
 import com.qiiiqjk.kkanzh.utils.ScreenUtils;
+import com.qiiiqjk.kkanzh.utils.SharedPreUtil;
 
 import java.lang.reflect.Field;
 
@@ -28,11 +31,13 @@ import java.lang.reflect.Field;
  * */
 public class UnlockHostChargeDialog extends android.support.v4.app.DialogFragment implements View.OnClickListener  {
     public static final String TAG = UnlockHostChargeDialog.class.getSimpleName();
+    public static final String VALUE = "unlock_value";
     public static final int Charge_Pic_Type = 0;
     public static final int Charge_Video_Type = 1;
 
     private onDialogActionListner onDialogActionListner;
     private int type = 0;//0-照片 1-视频
+    private int price = -1;
 
     private ImageView img;
     private TextView tittle;
@@ -57,6 +62,7 @@ public class UnlockHostChargeDialog extends android.support.v4.app.DialogFragmen
         this.setCancelable(true);
         if(this.getArguments() == null) return;
         type = this.getArguments().getInt(TAG);
+        price = this.getArguments().getInt(VALUE);
 
         img = view.findViewById(R.id.img);
         tittle = view.findViewById(R.id.tittle);
@@ -65,8 +71,29 @@ public class UnlockHostChargeDialog extends android.support.v4.app.DialogFragmen
         goTo.setOnClickListener(this);
 
         img.setImageResource(type == Charge_Pic_Type ? R.mipmap.ic_pic_dialog : R.mipmap.ic_video_dialog);
+        goTo.setText(checkDiamond() ? (price+"钻石解锁") : "余额不足 立即充值");
         tittle.setText(type == Charge_Pic_Type ? "主播私密照片" : "主播私密视频");
         desc.setText(type == Charge_Pic_Type ? "主播说这些照片尺度大，要付费才能进行观看" : "主播说这段视频尺度大，要付费才能进行观看");
+    }
+
+    private boolean checkDiamond(){
+        int diamond = -1;
+        try {
+            diamond = Integer.parseInt(SharedPreUtil.getLoginInfo().diamond);
+        }catch (NumberFormatException e){
+            Log.e(TAG, "checkDiamond: "+e.toString() );
+        }
+
+        if (diamond == -1 || price == -1){
+            Toast.makeText(getActivity(), "获取解锁价格失败！请退出重试", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (diamond < price){
+            return false;
+        }else {
+            return true;
+        }
     }
 
     @Override

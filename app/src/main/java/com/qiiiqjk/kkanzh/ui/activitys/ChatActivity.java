@@ -61,6 +61,8 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
     @BindView(R.id.stop)
     View mStop;
     //
+    @BindView(R.id.name1)
+    TextView mConnectedName;
     @BindView(R.id.connect_container)
     View mRequestView;
     @BindView(R.id.chat_container)
@@ -109,8 +111,9 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
         Glide.with(App.getContext()).load(StringUtils.convertUrlStr(mHost.avatar))
                 .crossFade()/*.thumbnail(0.1f)*/.into(mAvatar);
         name.setText(mHost.nickname);
+        mConnectedName.setText(mHost.nickname);
 
-        Log.e(TAG, "initData: "+mHost.video_5s );
+        //Log.e(TAG, "initData: "+mHost.video_5s );
         mVideoView.getHolder().addCallback(video_callback);
         mVideoView.getHolder().setFormat(PixelFormat.RGBA_8888);
 
@@ -197,7 +200,7 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (requestCode == REQUEST_CAMERA && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.e(TAG, "onRequestPermissionsResult: " + grantResults.toString());
+                //Log.e(TAG, "onRequestPermissionsResult: " + grantResults.toString());
                 autoResult();
             } else {
                 Toast.makeText(this, "未获取到摄像头权限！", Toast.LENGTH_SHORT).show();
@@ -221,7 +224,7 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
                 int result = (int) (Math.random() * 2);
                 //5s看过
                 if (mHost.is_watch.equals(Constants.HOST_IS_WATCH)) result = Constants.CONNECTTING_REFUSE;
-                Log.e(TAG, "run: "+result );
+                //Log.e(TAG, "run: result-"+result+"/watch-"+mHost.is_watch );
                 if (result == Constants.CONNECTTING_ACCEPT) {
                     accept();
                 } else if (result == Constants.CONNECTTING_REFUSE) {
@@ -391,7 +394,7 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
             //数据错误
             return;
 
-        Log.e(TAG, "loadVideo: "+ mHost.video_5s);
+        //Log.e(TAG, "loadVideo: "+ mHost.video_5s);
         if (mMediaPlayer != null && mMediaPlayer.isPlaying())
             //当前正在播放 防止 setUserVisibleHint 和 surfaceCreated 时两个播放冲突
             return;
@@ -547,13 +550,13 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
      * post支付宝支付
      */
     private void postHasWatch(String uid, String anchor_uid) {
-        OkHttpRequestUtils.getInstance().requestByPost(Api.API_BASE_URL + "/Anchor/wach_video",
+        OkHttpRequestUtils.getInstance().requestByPost(Api.API_BASE_URL + "/Anchor/watch_video",
                 OkHttpRequestUtils.getInstance().JkRequestParameters(
                         JKOkHttpParamKey.ANCHOR_INFO, anchor_uid,uid ),
                 PhoneVertifyResult.class, ChatActivity.this, new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
-                        Log.e(TAG, "onSuccess: " + (String) response);
+                        //Log.e(TAG, "onSuccess: " + (String) response);
                     }
 
                     @Override

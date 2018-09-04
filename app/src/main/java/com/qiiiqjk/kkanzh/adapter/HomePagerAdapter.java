@@ -3,6 +3,7 @@ package com.qiiiqjk.kkanzh.adapter;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import com.qiiiqjk.kkanzh.common.XBaseFragment;
 import com.qiiiqjk.kkanzh.ui.fragments.MsgPagerFragment;
@@ -43,6 +44,10 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
     @Override
     public XBaseFragment getItem(int position) {
         return fragments.get(position);
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
     }
 
     @Override

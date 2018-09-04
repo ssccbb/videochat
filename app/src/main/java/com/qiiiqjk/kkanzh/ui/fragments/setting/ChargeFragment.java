@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.qiiiqjk.kkanzh.adapter.ChargeListAdapter;
 import com.qiiiqjk.kkanzh.common.Constants;
 import com.qiiiqjk.kkanzh.common.XBaseFragment;
+import com.qiiiqjk.kkanzh.model.LoginInfoResults;
 import com.qiiiqjk.kkanzh.model.PayChargeItemResult;
 import com.qiiiqjk.kkanzh.model.PhoneVertifyResult;
 import com.qiiiqjk.kkanzh.model.UserInfoResult;
@@ -19,6 +20,7 @@ import com.qiiiqjk.kkanzh.net.api.Api;
 import com.qiiiqjk.kkanzh.net.httprequest.ApiCallback;
 import com.qiiiqjk.kkanzh.net.httprequest.okhttp.JKOkHttpParamKey;
 import com.qiiiqjk.kkanzh.net.httprequest.okhttp.OkHttpRequestUtils;
+import com.qiiiqjk.kkanzh.views.dialog.VCDialog;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.modelpay.PayResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -79,7 +81,7 @@ public class ChargeFragment extends XBaseFragment implements View.OnClickListene
     }
 
     private void checkChargeList(){
-        mAdapter = new ChargeListAdapter(getActivity(),null);
+        mAdapter = new ChargeListAdapter(getContext(),null);
         mAdapter.addOnChargeItemClickListener(this);
         mList.setLayoutManager(new LinearLayoutManager(getContext()));
         mList.setItemAnimator(new DefaultItemAnimator());
@@ -96,13 +98,19 @@ public class ChargeFragment extends XBaseFragment implements View.OnClickListene
                 PhoneVertifyResult.class, getActivity(), new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
-                        Log.e(TAG, "onSuccess: "+(String) response );
+                        //Log.e(TAG, "onSuccess: "+(String) response );
                         user = new UserInfoResult((String) response);
                         if (!user.code.equals(StateCode.STATE_0000)){
-                            Toast.makeText(getActivity(), user.message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), user.message, Toast.LENGTH_SHORT).show();
                             return;
                         }
                         diamond.setText("账户余额："+user.diamond);
+                        //更新钻石
+                        if (!SharedPreUtil.getLoginInfo().diamond.equals(user.diamond)){
+                            LoginInfoResults loginInfoResults = new LoginInfoResults();
+                            loginInfoResults.diamond = user.diamond;
+                            SharedPreUtil.updateLoginInfo(loginInfoResults);
+                        }
                     }
 
                     @Override
@@ -128,7 +136,7 @@ public class ChargeFragment extends XBaseFragment implements View.OnClickListene
                 PhoneVertifyResult.class, getActivity(), new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
-                        Log.e(TAG, "onSuccess: "+(String) response );
+                        //Log.e(TAG, "onSuccess: "+(String) response );
                         PayChargeItemResult payChargeItemResult = new PayChargeItemResult((String) response);
                         if (payChargeItemResult.code.equals(StateCode.STATE_0000)) {
                             mAdapter.addData(payChargeItemResult.data);
@@ -156,7 +164,7 @@ public class ChargeFragment extends XBaseFragment implements View.OnClickListene
                 PhoneVertifyResult.class, getActivity(), new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
-                        Log.e(TAG, "onSuccess: "+(String) response );
+                        //Log.e(TAG, "onSuccess: "+(String) response );
                         try {
                             JSONObject jsonObject = new JSONObject((String)response);
                             JSONObject data = jsonObject.getJSONObject("data");
@@ -198,7 +206,19 @@ public class ChargeFragment extends XBaseFragment implements View.OnClickListene
             getActivity().finish();
         }
         if (v == mQuestion){
-            Toast.makeText(getActivity(), "帮助", Toast.LENGTH_SHORT).show();
+            VCDialog dialog = new VCDialog(VCDialog.Ddialog_Without_tittle_Single_Confirm,"","因充值不是即时到账，请充值之后查询账户余额\n如果长时间未到账\n请前往帮助中心按照其联系方式联系我们\n由此给您带来的不便敬请谅解！");
+            dialog.addOnDialogActionListner(new VCDialog.onDialogActionListner() {
+                @Override
+                public void onCancel() {
+                    dialog.dismissAllowingStateLoss();
+                }
+
+                @Override
+                public void onConfirm() {
+                    dialog.dismissAllowingStateLoss();
+                }
+            });
+            dialog.show(getChildFragmentManager(),VCDialog.TAG);
         }
     }
 
@@ -208,7 +228,7 @@ public class ChargeFragment extends XBaseFragment implements View.OnClickListene
     }
 
     private void showChargeDialog(int price){
-        OrderPayDialog orderPayDialog = new OrderPayDialog(getActivity(), alipay_state, weixin_state);
+        OrderPayDialog orderPayDialog = new OrderPayDialog(getActivity(), alipay_state, weixin_state,Constants.Charge_Type_Diamond);
         Bundle bundle = new Bundle();
         bundle.putInt(OrderPayDialog.TAG, price);
         orderPayDialog.addOnChargeClickListener(new OrderPayDialog.onChargeClickListener() {
@@ -239,13 +259,13 @@ public class ChargeFragment extends XBaseFragment implements View.OnClickListene
     public void onMessageEvent(PayResp payResp) {
         switch (payResp.errCode) {
             case 0: // 支付成功
-                Toast.makeText(getActivity(), "支付成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "支付成功", Toast.LENGTH_SHORT).show();
                 break;
             case -1: // 支付失败
-                Toast.makeText(getActivity(), "支付失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "支付失败", Toast.LENGTH_SHORT).show();
                 break;
             case -2: // 支付取消
-                Toast.makeText(getActivity(), "支付取消", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "支付取消", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

@@ -19,6 +19,9 @@ public class LoginInfoResults extends XBaseModel {
     public String vip;
     public String diamond;
 
+    public LoginInfoResults() {
+    }
+
     public LoginInfoResults(String json) {
         try {
             JSONObject jsonObject = new JSONObject(json);

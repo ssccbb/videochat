@@ -38,9 +38,9 @@ public class HomePagerFragment extends XBaseFragment implements ViewPager.OnPage
     @Override
     public void initData(Bundle savedInstanceState) {
         if (mHomeAdapter != null) return;
-        mHomeAdapter = new HomeChildPagerAdapter(App.getContext(), getActivity().getSupportFragmentManager());
+        mHomeAdapter = new HomeChildPagerAdapter(App.getContext(), getChildFragmentManager());
+        mPager.setOffscreenPageLimit(mHomeAdapter.getCount());
         mPager.setAdapter(mHomeAdapter);
-        mPager.setOffscreenPageLimit(0);
         mPager.addOnPageChangeListener(this);
         mPager.setCurrentItem(1);
 

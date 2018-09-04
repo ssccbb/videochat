@@ -44,14 +44,16 @@ public class OrderPayDialog extends DialogFragment implements View.OnClickListen
     private View mCancel, mAlipay, mWxpay;
     private TextView mPrice;
     private int charge_value = 0;
+    private String charge_type = "0";
     private UniformAlipayPayResult alipayBody;
     private UniformWeixinPayResult wxpayBody;
 
     @SuppressLint("ValidFragment")
-    public OrderPayDialog(Activity context, String alipay_state, String weixin_state) {
+    public OrderPayDialog(Activity context, String alipay_state, String weixin_state, String chargeType) {
         this.context = context;
         this.alipay_state = alipay_state;
         this.weixin_state = weixin_state;
+        this.charge_type = chargeType;
     }
 
     @Override
@@ -93,7 +95,6 @@ public class OrderPayDialog extends DialogFragment implements View.OnClickListen
         mWxpay.setOnClickListener(this);
 
         charge_value = this.getArguments().getInt(TAG, 0);
-        charge_value = 1;
         mPrice.setText(charge_value + ".00");
         return dialog;
     }
@@ -120,15 +121,15 @@ public class OrderPayDialog extends DialogFragment implements View.OnClickListen
     private void postUniformAlipay(String uid, int money) {
         OkHttpRequestUtils.getInstance().requestByPost(Api.API_BASE_URL + "/pay/uniform_pay",
                 OkHttpRequestUtils.getInstance().JkRequestParameters(
-                        JKOkHttpParamKey.UNIFORM_PAY, uid, String.valueOf(money), Constants.Charge_Channel_Alipay, "0", Constants.Charge_Type_Diamond),
+                        JKOkHttpParamKey.UNIFORM_PAY, uid, String.valueOf(money), Constants.Charge_Channel_Alipay, "0", charge_type),
                 PhoneVertifyResult.class, getActivity(), new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
-                        Log.e(TAG, "onSuccess: " + (String) response);
+                        //Log.e(TAG, "onSuccess: " + (String) response);
                         UniformPayResult result = new UniformPayResult((String) response,true);
                         if (result.alipay != null) {
                             alipayBody = result.alipay;
-                            Log.e(TAG, "onSuccess ali pay model: "+alipayBody.toString() );
+                            //Log.e(TAG, "onSuccess ali pay model: "+alipayBody.toString() );
                             if (onChargeClickListener != null){
                                 onChargeClickListener.onChargeClick(alipayBody);
                             }
@@ -156,16 +157,16 @@ public class OrderPayDialog extends DialogFragment implements View.OnClickListen
     private void postUniformWxpay(String uid, int money) {
         OkHttpRequestUtils.getInstance().requestByPost(Api.API_BASE_URL + "/pay/uniform_pay",
                 OkHttpRequestUtils.getInstance().JkRequestParameters(
-                        JKOkHttpParamKey.UNIFORM_PAY, uid, String.valueOf(money), Constants.Charge_Channel_Weixin, "0", Constants.Charge_Type_Diamond),
+                        JKOkHttpParamKey.UNIFORM_PAY, uid, String.valueOf(money), Constants.Charge_Channel_Weixin, "0", charge_type),
                 PhoneVertifyResult.class, getActivity(), new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
-                        Log.e(TAG, "onSuccess: " + (String) response);
+                        //Log.e(TAG, "onSuccess: " + (String) response);
                         UniformPayResult result = new UniformPayResult((String) response,false);
                         //Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show();
                         if (result.wx != null) {
                             wxpayBody = result.wx;
-                            Log.e(TAG, "onSuccess wx pay model: "+wxpayBody.toString() );
+                            //Log.e(TAG, "onSuccess wx pay model: "+wxpayBody.toString() );
                             if (onChargeClickListener != null){
                                 onChargeClickListener.onChargeClick(wxpayBody);
                             }
