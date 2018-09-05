@@ -76,6 +76,9 @@ public class SysSettingFragment extends XBaseFragment implements View.OnClickLis
         mClearCache.setOnClickListener(this);
         mLlUpdateVersion.setOnClickListener(this);
         mBlackList.setOnClickListener(this);
+        if (Utils.isHideMode()) {
+            mLlUpdateVersion.setVisibility(View.GONE);
+        }
 
         try {
             mCache.setText(Utils.getTotalCacheSize(getContext()));
@@ -127,12 +130,7 @@ public class SysSettingFragment extends XBaseFragment implements View.OnClickLis
             dialog.show(getChildFragmentManager(), VCDialog.TAG);
         }
         if (v == mLlUpdateVersion){
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    checkUpdate();
-                }
-            },1500);
+            checkUpdate();
         }
         if (v == mAboutUs){
             SettingActivity.open(getActivity(),HelpFragment.TAG);

@@ -36,6 +36,7 @@ import com.qiiiqjk.kkanzh.ui.fragments.setting.ChargeFragment;
 import com.qiiiqjk.kkanzh.utils.MusicPlayer;
 import com.qiiiqjk.kkanzh.utils.SharedPreUtil;
 import com.qiiiqjk.kkanzh.utils.StringUtils;
+import com.qiiiqjk.kkanzh.utils.Utils;
 import com.qiiiqjk.kkanzh.views.CircleImageView;
 import com.qiiiqjk.kkanzh.views.dialog.VCDialog;
 import com.qiiiqjk.kkanzh.R;
@@ -88,6 +89,7 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
     private AnchorInfoResult mHost;
     private int mVideoWidth;
     private int mVideoHeight;
+    private boolean mIsConnected = false;
     private boolean mIsVideoSizeKnown = false;
     private boolean mIsVideoReadyToBePlayed = false;
 
@@ -251,6 +253,7 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
     /*****         聊天过程         ******/
 
     private void switch2Connect(){
+        mIsConnected = true;
         mRequestView.setVisibility(View.GONE);
         mChatView.setVisibility(View.VISIBLE);
         mVideoView.setVisibility(View.VISIBLE);
@@ -453,7 +456,9 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
                 @Override
                 public boolean onError(MediaPlayer mp, int what, int extra) {
                     Log.e(TAG, "play erro msg( "+what+","+extra+")" );
-                    hostExit();
+                    if (mIsConnected) {
+                        hostExit(R.string.call_busy);
+                    }
                     return false;
                 }
             });
@@ -512,6 +517,11 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
     }
 
     private void showChargeDialog(){
+        Log.e(TAG, "showChargeDialog: ");
+        if (Utils.isHideMode()){
+            hostExit(R.string.call_stop);
+            return;
+        }
         if (!mIsVideoReadyToBePlayed) return;
         VCDialog dialog = new VCDialog(VCDialog.Ddialog_Without_tittle_Block_Confirm,"",
                 getResources().getString(R.string.host_diamond_not_enough));
@@ -532,7 +542,7 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
         dialog.show(getSupportFragmentManager(),VCDialog.TAG);
     }
 
-    private void hostExit(){
+    private void hostExit(int str){
         if (mMediaPlayer != null && mMediaPlayer.isPlaying()){
             mMediaPlayer.pause();
         }
@@ -541,7 +551,7 @@ public class ChatActivity extends XBaseActivity implements View.OnClickListener 
         mPlayerHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                refuse(R.string.call_stop);
+                refuse(str);
             }
         }, 500);
     }

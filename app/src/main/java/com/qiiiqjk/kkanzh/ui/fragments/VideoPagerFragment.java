@@ -21,6 +21,7 @@ import com.qiiiqjk.kkanzh.net.httprequest.okhttp.JKOkHttpParamKey;
 import com.qiiiqjk.kkanzh.net.httprequest.okhttp.OkHttpRequestUtils;
 import com.qiiiqjk.kkanzh.ui.activitys.VideoBrowseActivity;
 import com.qiiiqjk.kkanzh.utils.SharedPreUtil;
+import com.qiiiqjk.kkanzh.utils.Utils;
 import com.qiiiqjk.kkanzh.views.XReloadableRecyclerContentLayout;
 import com.qiiiqjk.kkanzh.R;
 import com.qiiiqjk.kkanzh.ui.activitys.VipVideoActivity;
@@ -130,7 +131,7 @@ public class VideoPagerFragment extends XBaseFragment implements XRecyclerView.O
         //不可直接处理原数据 否则会导致返回树目不对
         ArrayList<HotVideoResult> videos = new ArrayList<HotVideoResult>();
         videos = (ArrayList<HotVideoResult>) ((ArrayList<HotVideoResult>) mVideoAdapter.getData()).clone();
-        videos.remove(0);
+        if (!Utils.isHideMode()) videos.remove(0);
         int position = videos.indexOf(hotVideo);
         //bean转换
         ArrayList<UGCVideoResult> datas = new ArrayList<>();

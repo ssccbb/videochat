@@ -21,6 +21,8 @@ import com.qiiiqjk.kkanzh.views.CircleImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.internal.Util;
+
 /**
  * Created on 2016/6/11.
  * 用于首页视频列表和VIP视频专区列表
@@ -52,7 +54,7 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
             mList.addAll(list);
         }
         if (!mList.isEmpty()){
-            if(mList.get(0).type != 0 && !VIP_MODE){
+            if(mList.get(0).type != 0 && !VIP_MODE && !Utils.isHideMode()){
                 mList.add(0,new HotVideoResult(0));
             }
         }
@@ -130,7 +132,7 @@ public class VipVideoAdapter extends RecyclerView.Adapter implements View.OnClic
             root.setTag(hotVideo);
             root.setOnClickListener(VipVideoAdapter.this::onClick);
 
-            if (hotVideo.type == 0 && !VIP_MODE) {
+            if (hotVideo.type == 0 && !VIP_MODE && !Utils.isHideMode()) {
                 cover.setImageResource(R.mipmap.ic_video_vip);
                 name.setVisibility(View.GONE);
                 avatar.setVisibility(View.GONE);

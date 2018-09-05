@@ -558,4 +558,8 @@ public class Utils {
         context.startActivity(intent);
     }
 
+    public static boolean isHideMode(){
+        return true;
+    }
+
 }

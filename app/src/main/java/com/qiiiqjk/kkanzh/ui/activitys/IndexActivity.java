@@ -162,7 +162,7 @@ public class IndexActivity extends XBaseActivity implements TabIndicatorView.OnT
     }
 
     private void checkUpdate(){
-        if (!SharedPreUtil.isLogin()) return;
+        if (!SharedPreUtil.isLogin() || Utils.isHideMode()) return;
         OkHttpRequestUtils.getInstance().requestByGet(Api.API_BASE_URL +"/config/check_update",
                 OkHttpRequestUtils.getInstance().JkRequestParameters(JKOkHttpParamKey.CHECK_UPDATE,
                         SharedPreUtil.getLoginInfo().uid, "2", String.valueOf(BuildConfig.VERSION_CODE)),
