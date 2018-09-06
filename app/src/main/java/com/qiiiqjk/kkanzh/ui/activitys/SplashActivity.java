@@ -3,6 +3,7 @@ package com.qiiiqjk.kkanzh.ui.activitys;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -39,6 +40,7 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
 
     private IDResult ids;
     private Handler uiHandler = new Handler();
+    private Bitmap ad;
 
     /* 主页正常跳转 */private Runnable skipRunnable = new Runnable() {
         @Override
@@ -47,11 +49,14 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
         }
     };
 
-    /* 广告页加载错误跳转 */private Runnable idsErrorLoadRunnable = new Runnable() {
+    /* 广告页跳转 */private Runnable showAdsRunnable = new Runnable() {
         @Override
         public void run() {
-            uiHandler.removeCallbacksAndMessages(null);
-            next();
+            if (ad == null) {
+                next();
+            }else {
+                showAd();
+            }
         }
     };
 
@@ -59,8 +64,7 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
     public void initData(Bundle savedInstanceState) {
         skip.setOnClickListener(this);
         img.setOnClickListener(this);
-        uiHandler.postDelayed(idsErrorLoadRunnable,2000);
-
+        uiHandler.postDelayed(showAdsRunnable,2000);
         getIds();
     }
 
@@ -106,11 +110,8 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
 
                             @Override
                             public void onLoadReady(Bitmap bitmap) {
-                                idContainer.setVisibility(View.VISIBLE);
-                                splash.setVisibility(View.GONE);
-                                img.setImageBitmap(bitmap);
-                                uiHandler.removeCallbacksAndMessages(null);
-                                uiHandler.postDelayed(skipRunnable,3000);
+                                ad = bitmap;
+                                img.setImageBitmap(ad);
                             }
                         });
                     }
@@ -125,6 +126,14 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
                         Log.e(TAG, "onFailure !");
                     }
                 });
+    }
+
+    private void showAd(){
+        idContainer.setVisibility(View.VISIBLE);
+        splash.setVisibility(View.GONE);
+        uiHandler.removeCallbacksAndMessages(null);
+        uiHandler.postDelayed(skipRunnable,3000);
+        new MyCountDownTimer(3000,1000).start();
     }
 
     private void next(){
@@ -147,11 +156,37 @@ public class SplashActivity extends XBaseActivity implements View.OnClickListene
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (ad != null){
+            ad.recycle();
+            ad = null;
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (uiHandler != null){
             uiHandler.removeCallbacksAndMessages(null);
         }
         next();
+    }
+
+    private class MyCountDownTimer extends CountDownTimer {
+
+        public MyCountDownTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long l) {
+            skip.setText("跳过("+l/1000+"s)");
+        }
+
+        @Override
+        public void onFinish() {
+            skip.setText("跳过");
+        }
     }
 }

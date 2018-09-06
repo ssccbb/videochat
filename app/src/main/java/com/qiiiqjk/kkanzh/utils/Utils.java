@@ -559,7 +559,7 @@ public class Utils {
     }
 
     public static boolean isHideMode(){
-        return true;
+        return false;
     }
 
 }

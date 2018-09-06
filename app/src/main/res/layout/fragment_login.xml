@@ -53,6 +53,15 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/clear_number"
+                android:alpha="0.3"
+                android:visibility="visible"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:src="@mipmap/ic_black_close"
+                android:layout_width="12dp"
+                android:layout_height="12dp" />
             <TextView
                 android:id="@+id/get_code"
                 android:layout_marginRight="@dimen/dp_5"
@@ -68,21 +77,39 @@
             android:background="@color/app_shadow"
             android:layout_width="match_parent"
             android:layout_height="@dimen/common_divider_normal_height"/>
-        <EditText
-            android:id="@+id/code"
-            android:background="@null"
-            android:textSize="14sp"
-            android:padding="@dimen/dp_5"
+        <LinearLayout
+            android:id="@+id/code_container"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:layout_marginTop="@dimen/dp_20"
-            android:hint="@string/login_hint_code"
-            android:textColor="@color/app_black"
             android:layout_below="@+id/linearlayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/code"
+                android:background="@null"
+                android:textSize="14sp"
+                android:padding="@dimen/dp_5"
+                android:hint="@string/login_hint_code"
+                android:inputType="number"
+                android:textColor="@color/app_black"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/clear_code"
+                android:alpha="0.3"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:src="@mipmap/ic_black_close"
+                android:layout_width="12dp"
+                android:layout_height="12dp" />
+        </LinearLayout>
         <View
             android:alpha="0.2"
             android:layout_marginTop="@dimen/dp_10"
-            android:layout_below="@+id/code"
+            android:layout_below="@+id/code_container"
             android:background="@color/app_shadow"
             android:layout_width="match_parent"
             android:layout_height="@dimen/common_divider_normal_height"/>
@@ -90,7 +117,7 @@
             android:id="@+id/user_agreement"
             android:textSize="11sp"
             android:textColor="@color/app_shadow"
-            android:layout_below="@+id/code"
+            android:layout_below="@+id/code_container"
             android:layout_marginTop="25dp"
             android:text="登录即代表您同意《用户协议》"
             android:layout_width="wrap_content"

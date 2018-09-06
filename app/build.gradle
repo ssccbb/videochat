@@ -6,8 +6,8 @@ android {
         applicationId "com.qiiiqjk.kkanzh"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.5.0"
+        versionCode 2
+        versionName "1.5.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
