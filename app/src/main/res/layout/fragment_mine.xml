@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/user_head">
-            <com.qiiiqjk.kkanzh.views.mine.SelectItemView
+            <com.weiliao.kinnek.views.mine.SelectItemView
                 android:id="@+id/item_wallet"
                 android:layout_marginTop="@dimen/common_divider_normal_height"
                 android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                 android:background="?selectableItemBackground"
                 app:icon="@mipmap/ic_account_left"
                 app:notice="我的钱包"/>
-            <com.qiiiqjk.kkanzh.views.mine.SelectItemView
+            <com.weiliao.kinnek.views.mine.SelectItemView
                 android:id="@+id/item_profit"
                 android:layout_marginTop="@dimen/common_divider_normal_height"
                 android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                 android:background="?selectableItemBackground"
                 app:icon="@mipmap/ic_me_profit"
                 app:notice="我的收益"/>
-            <com.qiiiqjk.kkanzh.views.mine.SelectItemView
+            <com.weiliao.kinnek.views.mine.SelectItemView
                 android:id="@+id/item_vip"
                 android:layout_marginTop="@dimen/common_divider_normal_height"
                 android:layout_width="match_parent"
@@ -38,7 +38,7 @@
                 android:background="?selectableItemBackground"
                 app:icon="@mipmap/ic_profile_vip"
                 app:notice="会员中心"/>
-            <com.qiiiqjk.kkanzh.views.mine.SelectItemView
+            <com.weiliao.kinnek.views.mine.SelectItemView
                 android:id="@+id/item_level"
                 android:layout_marginTop="@dimen/common_divider_normal_height"
                 android:layout_width="match_parent"
@@ -46,7 +46,7 @@
                 android:background="?selectableItemBackground"
                 app:icon="@mipmap/ic_profile_level"
                 app:notice="我的等级"/>
-            <com.qiiiqjk.kkanzh.views.mine.SelectItemView
+            <com.weiliao.kinnek.views.mine.SelectItemView
                 android:id="@+id/item_behost"
                 android:layout_marginTop="@dimen/common_divider_normal_height"
                 android:layout_width="match_parent"
@@ -54,7 +54,7 @@
                 android:background="?selectableItemBackground"
                 app:icon="@mipmap/ic_me_behost"
                 app:notice="我要当主播"/>
-            <com.qiiiqjk.kkanzh.views.mine.SelectItemView
+            <com.weiliao.kinnek.views.mine.SelectItemView
                 android:id="@+id/item_help"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                 android:background="?selectableItemBackground"
                 app:icon="@mipmap/ic_me_help"
                 app:notice="帮助中心"/>
-            <com.qiiiqjk.kkanzh.views.mine.SelectItemView
+            <com.weiliao.kinnek.views.mine.SelectItemView
                 android:id="@+id/item_setting"
                 android:layout_marginTop="@dimen/common_divider_normal_height"
                 android:layout_width="match_parent"

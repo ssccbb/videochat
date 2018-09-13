@@ -41,7 +41,7 @@
 #we need line numbers in our stack traces otherwise they are pretty useless
 -renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable
--keep class com.qiiiqjk.kkanzh.wxapi.**{*;}
+-keep class com.weiliao.kinnek.wxapi.**{*;}
 
 -keepclasseswithmembernames class * {
     native <methods>;
@@ -61,8 +61,8 @@
 }
 
 -keep class **.R$* { *; }
--keep class com.qiiiqjk.kkanzh.common.** { *; }
--keep class com.qiiiqjk.kkanzh.model.** { *; }
+-keep class com.weiliao.kinnek.common.** { *; }
+-keep class com.weiliao.kinnek.model.** { *; }
 
 # Explicitly preserve all serialization members. The Serializable interface
 # is only a marker interface, so it wouldn't save them.
@@ -119,7 +119,7 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
--keep public class com.qiiiqjk.kkanzh.R$*{
+-keep public class com.weiliao.kinnek.R$*{
 public static final int *;
 }
 

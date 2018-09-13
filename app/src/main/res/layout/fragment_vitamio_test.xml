@@ -75,7 +75,7 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
-        <com.qiiiqjk.kkanzh.views.CircleImageView
+        <com.weiliao.kinnek.views.CircleImageView
             android:id="@+id/ci_avatar"
             android:layout_width="56dp"
             android:layout_height="56dp"

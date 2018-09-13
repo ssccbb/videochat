@@ -46,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.qiiiqjk.kkanzh.views.CircleImageView
+        <com.weiliao.kinnek.views.CircleImageView
             android:id="@+id/avatar"
             android:layout_alignParentBottom="true"
             android:background="@mipmap/ic_default_avatar"

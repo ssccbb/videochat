@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.qiiiqjk.kkanzh">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.weiliao.kinnek">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -14,7 +15,8 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <application
-        android:allowBackup="true"
+        tools:replace="android:allowBackup"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
@@ -77,14 +79,14 @@
             android:launchMode="singleTop"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="$com.qiiiqjk.kkanzh.fileProvider"
+            android:authorities="$com.weiliao.kinnek.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
-        <meta-data android:name="com.qiiiqjk.kkanzh.common.CustomCachingGlideModule"
+        <meta-data android:name="com.weiliao.kinnek.common.CustomCachingGlideModule"
             android:value="GlideModule"/>
 
         <!--vitamio-->
@@ -95,16 +97,16 @@
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <!--wxapi-->
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        <activity
-            android:name=".wxapi.WXPayEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <!--<activity-->
+            <!--android:name=".wxapi.WXEntryActivity"-->
+            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
+            <!--android:exported="true"-->
+            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"/>-->
+        <!--<activity-->
+            <!--android:name=".wxapi.WXPayEntryActivity"-->
+            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
+            <!--android:exported="true"-->
+            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"/>-->
     </application>
 
 </manifest>

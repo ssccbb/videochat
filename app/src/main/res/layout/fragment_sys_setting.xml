@@ -94,7 +94,7 @@
                 android:textColor="@color/app_black"
                 android:textSize="14sp" />
 
-            <com.qiiiqjk.kkanzh.views.ToggleButton
+            <com.weiliao.kinnek.views.ToggleButton
                 android:id="@+id/tb_recharge_toggle"
                 android:layout_width="50dp"
                 android:layout_height="25dp" />

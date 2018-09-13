@@ -80,6 +80,7 @@
     <LinearLayout
         android:id="@+id/weixin"
         android:gravity="center"
+        android:visibility="gone"
         android:layout_marginTop="@dimen/dp_10"
         android:background="?selectableItemBackground"
         android:layout_width="match_parent"

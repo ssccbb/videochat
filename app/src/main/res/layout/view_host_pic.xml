@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.qiiiqjk.kkanzh.views.SquareLayoutView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.weiliao.kinnek.views.SquareLayoutView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_dark">
@@ -38,4 +38,4 @@
 
     </RelativeLayout>
 
-</com.qiiiqjk.kkanzh.views.SquareLayoutView>
+</com.weiliao.kinnek.views.SquareLayoutView>
