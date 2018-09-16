@@ -1,6 +1,7 @@
 package com.weiliao.kinnek.adapter;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.weiliao.kinnek.ui.activitys.WebBrowseActivity;
 import com.weiliao.kinnek.R;
 import com.weiliao.kinnek.model.BannerResults;
+import com.weiliao.kinnek.utils.ScreenUtils;
 import com.weiliao.kinnek.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -47,9 +49,12 @@ public class HomeHotBannerAdapter extends PagerAdapter {
 
         mViews.clear();
         LayoutInflater inflater = LayoutInflater.from(mContext);
+        float screenWidth = ScreenUtils.getScreenWidth(mContext);
+        float height = screenWidth / (float) 3;
         for (int i = 0; i < mData.size(); i++) {
             View item = inflater.inflate(R.layout.view_banner_item,null,false);
             ImageView img = item.findViewById(R.id.banner_img);
+            img.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int) height));
             img.setScaleType(ImageView.ScaleType.CENTER_CROP);
             BannerResults.Banner banner = (BannerResults.Banner) mData.get(i);
             if (!StringUtils.isEmpty(banner.cover_url)) {

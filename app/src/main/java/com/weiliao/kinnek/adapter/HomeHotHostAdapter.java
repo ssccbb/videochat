@@ -1,6 +1,7 @@
 package com.weiliao.kinnek.adapter;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.weiliao.kinnek.App;
+import com.weiliao.kinnek.utils.ScreenUtils;
 import com.weiliao.kinnek.utils.Utils;
 import com.weiliao.kinnek.R;
 import com.weiliao.kinnek.model.HotHostResults;
@@ -189,6 +191,11 @@ public class HomeHotHostAdapter extends RecyclerView.Adapter implements View.OnC
             super(itemView);
             mAutoPager = itemView.findViewById(R.id.auto_scroll_view_pager);
             mIndicator = itemView.findViewById(R.id.auto_scroll_pager_indicator);
+
+            float screenWidth = ScreenUtils.getScreenWidth(mContext);
+            float height = screenWidth / (float) 3;
+            itemView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int) height));
+            mAutoPager.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int) height));
         }
     }
 

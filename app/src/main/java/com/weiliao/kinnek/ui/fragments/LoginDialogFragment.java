@@ -94,10 +94,10 @@ public class LoginDialogFragment extends DialogFragment implements View.OnClickL
         mGetCode.setOnClickListener(this);
         mClose.setOnClickListener(this);
         mLogin.setOnClickListener(this);
-        mPhone.addTextChangedListener(this);
-        mCode.addTextChangedListener(this);
-        mPhone.setOnFocusChangeListener(this);
-        mCode.setOnFocusChangeListener(this);
+//        mPhone.addTextChangedListener(this);
+//        mCode.addTextChangedListener(this);
+//        mPhone.setOnFocusChangeListener(this);
+//        mCode.setOnFocusChangeListener(this);
         mClearCode.setOnClickListener(this);
         mClearNumber.setOnClickListener(this);
     }

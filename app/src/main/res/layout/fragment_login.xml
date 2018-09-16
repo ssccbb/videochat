@@ -57,7 +57,7 @@
             <ImageView
                 android:id="@+id/clear_number"
                 android:alpha="0.3"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginRight="@dimen/dp_10"
                 android:src="@mipmap/ic_black_close"
